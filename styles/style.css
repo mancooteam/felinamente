@@ -34,3 +34,19 @@
 .bg-sec {
     background-color: #5D5D5D!important;
 }
+
+.text-shadow {
+    text-shadow: 0px 0px 3px black;
+}
+
+.carousel-item img {
+    height: 500px;
+    object-fit: cover; /
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .carousel-item img {
+        height: 300px;
+    }
+}
