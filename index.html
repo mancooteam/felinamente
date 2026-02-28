@@ -7,9 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Felinamente</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-prim">
+<nav class="navbar navbar-expand-lg bg-subtle">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Felinamente</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,15 +27,53 @@
 
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="#">Registrate</a>
-                <a class="nav-link btn rounded-pill bg-primary px-3 text-white" href="#">Login</a>
+                <a class="nav-link btn rounded-pill bg-accent px-3 text-white" href="#">Login</a>
             </div>
         </div>
     </div>
 </nav>
     <h1>Felinamente</h1>
 <div class="container">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="img/slider_1.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="img/slider_2.png" class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
     <div class="card-body">
-        <div class="card p-5">
+        <div class="card p-5 text-sec">
             <h2>Proyecto en construcción, disculpe las molestias</h2>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias assumenda consequuntur cum cupiditate et expedita impedit, ipsa libero magnam nihil quia, sapiente tempora. Ad impedit itaque iure perspiciatis quas.</p>
             <p>lLorem ipsum dolor sit amet, consectetur adipisicing elit. Ad, assumenda dolor dolore et eum expedita libero minus porro praesentium sit? At eligendi esse mollitia provident quas, sequi totam velit voluptatibus?</p>

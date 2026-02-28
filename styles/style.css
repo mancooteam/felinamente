@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.text-prim {
+    color: #FDF5E6 !important;
+}
+
+.bg-prim {
+    background-color: #FDF5E6!important;
+}
+
+.text-accent {
+    color: #FFB347!important;
+}
+
+.bg-accent {
+    background-color: #FFB347!important;
+}
+
+.text-subtle {
+    color: #E8D7FF!important;
+}
+
+.bg-subtle {
+    background-color: #E8D7FF!important;
+}
+
+.text-sec {
+    color: #5D5D5D!important;
+}
+
+.bg-sec {
+    background-color: #5D5D5D!important;
+}
