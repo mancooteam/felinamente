@@ -45,6 +45,12 @@
     width: 100%;
 }
 
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    padding: 20px;
+}
+
 @media (max-width: 768px) {
     .carousel-item img {
         height: 300px;
