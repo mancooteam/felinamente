@@ -56,7 +56,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     mensaje: mensajeFinal
                 })
             });
-            const resultado = await respuesta.json();
+
+            // Intentar leer como texto primero por si hay un error de PHP (no JSON)
+            const textoRespuesta = await respuesta.text();
+            let resultado;
+            
+            try {
+                resultado = JSON.parse(textoRespuesta);
+            } catch (parseError) {
+                console.error("La respuesta del servidor no es JSON:", textoRespuesta);
+                throw new Error("El servidor devolvió un error inesperado.");
+            }
             
             if (resultado.status === 201) {
                 alert(`¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.`);
@@ -66,7 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error("Error al enviar solicitud:", error);
-            alert("Error de conexión al enviar la solicitud.");
+            alert("Hubo un error al procesar tu solicitud. Por favor, revisa la consola para más detalles.");
         }
     });
 });
