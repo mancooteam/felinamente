@@ -33,6 +33,25 @@ switch ($action) {
         }
         break;
 
+    case 'create_user':
+        if (($_SESSION['role'] ?? '') !== 'admin') sendResponse(403, "Solo admin.");
+        $username = $data['username'] ?? '';
+        $email = $data['email'] ?? '';
+        $password = $data['password'] ?? '';
+        $rol = $data['rol'] ?? 'user';
+
+        if (!$username || !$email || !$password) sendResponse(400, "Faltan datos.");
+
+        $hashed = password_hash($password, PASSWORD_BCRYPT);
+        try {
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre_usuario, correo, contrasenia, rol) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $hashed, $rol]);
+            sendResponse(201, "Usuario creado con éxito.");
+        } catch (PDOException $e) {
+            sendResponse(409, "El usuario o email ya existe.");
+        }
+        break;
+
     case 'login':
         $username = $data['username'] ?? '';
         $password = $data['password'] ?? '';

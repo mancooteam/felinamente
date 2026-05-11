@@ -25,7 +25,48 @@
     <div class="container" style="margin-top: 100px; margin-bottom: 80px;">
         <div class="d-flex justify-content-between align-items-center mb-5">
             <h2 class="font-serif m-0">Gestión de Usuarios</h2>
-            <a href="gestion.html" class="btn-outline-minimal">Volver al Panel</a>
+            <div class="d-flex gap-2">
+                <button class="btn-minimal" data-bs-toggle="modal" data-bs-target="#modalNuevoUsuario">+ Nuevo Usuario</button>
+                <a href="gestion.html" class="btn-outline-minimal">Volver al Panel</a>
+            </div>
+        </div>
+
+        <!-- Modal Nuevo Usuario -->
+        <div class="modal fade" id="modalNuevoUsuario" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content border-0">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title font-serif">Añadir Nuevo Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formNuevoUsuario">
+                            <div class="mb-3">
+                                <label class="form-label small text-uppercase fw-bold">Nombre de Usuario</label>
+                                <input type="text" name="username" class="form-control border-0 bg-light" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-uppercase fw-bold">Email</label>
+                                <input type="email" name="email" class="form-control border-0 bg-light" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small text-uppercase fw-bold">Contraseña</label>
+                                <input type="password" name="password" class="form-control border-0 bg-light" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label small text-uppercase fw-bold">Rol Inicial</label>
+                                <select name="rol" class="form-select border-0 bg-light">
+                                    <option value="user">Usuario (Adoptante)</option>
+                                    <option value="volunteer">Voluntario</option>
+                                    <option value="employee">Empleado / Staff</option>
+                                    <option value="admin">Administrador</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-minimal w-100">Crear Usuario</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 12px;">

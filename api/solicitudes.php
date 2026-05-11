@@ -106,14 +106,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                // Crear notificación para el usuario
-                $stmtUser = $pdo->prepare("SELECT id_usuario, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
-                $stmtUser->execute([$id]);
-                $soliData = $stmtUser->fetch();
-                if ($soliData) {
-                    $msgNotif = "Tu solicitud de " . $soliData['tipo_solicitud'] . " ha sido " . $nuevoEstado . ".";
-                    $stmtN = $pdo->prepare("INSERT INTO notificaciones (id_usuario, mensaje) VALUES (?, ?)");
-                    $stmtN->execute([$soliData['id_usuario'], $msgNotif]);
+                // Crear notificación para el usuario (Manejo de error si la tabla no existe aún)
+                try {
+                    $stmtUser = $pdo->prepare("SELECT id_usuario, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
+                    $stmtUser->execute([$id]);
+                    $soliData = $stmtUser->fetch();
+                    if ($soliData) {
+                        $msgNotif = "Tu solicitud de " . $soliData['tipo_solicitud'] . " ha sido " . $nuevoEstado . ".";
+                        $stmtN = $pdo->prepare("INSERT INTO notificaciones (id_usuario, mensaje) VALUES (?, ?)");
+                        $stmtN->execute([$soliData['id_usuario'], $msgNotif]);
+                    }
+                } catch (Exception $notifError) {
+                    // Ignoramos el error de notificación para no bloquear la actualización principal
                 }
 
                 $pdo->commit();

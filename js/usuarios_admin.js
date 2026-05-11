@@ -129,5 +129,30 @@ if (formEditUser) {
         } catch (error) {
             console.error("Error al actualizar usuario:", error);
         }
+const formNuevoUsuario = document.getElementById('formNuevoUsuario');
+if (formNuevoUsuario) {
+    formNuevoUsuario.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(formNuevoUsuario);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const respuesta = await fetch('api/auth.php?action=create_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resultado = await respuesta.json();
+            if (resultado.status === 201) {
+                alert("Usuario creado correctamente.");
+                bootstrap.Modal.getInstance(document.getElementById('modalNuevoUsuario')).hide();
+                formNuevoUsuario.reset();
+                cargarUsuarios();
+            } else {
+                alert("Error: " + resultado.message);
+            }
+        } catch (error) {
+            console.error("Error al crear usuario:", error);
+        }
     });
 }
