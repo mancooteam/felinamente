@@ -5,33 +5,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     cargarUsuarios();
-
-    const formEdit = document.getElementById('formEditarUsuario');
-    if (formEdit) {
-        formEdit.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(formEdit);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const respuesta = await fetch('api/auth.php?action=update', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                const resultado = await respuesta.json();
-                if (resultado.status === 200) {
-                    alert("Usuario actualizado correctamente.");
-                    bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
-                    cargarUsuarios();
-                } else {
-                    alert("Error: " + resultado.message);
-                }
-            } catch (error) {
-                console.error("Error al actualizar usuario:", error);
-            }
-        });
-    }
 });
 
 async function cargarUsuarios() {
@@ -120,7 +93,7 @@ if (formEditUser) {
             });
             const resultado = await respuesta.json();
             if (resultado.status === 200) {
-                alert("Usuario actualizado.");
+                alert("Usuario actualizado correctamente.");
                 bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
                 cargarUsuarios();
             } else {
@@ -129,6 +102,10 @@ if (formEditUser) {
         } catch (error) {
             console.error("Error al actualizar usuario:", error);
         }
+    });
+}
+
+// Configurar el formulario de nuevo usuario
 const formNuevoUsuario = document.getElementById('formNuevoUsuario');
 if (formNuevoUsuario) {
     formNuevoUsuario.addEventListener('submit', async (e) => {
