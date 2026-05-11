@@ -204,7 +204,14 @@ async function obtenerGatos() {
     try {
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
-        pintarGatos(resultado.data);
+        
+        if (resultado.status === 200) {
+            pintarGatos(resultado.data);
+        } else {
+            console.error("Error del servidor:", resultado.message);
+            alert("Error del servidor: " + resultado.message);
+            document.getElementById('lista-gatos').innerHTML = `<div class="alert alert-danger">Error: ${resultado.message}</div>`;
+        }
     } catch (error) {
         console.error("Error al pedir los gatos:", error);
     }
