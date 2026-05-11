@@ -8,7 +8,19 @@ set_exception_handler(function($e) {
     http_response_code(500);
     echo json_encode([
         "status" => 500,
-        "message" => "Error interno: " . $e->getMessage(),
+        "message" => "Excepcion interna: " . $e->getMessage(),
+        "data" => null
+    ]);
+    exit();
+});
+
+// Capturar advertencias (Warnings) de PHP que puedan romper el JSON
+set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    header("Content-Type: application/json");
+    http_response_code(500);
+    echo json_encode([
+        "status" => 500,
+        "message" => "Error de servidor (Warning): " . $errstr,
         "data" => null
     ]);
     exit();

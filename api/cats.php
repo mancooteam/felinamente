@@ -1,7 +1,7 @@
 <?php
+require_once 'utils.php';
 session_start();
 require_once 'db.php';
-require_once 'utils.php';
 
 $action = $_GET['action'] ?? 'list';
 $pdo = getDBConnection();
