@@ -65,15 +65,30 @@ switch ($action) {
             sendResponse(403, "Solo administradores pueden añadir gatos.");
         }
         
-        $nombre = $data['name'] ?? '';
-        $nacimiento = $data['birth_date'] ?? null; // Updated to match diagram
-        $sexo = $data['gender'] ?? 'desconocido';
-        $vhif = $data['vhif_positive'] ?? 0;
-        $desc = $data['description'] ?? '';
-        $img = $data['image_url'] ?? '';
+        $nombre = $_POST['name'] ?? '';
+        $nacimiento = $_POST['birth_date'] ?? null;
+        $sexo = $_POST['gender'] ?? 'desconocido';
+        $vhif = $_POST['vhif_positive'] ?? 0;
+        $desc = $_POST['description'] ?? '';
+        
+        $imgPath = '';
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = '../uploads/cats/';
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $fileName = time() . '_' . basename($_FILES['imagen']['name']);
+            $targetFilePath = $uploadDir . $fileName;
+            
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $targetFilePath)) {
+                $imgPath = 'uploads/cats/' . $fileName; // Ruta relativa para el frontend
+            } else {
+                sendResponse(500, "Error al subir la imagen.");
+            }
+        }
 
         $stmt = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, imagen_principal) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $img]);
+        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $imgPath]);
         sendResponse(201, "Gato añadido con éxito.");
         break;
 

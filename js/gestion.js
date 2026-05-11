@@ -38,12 +38,11 @@ async function cargarPanelGestion() {
     }
 }
 
-async function guardarGato(datos) {
+async function guardarGato(formData) {
     try {
         const respuesta = await fetch(`${API_CATS}?action=add`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
+            body: formData // Fetch sets the correct multipart boundary automatically
         });
         const resultado = await respuesta.json();
         if (resultado.status === 201) {
@@ -80,9 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
         formGato.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(formGato);
-            const data = Object.fromEntries(formData.entries());
-            data.vhif_positive = formData.get('vhif_positive') ? 1 : 0;
-            await guardarGato(data);
+            // vhif is a checkbox, we append it manually as 1 or 0
+            const vhif = formGato.querySelector('#vhif_check').checked ? 1 : 0;
+            formData.set('vhif_positive', vhif);
+            
+            await guardarGato(formData);
         });
     }
 });
