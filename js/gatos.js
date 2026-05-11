@@ -34,27 +34,29 @@ function pintarGatos(gatos) {
     if (!contenedor) return;
 
     if (!gatos || gatos.length === 0) {
-        contenedor.innerHTML = `<div class="col-12"><div class="alert alert-info">No hay gatitos con esos filtros ahora mismo.</div></div>`;
+        contenedor.innerHTML = `<div class="col-12"><div class="alert text-center text-muted" style="background: transparent; border: 1px solid #eaeaea;">No hay felinos con esos filtros ahora mismo.</div></div>`;
         return;
     }
 
     let html = '';
     gatos.forEach(gato => {
         let textoGenero = gato.sexo === 'macho' ? 'Macho' : 'Hembra';
-        let etiquetaVhif = gato.vhif ? '<span class="badge bg-danger ms-2">VHIF+</span>' : '';
-        let imagen = gato.imagen_principal || 'https://placehold.co/300x200/EEE/31343C?text=Gato';
+        let etiquetaVhif = gato.vhif ? '<span class="badge bg-dark ms-2 fw-normal rounded-pill px-2 py-1" style="font-size: 0.7rem;">VHIF+</span>' : '';
+        let imagen = gato.imagen_principal || 'https://placehold.co/400x300/fcfbf9/333333?text=Sin+imagen';
 
         html += `
-            <div class="col-md-4 mb-4">
-                <div class="card cat-card h-100 border-0 shadow-sm">
-                    <img src="${imagen}" class="card-img-top" alt="${gato.nombre}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold">${gato.nombre} ${etiquetaVhif}</h5>
-                        <p class="card-text text-muted">
-                            <strong>Género:</strong> ${textoGenero}<br>
-                            <strong>Nacimiento:</strong> ${gato.fecha_nacimiento || 'Desconocido'}
+            <div class="col-md-4 mb-5">
+                <div class="card h-100 border-0" style="background: transparent;">
+                    <img src="${imagen}" class="card-img-top rounded-0" alt="${gato.nombre}" style="height: 320px; object-fit: cover;">
+                    <div class="card-body px-0 pt-4">
+                        <div class="d-flex justify-content-between align-items-baseline mb-2">
+                            <h4 class="card-title m-0" style="font-family: 'Georgia', serif; font-size: 1.5rem; color: #111;">${gato.nombre}</h4>
+                            ${etiquetaVhif}
+                        </div>
+                        <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">
+                            ${textoGenero} · ${gato.fecha_nacimiento || 'Edad desconocida'}
                         </p>
-                        <a href="gato.html?id=${gato.id_gato}" class="btn btn-outline-primary w-100">Ver detalles</a>
+                        <a href="gato.html?id=${gato.id_gato}" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">Conocer detalles</a>
                     </div>
                 </div>
             </div>
