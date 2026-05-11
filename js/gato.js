@@ -29,8 +29,8 @@ async function verDetallesGato(id) {
             } else {
                 botonesAccion = `
                     <div class="d-flex gap-3 mt-5">
-                        <button class="btn-minimal" onclick="alert('Funcionalidad de adoptar próximamente')">Solicitar Adopción</button>
-                        <button class="btn-outline-minimal" onclick="alert('Funcionalidad de acoger próximamente')">Solicitar Acogida</button>
+                        <button class="btn-minimal" onclick="enviarSolicitud(${gato.id_gato}, 'adopcion')">Solicitar Adopción</button>
+                        <button class="btn-outline-minimal" onclick="enviarSolicitud(${gato.id_gato}, 'acogida')">Solicitar Acogida</button>
                     </div>
                 `;
             }
@@ -82,5 +82,37 @@ async function verDetallesGato(id) {
         console.error("Error al obtener detalle:", error);
         alert("Error de conexión al obtener el gato.");
         window.location.href = 'gatos.html';
+    }
+}
+
+async function enviarSolicitud(idGato, tipo) {
+    const mensaje = prompt(`Por favor, cuéntanos brevemente por qué te gustaría ser ${tipo === 'adopcion' ? 'adoptante' : 'casa de acogida'} para este felino:`);
+    
+    if (mensaje === null) return; // User cancelled
+    if (mensaje.trim() === '') {
+        alert("El mensaje no puede estar vacío. Necesitamos conocer tus intenciones.");
+        return;
+    }
+
+    try {
+        const respuesta = await fetch('api/solicitudes.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                id_gato: idGato,
+                tipo: tipo,
+                mensaje: mensaje
+            })
+        });
+        const resultado = await respuesta.json();
+        
+        if (resultado.status === 201) {
+            alert(`¡Solicitud de ${tipo} enviada con éxito! Nos pondremos en contacto contigo pronto.`);
+        } else {
+            alert("Error al enviar solicitud: " + resultado.message);
+        }
+    } catch (error) {
+        console.error("Error al enviar solicitud:", error);
+        alert("Error de conexión al enviar la solicitud.");
     }
 }

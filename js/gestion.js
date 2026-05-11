@@ -26,7 +26,7 @@ async function cargarPanelGestion() {
                     <td><strong>${gato.nombre}</strong></td>
                     <td><span class="badge bg-secondary">${gato.estado}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-info text-white" onclick="alert('Editando...')">Editar</button>
+                        <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-sm btn-info text-white">Editar</a>
                         ${usuarioActual.role === 'admin' ? `<button class="btn btn-sm btn-danger" onclick="eliminarGato(${gato.id_gato})">Eliminar</button>` : ''}
                     </td>
                 </tr>
