@@ -12,32 +12,31 @@ $role = $_SESSION['role'] ?? 'guest';
 switch ($action) {
     case 'list':
         $vhif = $_GET['vhif'] ?? null;
-        $gender = $_GET['gender'] ?? null;
-        $status = $_GET['status'] ?? 'available'; // Default to available for guests/users
+        $sexo = $_GET['gender'] ?? null; // Front calls it gender
+        $estado = $_GET['status'] ?? 'disponible';
         
-        $query = "SELECT * FROM cats WHERE 1=1";
+        $query = "SELECT * FROM gatos WHERE 1=1";
         $params = [];
 
         if ($vhif !== null) {
-            $query .= " AND vhif_positive = ?";
+            $query .= " AND vhif = ?";
             $params[] = (int)$vhif;
         }
-        if ($gender) {
-            $query .= " AND gender = ?";
-            $params[] = $gender;
+        if ($sexo) {
+            $query .= " AND sexo = ?";
+            $params[] = $sexo;
         }
         
-        // Employees and admins can see all statuses
         if ($role === 'employee' || $role === 'admin') {
             if (isset($_GET['status_filter'])) {
-                $query .= " AND status = ?";
+                $query .= " AND estado = ?";
                 $params[] = $_GET['status_filter'];
             }
         } else {
-            $query .= " AND status = 'available'";
+            $query .= " AND estado = 'disponible'";
         }
 
-        $query .= " ORDER BY admission_date DESC";
+        $query .= " ORDER BY fecha_ingreso DESC";
 
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
@@ -50,17 +49,15 @@ switch ($action) {
             sendResponse(403, "Solo administradores pueden añadir gatos.");
         }
         
-        $name = $data['name'] ?? '';
-        $age = $data['age'] ?? 0;
-        $gender = $data['gender'] ?? 'unknown';
-        $breed = $data['breed_color'] ?? '';
+        $nombre = $data['name'] ?? '';
+        $nacimiento = $data['birth_date'] ?? null; // Updated to match diagram
+        $sexo = $data['gender'] ?? 'desconocido';
         $vhif = $data['vhif_positive'] ?? 0;
-        $admission = $data['admission_date'] ?? date('Y-m-d');
         $desc = $data['description'] ?? '';
         $img = $data['image_url'] ?? '';
 
-        $stmt = $pdo->prepare("INSERT INTO cats (name, age, gender, breed_color, vhif_positive, admission_date, description, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$name, $age, $gender, $breed, $vhif, $admission, $desc, $img]);
+        $stmt = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, imagen_principal) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $img]);
         sendResponse(201, "Gato añadido con éxito.");
         break;
 
@@ -72,14 +69,13 @@ switch ($action) {
         $id = $data['id'] ?? null;
         if (!$id) sendResponse(400, "ID de gato requerido.");
 
-        $status = $data['status'] ?? null;
-        // Admins can update everything, employees only status (as per requirements)
+        $estado = $data['status'] ?? null;
         if ($role === 'admin') {
-            $stmt = $pdo->prepare("UPDATE cats SET name=?, age=?, gender=?, breed_color=?, vhif_positive=?, status=?, description=?, image_url=? WHERE id=?");
-            $stmt->execute([$data['name'], $data['age'], $data['gender'], $data['breed_color'], $data['vhif_positive'], $data['status'], $data['description'], $data['image_url'], $id]);
+            $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, imagen_principal=? WHERE id_gato=?");
+            $stmt->execute([$data['name'], $data['birth_date'], $data['gender'], $data['vhif_positive'], $data['status'], $data['description'], $data['image_url'], $id]);
         } else {
-            $stmt = $pdo->prepare("UPDATE cats SET status=? WHERE id=?");
-            $stmt->execute([$status, $id]);
+            $stmt = $pdo->prepare("UPDATE gatos SET estado=? WHERE id_gato=?");
+            $stmt->execute([$estado, $id]);
         }
         sendResponse(200, "Gato actualizado.");
         break;
@@ -89,7 +85,7 @@ switch ($action) {
             sendResponse(403, "Solo administradores pueden eliminar gatos.");
         }
         $id = $_GET['id'] ?? null;
-        $stmt = $pdo->prepare("DELETE FROM cats WHERE id=?");
+        $stmt = $pdo->prepare("DELETE FROM gatos WHERE id_gato=?");
         $stmt->execute([$id]);
         sendResponse(200, "Gato eliminado.");
         break;

@@ -1,34 +1,41 @@
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'employee', 'volunteer', 'user') DEFAULT 'user',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Esquema de base de datos Felinamente
+-- Basado en el diagrama de Entidad-Relación
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasenia VARCHAR(255) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    telefono VARCHAR(20),
+    imagen_perfil VARCHAR(255),
+    fecha_nacimiento DATE,
+    residencia VARCHAR(255),
+    rol ENUM('admin', 'employee', 'volunteer', 'user') DEFAULT 'user',
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS cats (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    age INT,
-    gender ENUM('male', 'female', 'unknown'),
-    breed_color VARCHAR(100),
-    vhif_positive BOOLEAN DEFAULT FALSE,
-    admission_date DATE,
-    status ENUM('available', 'reserved', 'sick', 'fostered') DEFAULT 'available',
-    description TEXT,
-    image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS gatos (
+    id_gato INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    fecha_nacimiento DATE,
+    sexo ENUM('macho', 'hembra', 'desconocido'),
+    descripcion TEXT,
+    vhif BOOLEAN DEFAULT FALSE,
+    estado ENUM('disponible', 'reservado', 'enfermo', 'acogido') DEFAULT 'disponible',
+    imagen_principal VARCHAR(255),
+    notas_medicas TEXT,
+    fecha_ingreso TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS requests (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    cat_id INT,
-    type ENUM('adoption', 'visit', 'foster', 'volunteer_role') NOT NULL,
-    status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (cat_id) REFERENCES cats(id) ON DELETE CASCADE
+CREATE TABLE IF NOT EXISTS solicitudes (
+    id_solicitud INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_gato INT,
+    tipo_solicitud ENUM('adopcion', 'visita', 'acogida', 'voluntariado') NOT NULL,
+    estado_solicitud ENUM('pendiente', 'aprobada', 'rechazada') DEFAULT 'pendiente',
+    fecha_solicitud TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    comentarios_usu TEXT,
+    notas_internas TEXT,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_gato) REFERENCES gatos(id_gato) ON DELETE CASCADE
 );

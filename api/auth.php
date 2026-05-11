@@ -22,7 +22,7 @@ switch ($action) {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+            $stmt = $pdo->prepare("INSERT INTO usuarios (nombre_usuario, correo, contrasenia) VALUES (?, ?, ?)");
             $stmt->execute([$username, $email, $hashedPassword]);
             sendResponse(201, "Usuario registrado con éxito.");
         } catch (PDOException $e) {
@@ -37,19 +37,19 @@ switch ($action) {
         $username = $data['username'] ?? '';
         $password = $data['password'] ?? '';
 
-        $stmt = $pdo->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
+        $stmt = $pdo->prepare("SELECT id_usuario, nombre_usuario, contrasenia, rol FROM usuarios WHERE nombre_usuario = ?");
         $stmt->execute([$username]);
         $user = $stmt->fetch();
 
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['username'] = $user['username'];
+        if ($user && password_verify($password, $user['contrasenia'])) {
+            $_SESSION['user_id'] = $user['id_usuario'];
+            $_SESSION['role'] = $user['rol'];
+            $_SESSION['username'] = $user['nombre_usuario'];
             
             sendResponse(200, "Login exitoso", [
-                "id" => $user['id'],
-                "username" => $user['username'],
-                "role" => $user['role']
+                "id" => $user['id_usuario'],
+                "username" => $user['nombre_usuario'],
+                "role" => $user['rol']
             ]);
         } else {
             sendResponse(401, "Credenciales inválidas.");
