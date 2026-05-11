@@ -84,7 +84,9 @@ function pintarMisSolicitudes(solicitudes) {
                     </div>
                     
                     <div class="mb-4">
-                        <button class="btn btn-sm btn-outline-secondary" onclick="abrirEditor(${s.id_solicitud}, '${btoa(s.comentarios_usu)}')">
+                        <button class="btn btn-sm btn-outline-secondary btn-abrir-editor" 
+                            data-id="${s.id_solicitud}" 
+                            data-comentarios="${btoa(s.comentarios_usu)}">
                             ${s.estado_solicitud === 'rechazada' ? 'Solicitar nueva revisión / Editar' : 'Editar solicitud'}
                         </button>
                     </div>
@@ -95,6 +97,17 @@ function pintarMisSolicitudes(solicitudes) {
         `;
     });
     contenedor.innerHTML = html;
+
+    // Delegación de eventos
+    contenedor.removeEventListener('click', manejarClickContenedor);
+    contenedor.addEventListener('click', manejarClickContenedor);
+}
+
+function manejarClickContenedor(e) {
+    const target = e.target;
+    if (target.classList.contains('btn-abrir-editor')) {
+        abrirEditor(target.dataset.id, target.dataset.comentarios);
+    }
 }
 
 function abrirEditor(id, base64Data) {

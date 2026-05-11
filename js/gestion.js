@@ -38,14 +38,24 @@ async function cargarPanelGestion() {
                     <td><span class="badge bg-secondary">${gato.estado}</span></td>
                     <td>
                         <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-sm btn-info text-white">Editar</a>
-                        ${usuarioActual.role === 'admin' ? `<button class="btn btn-sm btn-danger" onclick="eliminarGato(${gato.id_gato})">Eliminar</button>` : ''}
+                        ${usuarioActual.role === 'admin' ? `<button class="btn btn-sm btn-danger btn-eliminar" data-id="${gato.id_gato}">Eliminar</button>` : ''}
                     </td>
                 </tr>
             `;
         });
         tablaBody.innerHTML = html;
+
+        // Delegación de eventos para eliminar
+        tablaBody.removeEventListener('click', manejarClickTabla);
+        tablaBody.addEventListener('click', manejarClickTabla);
     } catch (error) {
         console.error("Error en panel de gestión:", error);
+    }
+}
+
+function manejarClickTabla(e) {
+    if (e.target.classList.contains('btn-eliminar')) {
+        eliminarGato(e.target.dataset.id);
     }
 }
 

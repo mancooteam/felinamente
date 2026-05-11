@@ -42,18 +42,37 @@ function pintarSolicitudes(solicitudes) {
                 <td class="text-capitalize">${s.tipo_solicitud}</td>
                 <td><span class="badge bg-${colorEstado} text-white">${s.estado_solicitud}</span></td>
                 <td>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="verDetalle(${s.id_solicitud}, '${btoa(s.comentarios_usu)}')">Ver Datos</button>
+                    <button class="btn btn-sm btn-outline-secondary btn-ver-detalle" 
+                        data-id="${s.id_solicitud}" 
+                        data-comentarios='${btoa(s.comentarios_usu)}'>Ver Datos</button>
                 </td>
                 <td>
                     ${s.estado_solicitud === 'pendiente' ? `
-                        <button class="btn btn-sm btn-success" onclick="cambiarEstado(${s.id_solicitud}, 'aprobada')">Aprobar</button>
-                        <button class="btn btn-sm btn-danger ms-1" onclick="cambiarEstado(${s.id_solicitud}, 'rechazada')">Rechazar</button>
+                        <button class="btn btn-sm btn-success btn-aprobar" data-id="${s.id_solicitud}">Aprobar</button>
+                        <button class="btn btn-sm btn-danger ms-1 btn-rechazar" data-id="${s.id_solicitud}">Rechazar</button>
                     ` : '<span class="text-muted small">Sin acciones</span>'}
                 </td>
             </tr>
         `;
     });
     tabla.innerHTML = html;
+
+    // Delegación de eventos
+    tabla.removeEventListener('click', manejarClickTabla); // Evitar duplicados
+    tabla.addEventListener('click', manejarClickTabla);
+}
+
+function manejarClickTabla(e) {
+    const target = e.target;
+    const id = target.dataset.id;
+
+    if (target.classList.contains('btn-ver-detalle')) {
+        verDetalle(id, target.dataset.comentarios);
+    } else if (target.classList.contains('btn-aprobar')) {
+        cambiarEstado(id, 'aprobada');
+    } else if (target.classList.contains('btn-rechazar')) {
+        cambiarEstado(id, 'rechazada');
+    }
 }
 
 function verDetalle(id, base64Data) {

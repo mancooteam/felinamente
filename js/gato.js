@@ -37,8 +37,8 @@ async function verDetallesGato(id) {
             } else {
                 botonesAccion = `
                     <div class="d-flex gap-3 mt-5">
-                        <button class="btn-minimal" onclick="enviarSolicitud(${gato.id_gato}, 'adopcion')">Solicitar Adopción</button>
-                        <button class="btn-outline-minimal" onclick="enviarSolicitud(${gato.id_gato}, 'acogida')">Solicitar Acogida</button>
+                        <button class="btn-minimal" id="btn-adopcion" data-id="${gato.id_gato}">Solicitar Adopción</button>
+                        <button class="btn-outline-minimal" id="btn-acogida" data-id="${gato.id_gato}">Solicitar Acogida</button>
                     </div>
                 `;
             }
@@ -82,6 +82,22 @@ async function verDetallesGato(id) {
                     </div>
                 </div>
             `;
+
+            // Asignar eventos después de inyectar el HTML
+            const btnAdopcion = document.getElementById('btn-adopcion');
+            const btnAcogida = document.getElementById('btn-acogida');
+            
+            if (btnAdopcion) {
+                btnAdopcion.addEventListener('click', () => {
+                    enviarSolicitud(btnAdopcion.dataset.id, 'adopcion');
+                });
+            }
+            if (btnAcogida) {
+                btnAcogida.addEventListener('click', () => {
+                    enviarSolicitud(btnAcogida.dataset.id, 'acogida');
+                });
+            }
+
         } else {
             alert("Error al cargar los detalles: " + resultado.message);
             window.location.href = 'gatos.html';
