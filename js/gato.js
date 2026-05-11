@@ -35,14 +35,32 @@ async function verDetallesGato(id) {
             } else if (usuarioActual.role === 'guest') {
                 botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid #eaeaea; color: #666;">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
             } else {
+                // Comprobar si tiene visita previa
+                let tieneVisita = false;
+                try {
+                    const resSoli = await fetch('api/solicitudes.php?action=my_list');
+                    const dataSoli = await resSoli.json();
+                    if (dataSoli.status === 200) {
+                        tieneVisita = dataSoli.data.some(s => s.id_gato == id && s.tipo_solicitud === 'visita');
+                    }
+                } catch (e) { console.error(e); }
+
                 botonesAccion = `
-                    <div class="d-flex flex-wrap gap-3 mt-5">
-                        ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
-                            <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-dark">✏️ Editar Felino</a>
-                        ` : ''}
-                        <button class="btn-minimal" id="btn-adopcion" data-id="${gato.id_gato}">Solicitar Adopción</button>
-                        <button class="btn-outline-minimal" id="btn-acogida" data-id="${gato.id_gato}">Solicitar Acogida</button>
-                        <button class="btn-outline-minimal border-secondary text-secondary" id="btn-visita" data-id="${gato.id_gato}">Solicitar Visita Presencial</button>
+                    <div class="mt-5">
+                        <div class="d-flex flex-wrap gap-3">
+                            ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
+                                <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-dark">✏️ Editar Felino</a>
+                            ` : ''}
+                            
+                            <button class="btn-minimal ${!tieneVisita ? 'opacity-50' : ''}" id="btn-adopcion" data-id="${gato.id_gato}" ${!tieneVisita ? 'disabled' : ''}>Solicitar Adopción</button>
+                            <button class="btn-outline-minimal ${!tieneVisita ? 'opacity-50' : ''}" id="btn-acogida" data-id="${gato.id_gato}" ${!tieneVisita ? 'disabled' : ''}>Solicitar Acogida</button>
+                            
+                            ${!tieneVisita ? 
+                                '<button class="btn-minimal bg-accent text-white" id="btn-visita" data-id="'+gato.id_gato+'">1. Solicitar Cita Presencial (Obligatorio)</button>' : 
+                                '<span class="badge bg-success py-2 px-3"><i class="bi bi-check-circle-fill me-1"></i> Cita solicitada</span>'
+                            }
+                        </div>
+                        ${!tieneVisita ? '<p class="small text-muted mt-3 mb-0">* Por política del refugio, es obligatorio conoceros en persona antes de tramitar el formulario final.</p>' : ''}
                     </div>
                 `;
             }

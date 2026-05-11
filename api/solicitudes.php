@@ -144,6 +144,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         sendResponse(400, "Faltan datos obligatorios (Gato o Tipo).");
     }
 
+    // OBLIGACIÓN: Antes de adopción o acogida, debe existir al menos una solicitud de 'visita'
+    if ($tipo === 'adopcion' || $tipo === 'acogida') {
+        $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM solicitudes WHERE id_usuario = ? AND id_gato = ? AND tipo_solicitud = 'visita'");
+        $stmtCheck->execute([$userId, $idGato]);
+        if ($stmtCheck->fetchColumn() == 0) {
+            sendResponse(403, "Debes solicitar primero una cita presencial para conocer al felino antes de tramitar su adopción o acogida.");
+        }
+    }
+
     try {
         $stmt = $pdo->prepare("INSERT INTO solicitudes (id_usuario, id_gato, tipo_solicitud, estado_solicitud, comentarios_usu) VALUES (?, ?, ?, 'pendiente', ?)");
         $stmt->execute([$userId, $idGato, $tipo, $mensaje]);

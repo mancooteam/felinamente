@@ -8,11 +8,11 @@
 -- El hash corresponde a '1234' usando BCRYPT
 INSERT INTO usuarios (nombre_usuario, correo, contrasenia, rol, telefono, residencia) VALUES 
 ('admin', 'admin@felinamente.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'admin', '600111222', 'Oficina Central'),
-('karol_staff', 'karol@felinamente.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'employee', '611222333', 'Madrid Sede Norte'),
-('juan_voluntario', 'juan@gmail.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'volunteer', '622333444', 'Alcobendas'),
-('maria_adopta', 'maria.user@yahoo.es', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'user', '633444555', 'Madrid Centro'),
-('pedro_gatos', 'pedro88@gmail.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'user', '644555666', 'Getafe'),
-('ana_protectora', 'ana@protectora.org', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'volunteer', '655666777', 'Móstoles');
+('karol_staff', 'karol@felinamente.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'employee', '611222333', 'Valencia Sede Norte'),
+('juan_voluntario', 'juan@gmail.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'volunteer', '622333444', 'Mislata'),
+('maria_adopta', 'maria.user@yahoo.es', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'user', '633444555', 'Valencia Centro'),
+('pedro_gatos', 'pedro88@gmail.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'user', '644555666', 'Torrent'),
+('ana_protectora', 'ana@protectora.org', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'volunteer', '655666777', 'Paterna');
 
 -- 2. GATOS (10 ejemplos variados)
 INSERT INTO gatos (nombre, fecha_nacimiento, sexo, descripcion, vhif, estado, imagen_principal, notas_medicas) VALUES 
