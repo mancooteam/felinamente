@@ -37,6 +37,9 @@ async function verDetallesGato(id) {
             } else {
                 botonesAccion = `
                     <div class="d-flex flex-wrap gap-3 mt-5">
+                        ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
+                            <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-dark">✏️ Editar Felino</a>
+                        ` : ''}
                         <button class="btn-minimal" id="btn-adopcion" data-id="${gato.id_gato}">Solicitar Adopción</button>
                         <button class="btn-outline-minimal" id="btn-acogida" data-id="${gato.id_gato}">Solicitar Acogida</button>
                         <button class="btn-outline-minimal border-secondary text-secondary" id="btn-visita" data-id="${gato.id_gato}">Solicitar Visita Presencial</button>
@@ -57,6 +60,18 @@ async function verDetallesGato(id) {
                             <div class="card-body p-0">
                                 <h1 class="font-serif mb-4" style="font-size: 3rem; letter-spacing: -1px;">${gato.nombre}</h1>
                                 
+                                ${gato.estado === 'enfermo' ? `
+                                    <div class="alert alert-secondary py-3 small mb-4" style="background: #f8f9fa; border-left: 4px solid #6c757d; border-radius: 0;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="me-3" style="font-size: 1.2rem;">🏥</div>
+                                            <div>
+                                                <strong>Nota médica:</strong> Este felino se encuentra actualmente en tratamiento o recuperación. 
+                                                Puedes solicitar información, pero su proceso de adopción podría ser más lento.
+                                            </div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+
                                 <div class="d-flex flex-wrap gap-2 mb-4">
                                     <span class="badge-green text-uppercase">${gato.estado}</span>
                                     ${etiquetaVhif}

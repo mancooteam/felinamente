@@ -143,8 +143,15 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .badge-adoptado {
     background-color: var(--color-orange);
 }
+.badge-adoptado::before {
+    content: '♥ ';
+    margin-right: 5px;
+}
 .badge-acogido {
     background-color: var(--color-green);
+}
+.badge-enfermo {
+    background-color: #6c757d; /* Gris para indicar estado de pausa/médico */
 }
 .card-img-container {
     position: relative;

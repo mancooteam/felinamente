@@ -54,10 +54,12 @@ function pintarGatos(gatos) {
         let badgeEstado = '';
         let claseImagen = '';
         if (gato.estado === 'reservado') {
-            badgeEstado = '<div class="badge-overlay badge-adoptado">Adoptado</div>';
+            badgeEstado = '<div class="badge-overlay badge-adoptado">♥ Adoptado</div>';
             claseImagen = 'img-grayscale';
         } else if (gato.estado === 'acogido') {
             badgeEstado = '<div class="badge-overlay badge-acogido">En Acogida</div>';
+        } else if (gato.estado === 'enfermo') {
+            badgeEstado = '<div class="badge-overlay badge-enfermo">En Tratamiento</div>';
         }
 
         html += `

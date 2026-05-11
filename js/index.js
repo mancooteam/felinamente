@@ -1,63 +1,76 @@
-document.addEventListener('DOMContentLoaded', () => {
-    cargarGatosDestacados();
+document.addEventListener('DOMContentLoaded', async () => {
+    cargarAdoptadosHome();
+    cargarDestacadosHome();
 });
 
-async function cargarGatosDestacados() {
+async function cargarAdoptadosHome() {
+    const contenedor = document.getElementById('lista-adoptados-home');
+    if (!contenedor) return;
+
     try {
-        const respuesta = await fetch(`${API_CATS}?action=list`);
+        // Obtenemos gatos con estado 'reservado' (adoptados)
+        const respuesta = await fetch('api/cats.php?action=list&status_filter=reservado');
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
-            // Filtrar solo los disponibles y coger los 3 primeros para destacar
-            const disponibles = resultado.data.filter(g => g.estado === 'disponible' || g.estado === 'acogida_urgente' || g.estado === 'en adopcion');
-            const destacados = disponibles.slice(0, 3);
-            
-            // Si no hay disponibles, coge los 3 primeros que haya
-            if (destacados.length === 0) {
-                 pintarDestacados(resultado.data.slice(0, 3));
-            } else {
-                 pintarDestacados(destacados);
+            const adoptados = resultado.data.slice(0, 3); // Solo los 3 últimos
+            if (adoptados.length === 0) {
+                contenedor.innerHTML = '<p class="text-center text-muted">Aún no hay historias registradas, ¡pero pronto las habrá!</p>';
+                return;
             }
-        } else {
-            document.getElementById('gatos-destacados').innerHTML = `<p class="text-danger text-center">No se pudieron cargar los gatos destacados.</p>`;
+
+            let html = '';
+            adoptados.forEach(gato => {
+                const fecha = new Date(gato.fecha_estado).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                html += `
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center">
+                            <div class="mb-3 position-relative d-inline-block">
+                                <img src="${gato.imagen_principal}" class="rounded-circle shadow-sm" style="width: 180px; height: 180px; object-fit: cover; border: 5px solid white;">
+                                <div class="position-absolute bottom-0 end-0 bg-accent text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; transform: translate(10px, 10px);">
+                                    ♥
+                                </div>
+                            </div>
+                            <h4 class="font-serif mb-1">${gato.nombre}</h4>
+                            <p class="text-uppercase small text-muted fw-bold" style="letter-spacing: 1px;">Adoptado en ${fecha}</p>
+                        </div>
+                    </div>
+                `;
+            });
+            contenedor.innerHTML = html;
         }
     } catch (error) {
-        console.error("Error al cargar destacados:", error);
+        console.error("Error cargando adoptados home:", error);
+        contenedor.innerHTML = '';
     }
 }
 
-function pintarDestacados(gatos) {
+async function cargarDestacadosHome() {
     const contenedor = document.getElementById('gatos-destacados');
     if (!contenedor) return;
 
-    if (!gatos || gatos.length === 0) {
-        contenedor.innerHTML = `<div class="col-12"><div class="alert text-center text-muted" style="background: transparent; border: 1px solid #eaeaea;">Pronto tendremos nuevos felinos.</div></div>`;
-        return;
-    }
+    try {
+        const respuesta = await fetch('api/cats.php?action=list');
+        const resultado = await respuesta.json();
 
-    let html = '';
-    gatos.forEach(gato => {
-        let textoGenero = gato.sexo === 'macho' ? 'Macho' : 'Hembra';
-        let etiquetaVhif = gato.vhif ? '<span class="badge bg-dark ms-2 fw-normal rounded-pill px-2 py-1" style="font-size: 0.7rem;">VHIF+</span>' : '';
-        let imagen = gato.imagen_principal || 'https://placehold.co/400x300/fcfbf9/333333?text=Sin+imagen';
-
-        html += `
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 border-0" style="background: transparent;">
-                    <img src="${imagen}" class="card-img-top rounded-0" alt="${gato.nombre}" style="height: 320px; object-fit: cover;">
-                    <div class="card-body px-0 pt-4">
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
-                            <h4 class="card-title m-0" style="font-family: 'Georgia', serif; font-size: 1.5rem; color: #111;">${gato.nombre}</h4>
-                            ${etiquetaVhif}
+        if (resultado.status === 200) {
+            const destacados = resultado.data.filter(g => g.estado === 'disponible').slice(0, 3);
+            let html = '';
+            destacados.forEach(gato => {
+                html += `
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 border-0 bg-transparent">
+                            <img src="${gato.imagen_principal}" class="card-img-top rounded shadow-sm mb-3" style="height: 300px; object-fit: cover;">
+                            <h4 class="font-serif mb-2">${gato.nombre}</h4>
+                            <p class="text-muted small line-clamp-2 mb-3">${gato.descripcion || ''}</p>
+                            <a href="gato.html?id=${gato.id_gato}" class="link-editorial">Conocer a ${gato.nombre}</a>
                         </div>
-                        <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">
-                            ${textoGenero} · ${gato.fecha_nacimiento || 'Edad desconocida'}
-                        </p>
-                        <a href="gato.html?id=${gato.id_gato}" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">Conocer detalles</a>
                     </div>
-                </div>
-            </div>
-        `;
-    });
-    contenedor.innerHTML = html;
+                `;
+            });
+            contenedor.innerHTML = html;
+        }
+    } catch (error) {
+        console.error("Error cargando destacados home:", error);
+    }
 }

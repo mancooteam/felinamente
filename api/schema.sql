@@ -24,7 +24,8 @@ CREATE TABLE IF NOT EXISTS gatos (
     estado ENUM('disponible', 'reservado', 'enfermo', 'acogido') DEFAULT 'disponible',
     imagen_principal VARCHAR(255),
     notas_medicas TEXT,
-    fecha_ingreso TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    fecha_ingreso TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_estado TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS solicitudes (

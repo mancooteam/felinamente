@@ -48,7 +48,7 @@ switch ($action) {
                 $params[] = $_GET['status_filter'];
             }
         } else {
-            $query .= " AND estado IN ('disponible', 'acogido', 'reservado')";
+            $query .= " AND estado IN ('disponible', 'acogido', 'reservado', 'enfermo')";
         }
 
         // Orden dinámico

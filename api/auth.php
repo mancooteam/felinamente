@@ -73,6 +73,31 @@ switch ($action) {
         }
         break;
 
+    case 'list':
+        if (($_SESSION['role'] ?? '') !== 'admin') sendResponse(403, "Solo admin.");
+        $stmt = $pdo->query("SELECT id_usuario, nombre_usuario, correo, rol, telefono, residencia FROM usuarios");
+        sendResponse(200, "Lista de usuarios", $stmt->fetchAll());
+        break;
+
+    case 'update':
+        if (($_SESSION['role'] ?? '') !== 'admin') sendResponse(403, "Solo admin.");
+        $id = $data['id_usuario'] ?? null;
+        $newRole = $data['rol'] ?? null;
+        $newPass = $data['password'] ?? null;
+
+        if (!$id) sendResponse(400, "ID necesario.");
+
+        if ($newPass) {
+            $hashed = password_hash($newPass, PASSWORD_BCRYPT);
+            $stmt = $pdo->prepare("UPDATE usuarios SET rol = ?, contrasenia = ? WHERE id_usuario = ?");
+            $stmt->execute([$newRole, $hashed, $id]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?");
+            $stmt->execute([$newRole, $id]);
+        }
+        sendResponse(200, "Usuario actualizado.");
+        break;
+
     default:
         sendResponse(405, "Método no permitido.");
         break;
