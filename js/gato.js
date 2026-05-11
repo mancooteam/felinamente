@@ -108,6 +108,34 @@ async function verDetallesGato(id) {
                         </div>
                     </div>
                 </div>
+
+                <!-- Panel de Notas Médicas -->
+                ${(gato.notas_medicas || usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
+                    <div class="card border-0 shadow-sm mb-5" style="border-radius: 12px; border-left: 5px solid #6c757d;">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="font-serif mb-4">🩺 Panel de Salud</h3>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="text-muted mb-4" style="white-space: pre-line;">
+                                        ${gato.notas_medicas || 'No hay notas médicas registradas para este felino.'}
+                                    </p>
+                                </div>
+                                <div class="col-md-4 border-start ps-md-4">
+                                    <div class="mb-3">
+                                        <span class="small text-uppercase fw-bold text-muted d-block mb-1">Estado Médico</span>
+                                        <span class="badge ${gato.estado === 'enfermo' ? 'bg-danger' : 'bg-success'}">
+                                            ${gato.estado === 'enfermo' ? 'En Tratamiento' : 'Saludable / Estable'}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span class="small text-uppercase fw-bold text-muted d-block mb-1">Última Revisión</span>
+                                        <span class="text-dark small">${new Date(gato.fecha_estado).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
             `;
 
             // Lógica de galería

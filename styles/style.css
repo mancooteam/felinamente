@@ -181,8 +181,8 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 /* Hero Premium */
 .hero-premium {
-    height: 100vh;
-    min-height: 600px;
+    height: 65vh;
+    min-height: 500px;
     background-image: url('hero_cats_shelter_1778498227330.png');
     background-size: cover;
     background-position: center;
@@ -190,6 +190,11 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     display: flex;
     align-items: center;
     color: white;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: var(--color-green) !important;
 }
 
 .hero-overlay {
