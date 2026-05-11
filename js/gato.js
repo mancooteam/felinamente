@@ -36,9 +36,10 @@ async function verDetallesGato(id) {
                 botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid #eaeaea; color: #666;">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
             } else {
                 botonesAccion = `
-                    <div class="d-flex gap-3 mt-5">
+                    <div class="d-flex flex-wrap gap-3 mt-5">
                         <button class="btn-minimal" id="btn-adopcion" data-id="${gato.id_gato}">Solicitar Adopción</button>
                         <button class="btn-outline-minimal" id="btn-acogida" data-id="${gato.id_gato}">Solicitar Acogida</button>
+                        <button class="btn-outline-minimal border-secondary text-secondary" id="btn-visita" data-id="${gato.id_gato}">Solicitar Visita Presencial</button>
                     </div>
                 `;
             }
@@ -95,6 +96,11 @@ async function verDetallesGato(id) {
             if (btnAcogida) {
                 btnAcogida.addEventListener('click', () => {
                     enviarSolicitud(btnAcogida.dataset.id, 'acogida');
+                });
+            }
+            if (document.getElementById('btn-visita')) {
+                document.getElementById('btn-visita').addEventListener('click', () => {
+                    enviarSolicitud(id, 'visita');
                 });
             }
 

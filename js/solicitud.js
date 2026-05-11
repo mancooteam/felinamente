@@ -23,8 +23,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Configurar títulos
     const tituloPagina = document.getElementById('titulo-pagina-solicitud');
-    tituloPagina.innerText = tipo === 'adopcion' ? 'Solicitud de Adopción' : 'Solicitud de Casa de Acogida';
-    document.title = (tipo === 'adopcion' ? 'Adopción' : 'Acogida') + " - Felinamente";
+    let labelTipo = '';
+    if (tipo === 'adopcion') labelTipo = 'Solicitud de Adopción';
+    else if (tipo === 'acogida') labelTipo = 'Solicitud de Casa de Acogida';
+    else if (tipo === 'visita') labelTipo = 'Solicitud de Visita Presencial';
+
+    tituloPagina.innerText = labelTipo;
+    document.title = labelTipo + " - Felinamente";
 
     // Cargar breve info del gato
     cargarInfoGato(idGato, tipo);
@@ -91,7 +96,11 @@ async function cargarInfoGato(id, tipo) {
             document.getElementById('cat-brief').classList.remove('d-none');
             document.getElementById('brief-img').src = gato.imagen_principal || 'https://placehold.co/80x80/fcfbf9/333333?text=Gato';
             document.getElementById('brief-name').innerText = gato.nombre;
-            document.getElementById('brief-text').innerText = `Estás solicitando la ${tipo === 'adopcion' ? 'adopción' : 'acogida'} de este felino.`;
+            let msg = `Estás solicitando la ${tipo === 'adopcion' ? 'adopción' : (tipo === 'acogida' ? 'acogida' : 'visita')} de este felino.`;
+            if (tipo === 'visita') {
+                msg = `Estás solicitando conocer a ${gato.nombre} en persona. Tras la visita, se podrá iniciar el proceso de adopción o acogida.`;
+            }
+            document.getElementById('brief-text').innerText = msg;
         }
     } catch (error) {
         console.error("Error cargando info del gato:", error);
