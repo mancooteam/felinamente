@@ -1,12 +1,10 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Solo admins y empleados pueden ver esto, auth.js ya cargó usuarioActual
-    setTimeout(() => {
-        if (usuarioActual.role !== 'admin' && usuarioActual.role !== 'employee') {
-            document.getElementById('gestion-content').innerHTML = `<div class="alert alert-danger">No tienes permisos para ver esta página.</div>`;
-            return;
-        }
-        cargarPanelGestion();
-    }, 500); // Pequeño retardo para asegurar que comprobarSesion() de auth.js terminó
+document.addEventListener('DOMContentLoaded', async () => {
+    await comprobarSesion(); // Garantiza que tenemos el rol antes de pintar
+    if (usuarioActual.role !== 'admin' && usuarioActual.role !== 'employee') {
+        document.getElementById('gestion-content').innerHTML = `<div class="alert alert-danger">No tienes permisos para ver esta página.</div>`;
+        return;
+    }
+    cargarPanelGestion();
 });
 
 async function cargarPanelGestion() {
@@ -73,7 +71,8 @@ async function eliminarGato(id) {
 }
 
 // Configurar formulario del modal de gestión
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await comprobarSesion();
     const formGato = document.getElementById('formGato');
     if (formGato) {
         formGato.addEventListener('submit', async (e) => {

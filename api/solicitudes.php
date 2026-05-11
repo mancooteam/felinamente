@@ -29,5 +29,5 @@ try {
     sendResponse(201, "Solicitud enviada con éxito.");
 } catch (PDOException $e) {
     error_log($e->getMessage());
-    sendResponse(500, "Error en la base de datos.");
+    sendResponse(500, "Error BD: " . $e->getMessage());
 }

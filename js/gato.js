@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await comprobarSesion(); // Esperar a saber quién es el usuario
     const params = new URLSearchParams(window.location.search);
     if (params.has('id')) {
         verDetallesGato(params.get('id'));
