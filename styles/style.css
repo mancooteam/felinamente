@@ -1,58 +1,62 @@
-* {
-    margin: 0;
-    padding: 0;
+/* Estilos generales del proyecto Felinamente */
+/* Autor: Karolina Bodziony - 2 DAW */
+
+:root {
+    --color-principal: #FF9800; /* Naranja gatuno */
+    --color-secundario: #4CAF50; /* Verde para disponible */
+    --fondo-gris: #f8f9fa;
 }
 
-.text-prim {
-    color: #FDF5E6 !important;
+body {
+    font-family: Arial, sans-serif; /* Fuente más estándar */
+    background-color: var(--fondo-gris);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.bg-prim {
-    background-color: #FDF5E6!important;
+/* Ajustes de la barra de navegación */
+.navbar {
+    background-color: white !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.text-accent {
-    color: #FFB347!important;
+.navbar-brand {
+    color: var(--color-principal) !important;
+    font-weight: bold;
 }
 
-.bg-accent {
-    background-color: #FFB347!important;
+/* Estilos para los botones principales */
+.btn-primary {
+    background-color: var(--color-principal);
+    border-color: var(--color-principal);
 }
 
-.text-subtle {
-    color: #E8D7FF!important;
+.btn-primary:hover {
+    background-color: #e68a00;
+    border-color: #e68a00;
 }
 
-.bg-subtle {
-    background-color: #E8D7FF!important;
+/* Tarjetas de gatos (Efecto hover básico) */
+.cat-card {
+    transition: 0.3s;
+    border: 1px solid #ddd;
 }
 
-.text-sec {
-    color: #5D5D5D!important;
+.cat-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.bg-sec {
-    background-color: #5D5D5D!important;
+/* Footer abajo siempre */
+footer {
+    margin-top: auto;
 }
 
-.text-shadow {
-    text-shadow: 0px 0px 3px black;
-}
-
-.carousel-item img {
-    height: 500px;
-    object-fit: cover; /
-    width: 100%;
-}
-
-.carousel-caption {
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 15px;
-    padding: 20px;
-}
-
-@media (max-width: 768px) {
-    .carousel-item img {
-        height: 300px;
-    }
+/* Spinner centrado */
+#loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
 }

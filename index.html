@@ -1,86 +1,106 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>Felinamente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Felinamente - Adopción de Gatos</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS Propio -->
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-light border-bottom">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+
+<!-- Navegación -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="#" onclick="loadHome()">Felinamente 🐾</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuNavegacion">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-link active" href="#">Inicio</a>
-                <a class="nav-link" href="#">Quien somos</a>
-                <a class="nav-link" href="#">Nuestros felinos</a>
-                <a class="nav-link" href="#">FAQ</a>
+        <div class="collapse navbar-collapse" id="menuNavegacion">
+            <div class="navbar-nav me-auto" id="nav-links">
+                <!-- Enlaces generados por JS -->
             </div>
-
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="#">Registrate</a>
-                <a class="nav-link btn rounded-pill bg-primary px-3 text-white" href="#">Login</a>
+            <div class="navbar-nav ms-auto" id="nav-auth">
+                <!-- Botones de sesión generados por JS -->
             </div>
         </div>
     </div>
 </nav>
-<div class="container">
-    <div id="carouselExampleDark" class="carousel carousel-dark slide">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active" data-bs-interval="10000">
-                <img src="img/slider_1.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block text-subtle text-shadow">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="2000">
-                <img src="img/slider_2.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block text-subtle text-shadow">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="img/slider_3.png" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block text-subtle text-shadow">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-    <div class="p-5 bg-primary text-white">
-        <h1 class="text-uppercase text-center pb-3 border-bottom border-white">Felinamente</h1>
-        <div class="row">
-            <div class="col-8 h-70 p-4 col-sm-12"><h2>¿Quiénes somos?</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium cupiditate eius error eveniet explicabo laborum natus obcaecati odit praesentium quia quo reiciendis rem, reprehenderit sint totam, voluptate voluptates voluptatum! Doloremque.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi at delectus doloribus ex laboriosam necessitatibus possimus quam quia quod sapiente?</p></div>
-            <div class="col-4 col-sm-12"><img src="https://placehold.co/300x300/EEE/31343C" class="fluid"/></div>
-        </div>
 
+<!-- Contenido Principal -->
+<main class="container mt-4 mb-5" id="main-content">
+    <div id="loading">
+        <div class="spinner-border text-warning" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+    <div class="container">
+        <p class="mb-0">Proyecto Intermodular 2 DAW - Karolina Maria Bodziony Wiktorowska</p>
+    </div>
+</footer>
+
+<!-- Modal de Login -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Iniciar Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label>Usuario</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Entrar</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+<!-- Modal de Registro -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="mb-3">
+                        <label>Usuario</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
 </body>
-</html>
+</html>
