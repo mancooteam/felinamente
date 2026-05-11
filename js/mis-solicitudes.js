@@ -84,11 +84,14 @@ function pintarMisSolicitudes(solicitudes) {
                     </div>
                     
                     <div class="mb-4">
-                        <button class="btn btn-sm btn-outline-secondary btn-abrir-editor" 
-                            data-id="${s.id_solicitud}" 
-                            data-comentarios="${btoa(s.comentarios_usu)}">
-                            ${s.estado_solicitud === 'rechazada' ? 'Solicitar nueva revisión / Editar' : 'Editar solicitud'}
-                        </button>
+                        ${s.estado_solicitud === 'aprobada' ? 
+                            '<p class="small text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Esta solicitud ya ha sido procesada y no se puede editar.</p>' : 
+                            `<button class="btn btn-sm btn-outline-secondary btn-abrir-editor" 
+                                data-id="${s.id_solicitud}" 
+                                data-comentarios="${btoa(s.comentarios_usu)}">
+                                ${s.estado_solicitud === 'rechazada' ? 'Corregir y volver a enviar' : 'Editar solicitud'}
+                            </button>`
+                        }
                     </div>
                     
                     <p class="text-muted small mb-0">Solicitud ID: #${s.id_solicitud}</p>

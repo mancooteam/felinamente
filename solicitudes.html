@@ -27,8 +27,9 @@
             <a href="gestion.html" class="link-editorial">← Volver a Gestión</a>
         </div>
         <h2 class="section-title mb-5">Gestión de Solicitudes</h2>
-
-        <div class="table-responsive bg-white p-4 border rounded shadow-sm">
+        
+        <h4 class="font-serif mb-4"><i class="bi bi-clock-history me-2"></i>Solicitudes Pendientes</h4>
+        <div class="table-responsive bg-white p-4 border rounded shadow-sm mb-5">
             <table class="table align-middle">
                 <thead class="table-light">
                     <tr>
@@ -42,11 +43,25 @@
                 </thead>
                 <tbody id="tabla-solicitudes">
                     <!-- Se carga por JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <h4 class="font-serif mb-4 text-muted"><i class="bi bi-archive me-2"></i>Historial de Solicitudes (Procesadas)</h4>
+        <div class="table-responsive bg-white p-4 border rounded shadow-sm opacity-75">
+            <table class="table align-middle table-sm">
+                <thead class="table-light">
                     <tr>
-                        <td colspan="6" class="text-center py-5">
-                            <div class="spinner-border text-secondary"></div>
-                        </td>
+                        <th>Gato</th>
+                        <th>Usuario</th>
+                        <th>Tipo</th>
+                        <th>Estado Final</th>
+                        <th>Fecha</th>
+                        <th>Detalles</th>
                     </tr>
+                </thead>
+                <tbody id="tabla-historial">
+                    <!-- Se carga por JS -->
                 </tbody>
             </table>
         </div>
