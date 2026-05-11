@@ -12,58 +12,149 @@
 <body class="bg-light">
 
     <!-- Navegación Común -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<style>
+    /* Estilos personalizados para un diseño elegante y minimalista */
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #fcfbf9;
+        color: #333;
+    }
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95) !important;
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #eaeaea;
+    }
+    .navbar-brand {
+        color: #1a1a1a !important;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+    .nav-link {
+        color: #555 !important;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+    .hero-section {
+        padding: 120px 0 80px;
+        background-color: #fcfbf9;
+    }
+    .hero-title {
+        font-family: 'Georgia', serif;
+        font-size: 4rem;
+        color: #111;
+        line-height: 1.1;
+        letter-spacing: -1.5px;
+        margin-bottom: 1.5rem;
+    }
+    .hero-subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        font-weight: 300;
+        max-width: 600px;
+        margin-bottom: 2.5rem;
+        line-height: 1.6;
+    }
+    .btn-minimal {
+        background-color: #1a1a1a;
+        color: #fff;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: background-color 0.2s ease;
+    }
+    .btn-minimal:hover {
+        background-color: #333;
+        color: #fff;
+    }
+    .btn-outline-minimal {
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 14px 32px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+    }
+    .btn-outline-minimal:hover {
+        border-color: #1a1a1a;
+        background-color: #f9f9f9;
+        color: #111;
+    }
+    .section-title {
+        font-family: 'Georgia', serif;
+        font-size: 2.5rem;
+        color: #111;
+        margin-bottom: 3rem;
+    }
+    .about-text {
+        color: #555;
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+</style>
+
+<body class="bg-light">
+
+    <!-- Navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">🐱 Felinamente</a>
+            <a class="navbar-brand" href="index.html">Felinamente.</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav me-auto" id="nav-links"></div>
-                <div class="d-flex align-items-center text-white" id="nav-auth"></div>
+                <div class="d-flex align-items-center" id="nav-auth"></div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="bg-primary text-white text-center py-5 shadow-sm" style="background: linear-gradient(135deg, #0d6efd, #0dcaf0);">
-        <div class="container py-5">
-            <h1 class="display-4 fw-bold mb-3">Encuentra a tu nuevo mejor amigo</h1>
-            <p class="lead mb-4 fs-4">Adopta, acoge o apadrina. Dale una segunda oportunidad a un felino que te necesita.</p>
-            <a href="gatos.html" class="btn btn-warning btn-lg fw-bold text-dark rounded-pill px-5 shadow-sm">🐾 Ver gatos disponibles</a>
+    <header class="hero-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <h1 class="hero-title">Dales el hogar<br>que merecen.</h1>
+                    <p class="hero-subtitle">Conectamos familias responsables con gatos que buscan una segunda oportunidad. Descubre nuestro refugio y forma parte del cambio.</p>
+                    <div class="d-flex gap-3">
+                        <a href="gatos.html" class="btn-minimal text-decoration-none">Ver felinos</a>
+                        <a href="#about" class="btn-outline-minimal text-decoration-none">Nuestra misión</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Contenido Principal -->
-    <div class="container my-5 pb-4 border-bottom">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h2 class="fw-bold mb-3">¿Quiénes somos?</h2>
-                <p class="text-muted fs-5">Felinamente es una protectora dedicada al rescate, cuidado y búsqueda de familias responsables para gatos abandonados o en situación de calle.</p>
-                <p class="text-muted fs-5">Creemos firmemente en el derecho a una vida digna para todos los animales y nos enorgullece ser un puente entre estos maravillosos felinos y personas dispuestas a darles amor incondicional.</p>
-            </div>
-            <div class="col-md-6 text-center">
-                <img src="img/logo.png" alt="Logo Felinamente" class="img-fluid rounded-circle shadow-lg border border-5 border-white" style="max-width: 280px;">
+    <!-- Sobre Nosotros -->
+    <section id="about" class="py-5 bg-white">
+        <div class="container py-5">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-5 mb-5 mb-md-0">
+                    <img src="img/slider_1.png" alt="Gato del refugio" class="img-fluid rounded" style="object-fit: cover; height: 500px; width: 100%; filter: contrast(1.05);">
+                </div>
+                <div class="col-md-6">
+                    <h2 class="section-title">Nuestra labor</h2>
+                    <p class="about-text">En Felinamente trabajamos desde la empatía y el respeto. Nos dedicamos a rescatar felinos en situaciones vulnerables, asegurando su atención veterinaria y rehabilitación antes de buscarles una familia definitiva.</p>
+                    <p class="about-text">No somos un comercio, somos un refugio de paso. Cada adopción nos permite salvar una nueva vida de la calle.</p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Sección Gatos Destacados -->
-    <div class="container my-5">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">🐱 Felinos Destacados</h2>
-            <p class="text-muted fs-5">Estos pequeñines llevan tiempo esperando un hogar o acaban de llegar y necesitan acogida urgente. ¡Anímate a conocerlos!</p>
+    <!-- Gatos Destacados -->
+    <section class="py-5" style="background-color: #fcfbf9;">
+        <div class="container py-5">
+            <div class="d-flex justify-content-between align-items-end mb-5">
+                <h2 class="section-title mb-0">Esperando familia</h2>
+                <a href="gatos.html" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">Ver todos</a>
+            </div>
+            
+            <div class="row" id="gatos-destacados">
+                <div class="text-center w-100 py-5"><div class="spinner-border text-secondary" style="width: 2rem; height: 2rem; border-width: 2px;"></div></div>
+            </div>
         </div>
-        
-        <div class="row justify-content-center" id="gatos-destacados">
-            <!-- Cargando desde JS -->
-            <div class="text-center w-100"><div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div></div>
-        </div>
-        
-        <div class="text-center mt-5 mb-5">
-            <a href="gatos.html" class="btn btn-outline-primary btn-lg fw-bold px-5 rounded-pill">Ver todos nuestros felinos →</a>
-        </div>
-    </div>
+    </section>
 
     <!-- Modales Comunes (Mantenidos en index.html) -->
     <!-- Modal Login -->
