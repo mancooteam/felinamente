@@ -41,6 +41,21 @@ async function cargarDatosGato(id) {
             document.getElementById('edit_img').value = gato.imagen_principal;
             document.getElementById('edit_vhif').checked = gato.vhif == 1;
 
+            // Restricción de empleados: solo pueden tocar el estado
+            if (usuarioActual.role === 'employee') {
+                document.getElementById('edit_name').disabled = true;
+                document.getElementById('edit_birth').disabled = true;
+                document.getElementById('edit_gender').disabled = true;
+                document.getElementById('edit_desc').disabled = true;
+                document.getElementById('edit_img').disabled = true;
+                document.getElementById('edit_vhif').disabled = true;
+                
+                const helpText = document.createElement('div');
+                helpText.className = 'alert alert-info mt-3 small';
+                helpText.innerText = 'Como empleado, solo tienes permisos para actualizar el estado del felino.';
+                document.getElementById('formEditarGato').appendChild(helpText);
+            }
+
             document.getElementById('formEditarGato').classList.remove('d-none');
             document.getElementById('loading-edit').classList.add('d-none');
         } else {

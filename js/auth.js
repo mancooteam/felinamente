@@ -29,31 +29,50 @@ function pintarMenu() {
     const navAuth = document.getElementById('nav-auth');
     if (!navLinks || !navAuth) return;
 
-    let htmlLinks = `
+    // Links base (siempre visibles)
+    navLinks.innerHTML = `
         <a class="nav-link" href="index.html">Inicio</a>
         <a class="nav-link" href="gatos.html">Nuestros felinos</a>
     `;
 
-    if (usuarioActual.role !== 'guest') {
-        htmlLinks += `<a class="nav-link" href="mis-solicitudes.html">Mis Solicitudes</a>`;
-    }
-
-    if (usuarioActual.role === 'admin' || usuarioActual.role === 'employee') {
-        htmlLinks += `<a class="nav-link text-danger fw-bold" href="gestion.html">Gestión</a>`;
-    }
-
-    navLinks.innerHTML = htmlLinks;
-
     if (usuarioActual.role === 'guest') {
         navAuth.innerHTML = `
-            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+            <button class="btn-outline-minimal btn-sm me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
+            <button class="btn-minimal btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
         `;
     } else {
         navAuth.innerHTML = `
-            <span class="navbar-text me-3">Hola, ${usuarioActual.username}</span>
-            <button class="btn btn-outline-danger" onclick="cerrarSesion()">Cerrar Sesión</button>
+            <div class="dropdown">
+                <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center border-0 p-0" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                    <span class="me-2 d-none d-sm-inline text-dark">Hola, <strong>${usuarioActual.username}</strong></span>
+                    <div class="rounded-circle text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--color-green);">
+                        ${usuarioActual.username[0].toUpperCase()}
+                    </div>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius: 8px;">
+                    <li><h6 class="dropdown-header small text-uppercase">Mi Cuenta</h6></li>
+                    <li><a class="dropdown-item py-2" href="mis-solicitudes.html">Mis Solicitudes</a></li>
+                    
+                    ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
+                        <li><hr class="dropdown-divider"></li>
+                        <li><h6 class="dropdown-header small text-uppercase text-accent">Administración</h6></li>
+                        <li><a class="dropdown-item py-2 fw-bold" href="gestion.html">Panel de Gestión</a></li>
+                        <li><a class="dropdown-item py-2" href="solicitudes.html">Gestión de Solicitudes</a></li>
+                    ` : ''}
+                    
+                    <li><hr class="dropdown-divider"></li>
+                    <li><button class="dropdown-item py-2 text-danger" id="btn-logout">Cerrar Sesión</button></li>
+                </ul>
+            </div>
         `;
+        
+        // Listener para el botón de logout (sin onclick)
+        setTimeout(() => {
+            const btnLogout = document.getElementById('btn-logout');
+            if (btnLogout) {
+                btnLogout.addEventListener('click', cerrarSesion);
+            }
+        }, 100);
     }
 }
 

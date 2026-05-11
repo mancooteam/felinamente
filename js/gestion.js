@@ -4,6 +4,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('gestion-content').innerHTML = `<div class="alert alert-danger">No tienes permisos para ver esta página.</div>`;
         return;
     }
+
+    // Solo admins pueden dar de alta
+    if (usuarioActual.role !== 'admin') {
+        const btnNuevo = document.querySelector('[data-bs-target="#modalGato"]');
+        if (btnNuevo) btnNuevo.classList.add('d-none');
+    }
+
     cargarPanelGestion();
     cargarEstadisticas();
 });
