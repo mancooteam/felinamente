@@ -1,62 +1,128 @@
-/* Estilos generales del proyecto Felinamente */
-/* Autor: Karolina Bodziony - 2 DAW */
+/* Estilos generales - Tema Editorial Minimalista (Verde y Naranja) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --color-principal: #FF9800; /* Naranja gatuno */
-    --color-secundario: #4CAF50; /* Verde para disponible */
-    --fondo-gris: #f8f9fa;
+    --color-green: #274e37; /* Verde bosque elegante */
+    --color-orange: #d96c4a; /* Naranja terracota suave */
+    --color-bg: #fcfbf9; /* Crema muy suave */
+    --color-text: #333333;
+    --color-text-muted: #666666;
+    --color-border: #eaeaea;
 }
 
 body {
-    font-family: Arial, sans-serif; /* Fuente más estándar */
-    background-color: var(--fondo-gris);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-/* Ajustes de la barra de navegación */
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: 'Lora', 'Georgia', serif;
+    color: #111;
+}
+
+/* Navbar */
 .navbar {
-    background-color: white !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: rgba(252, 251, 249, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
 }
-
 .navbar-brand {
-    color: var(--color-principal) !important;
-    font-weight: bold;
+    color: var(--color-green) !important;
+    font-family: 'Lora', 'Georgia', serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+.nav-link {
+    color: var(--color-text-muted) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+.nav-link:hover {
+    color: var(--color-orange) !important;
 }
 
-/* Estilos para los botones principales */
-.btn-primary {
-    background-color: var(--color-principal);
-    border-color: var(--color-principal);
+/* Botones */
+.btn-minimal {
+    background-color: var(--color-green);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+.btn-minimal:hover {
+    background-color: #1d3a29;
+    color: #fff;
+}
+.btn-outline-minimal {
+    border: 1px solid var(--color-green);
+    color: var(--color-green);
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    background: transparent;
+}
+.btn-outline-minimal:hover {
+    background-color: var(--color-green);
+    color: #fff;
 }
 
-.btn-primary:hover {
-    background-color: #e68a00;
-    border-color: #e68a00;
+/* Accentos y Enlaces */
+.text-accent {
+    color: var(--color-orange) !important;
+}
+.link-editorial {
+    color: var(--color-text);
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-text);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+}
+.link-editorial:hover {
+    color: var(--color-orange);
+    border-color: var(--color-orange);
 }
 
-/* Tarjetas de gatos (Efecto hover básico) */
-.cat-card {
-    transition: 0.3s;
-    border: 1px solid #ddd;
+/* Tarjetas */
+.card-editorial {
+    background: transparent;
+    border: none;
+}
+.card-editorial img {
+    height: 320px;
+    object-fit: cover;
+    border-radius: 0;
 }
 
-.cat-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+/* Etiquetas */
+.badge-orange {
+    background-color: var(--color-orange);
+    color: white;
+    font-weight: 400;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
 }
-
-/* Footer abajo siempre */
-footer {
-    margin-top: auto;
-}
-
-/* Spinner centrado */
-#loading {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
+.badge-green {
+    background-color: var(--color-green);
+    color: white;
+    font-weight: 400;
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 20px;
 }
