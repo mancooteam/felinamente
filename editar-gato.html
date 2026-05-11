@@ -64,10 +64,21 @@
                     <label>Descripción</label>
                     <textarea name="description" id="edit_desc" class="form-control" rows="3"></textarea>
                 </div>
-                <div class="mb-3">
-                    <label>URL de la imagen actual (o nueva URL)</label>
-                    <input type="text" name="image_url" id="edit_img" class="form-control" placeholder="uploads/cats/...">
-                    <small class="text-muted">Si quieres cambiarla por archivo, la función de subida en edición se añadirá próximamente.</small>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Imagen Principal</label>
+                        <input type="file" name="image_file" id="edit_img_file" class="form-control" accept="image/*">
+                        <small class="text-muted">Si no seleccionas un archivo, se mantendrá la imagen actual.</small>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Añadir a la Galería (Múltiples)</label>
+                        <input type="file" name="gallery_files[]" id="edit_gallery_files" class="form-control" accept="image/*" multiple>
+                        <small class="text-muted">Puedes seleccionar varias fotos a la vez.</small>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Notas Médicas / Panel de Salud</label>
+                    <textarea name="notas_medicas" id="edit_notas" class="form-control" rows="4" placeholder="Detalles sobre vacunas, enfermedades, etc."></textarea>
                 </div>
                 <div class="form-check form-switch mb-4">
                     <input class="form-check-input" type="checkbox" name="vhif_positive" id="edit_vhif">

@@ -129,18 +129,60 @@ switch ($action) {
             sendResponse(403, "Permisos insuficientes.");
         }
         
-        $id = $data['id'] ?? null;
+        $id = $_POST['id'] ?? null;
         if (!$id) sendResponse(400, "ID de gato requerido.");
 
-        $estado = $data['status'] ?? null;
+        $estado = $_POST['status'] ?? 'disponible';
+        
         if ($role === 'admin') {
-            $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, imagen_principal=? WHERE id_gato=?");
-            $stmt->execute([$data['name'], $data['birth_date'], $data['gender'], $data['vhif_positive'], $data['status'], $data['description'], $data['image_url'], $id]);
+            $nombre = $_POST['name'] ?? '';
+            $nacimiento = $_POST['birth_date'] ?? null;
+            $sexo = $_POST['gender'] ?? 'desconocido';
+            $vhif = (isset($_POST['vhif_positive']) && ($_POST['vhif_positive'] === 'on' || $_POST['vhif_positive'] == 1)) ? 1 : 0;
+            $desc = $_POST['description'] ?? '';
+            $notas = $_POST['notas_medicas'] ?? '';
+
+            // Manejo de Imagen Principal
+            $imgPath = null;
+            if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = '../uploads/cats/';
+                if (!file_exists($uploadDir)) mkdir($uploadDir, 0777, true);
+                $fileName = time() . '_main_' . basename($_FILES['image_file']['name']);
+                if (move_uploaded_file($_FILES['image_file']['tmp_name'], $uploadDir . $fileName)) {
+                    $imgPath = 'uploads/cats/' . $fileName;
+                }
+            }
+
+            if ($imgPath) {
+                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, imagen_principal=? WHERE id_gato=?");
+                $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $imgPath, $id]);
+            } else {
+                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=? WHERE id_gato=?");
+                $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $id]);
+            }
+
+            // Manejo de Galería (Múltiples archivos)
+            if (isset($_FILES['gallery_files'])) {
+                $uploadDir = '../uploads/cats/';
+                foreach ($_FILES['gallery_files']['tmp_name'] as $key => $tmp_name) {
+                    if ($_FILES['gallery_files']['error'][$key] === UPLOAD_ERR_OK) {
+                        $fName = time() . '_gal_' . $key . '_' . basename($_FILES['gallery_files']['name'][$key]);
+                        if (move_uploaded_file($tmp_name, $uploadDir . $fName)) {
+                            $gPath = 'uploads/cats/' . $fName;
+                            $stmtG = $pdo->prepare("INSERT INTO gato_fotos (id_gato, url_foto) VALUES (?, ?)");
+                            $stmtG->execute([$id, $gPath]);
+                        }
+                    }
+                }
+            }
+
         } else {
+            // Empleado solo puede actualizar el estado
             $stmt = $pdo->prepare("UPDATE gatos SET estado=? WHERE id_gato=?");
             $stmt->execute([$estado, $id]);
         }
-        sendResponse(200, "Gato actualizado.");
+        
+        sendResponse(200, "Gato actualizado correctamente.");
         break;
 
     case 'delete':

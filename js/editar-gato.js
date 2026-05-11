@@ -14,10 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
         formEditar.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(formEditar);
-            const data = Object.fromEntries(formData.entries());
-            data.vhif_positive = formData.get('vhif_positive') ? 1 : 0;
-            
-            await actualizarGato(data);
+            // vhif_positive ya se envía como 'on' si está marcado, el backend lo manejará
+            await actualizarGato(formData);
         });
     }
 });
@@ -38,7 +36,7 @@ async function cargarDatosGato(id) {
             document.getElementById('edit_birth').value = gato.fecha_nacimiento;
             document.getElementById('edit_gender').value = gato.sexo;
             document.getElementById('edit_desc').value = gato.descripcion;
-            document.getElementById('edit_img').value = gato.imagen_principal;
+            document.getElementById('edit_notas').value = gato.notas_medicas || '';
             document.getElementById('edit_vhif').checked = gato.vhif == 1;
 
             // Restricción de empleados: solo pueden tocar el estado
@@ -69,12 +67,11 @@ async function cargarDatosGato(id) {
     }
 }
 
-async function actualizarGato(datos) {
+async function actualizarGato(formData) {
     try {
         const respuesta = await fetch(`${API_CATS}?action=update`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(datos)
+            body: formData
         });
         const resultado = await respuesta.json();
         
