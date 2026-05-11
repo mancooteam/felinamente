@@ -49,9 +49,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nuevoEstado = $data['estado'] ?? null;
             if (!$id || !$nuevoEstado) sendResponse(400, "Faltan datos para actualizar el estado.");
 
-            $stmt = $pdo->prepare("UPDATE solicitudes SET estado_solicitud = ? WHERE id_solicitud = ?");
-            $stmt->execute([$nuevoEstado, $id]);
-            sendResponse(200, "Estado actualizado con éxito.");
+            $pdo->beginTransaction();
+            try {
+                // Actualizar el estado de la solicitud
+                $stmt = $pdo->prepare("UPDATE solicitudes SET estado_solicitud = ? WHERE id_solicitud = ?");
+                $stmt->execute([$nuevoEstado, $id]);
+
+                // Si se aprueba, actualizamos el estado del gato automáticamente
+                if ($nuevoEstado === 'aprobada') {
+                    // Primero obtenemos el id_gato y el tipo de solicitud
+                    $stmtSoli = $pdo->prepare("SELECT id_gato, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
+                    $stmtSoli->execute([$id]);
+                    $solicitudInfo = $stmtSoli->fetch();
+
+                    if ($solicitudInfo) {
+                        $idGato = $solicitudInfo['id_gato'];
+                        $tipo = $solicitudInfo['tipo_solicitud'];
+                        $nuevoEstadoGato = ($tipo === 'adopcion') ? 'Adoptado' : 'En Acogida';
+
+                        $stmtGato = $pdo->prepare("UPDATE gatos SET estado = ? WHERE id_gato = ?");
+                        $stmtGato->execute([$nuevoEstadoGato, $idGato]);
+                    }
+                }
+
+                $pdo->commit();
+                sendResponse(200, "Estado actualizado con éxito.");
+            } catch (Exception $e) {
+                $pdo->rollBack();
+                sendResponse(500, "Error al actualizar: " . $e->getMessage());
+            }
         } else {
             sendResponse(403, "No tienes permisos para realizar esta acción.");
         }
