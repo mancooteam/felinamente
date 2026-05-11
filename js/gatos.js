@@ -56,22 +56,32 @@ function pintarGatos(gatos) {
 
         html += `
             <div class="col-md-4 mb-5">
-                <div class="card h-100 border-0" style="background: transparent;">
-                    <div class="card-img-container">
+                <div class="card h-100 border-0 bg-white shadow-sm hover-card" style="transition: transform 0.3s ease, box-shadow 0.3s ease; border-radius: 12px; overflow: hidden;">
+                    <div class="card-img-container" style="height: 280px;">
                         ${badgeEstado}
-                        <img src="${imagen}" class="card-img-top rounded-0 ${claseImagen}" alt="${gato.nombre}" style="height: 320px; object-fit: cover;">
+                        <img src="${imagen}" class="card-img-top ${claseImagen}" alt="${gato.nombre}" style="height: 100%; width: 100%; object-fit: cover; transition: transform 0.5s ease;">
                     </div>
-                    <div class="card-body px-0 pt-4">
-                        <div class="d-flex justify-content-between align-items-baseline mb-2">
-                            <h4 class="card-title m-0" style="font-family: 'Georgia', serif; font-size: 1.5rem; color: #111;">${gato.nombre}</h4>
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h4 class="card-title m-0 font-serif" style="font-size: 1.6rem; letter-spacing: -0.5px;">${gato.nombre}</h4>
                             ${etiquetaVhif}
                         </div>
-                        <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">
-                            ${textoGenero} · ${gato.fecha_nacimiento || 'Edad desconocida'}
+                        <p class="text-muted small mb-4">
+                            <span class="text-uppercase fw-bold" style="letter-spacing: 0.5px; font-size: 0.75rem;">${textoGenero}</span> 
+                            <span class="mx-2 opacity-50">|</span> 
+                            <span>${gato.fecha_nacimiento || 'Edad desconocida'}</span>
                         </p>
-                        <a href="gato.html?id=${gato.id_gato}" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">
-                            ${gato.estado === 'reservado' ? 'Ver su historia' : 'Conocer detalles'}
-                        </a>
+                        <p class="card-text text-muted line-clamp-2 mb-4" style="font-size: 0.9rem; height: 2.7rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;">
+                            ${gato.descripcion || 'Sin descripción disponible.'}
+                        </p>
+                        <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                            <a href="gato.html?id=${gato.id_gato}" class="link-editorial text-dark small" style="border-width: 2px;">
+                                ${gato.estado === 'reservado' ? 'Ver su historia' : 'Conocer detalles'}
+                            </a>
+                            <span class="text-muted" style="font-size: 0.8rem;">
+                                <i class="opacity-50">#${gato.id_gato}</i>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
