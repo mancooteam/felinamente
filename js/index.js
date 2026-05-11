@@ -21,7 +21,13 @@ async function cargarAdoptadosHome() {
 
             let html = '';
             adoptados.forEach(gato => {
-                const fecha = new Date(gato.fecha_estado).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                let fechaObj = new Date(gato.fecha_estado || gato.fecha_ingreso);
+                let fechaTexto = "recientemente";
+                
+                if (!isNaN(fechaObj.getTime())) {
+                    fechaTexto = fechaObj.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                }
+
                 html += `
                     <div class="col-md-4 mb-4">
                         <div class="text-center">
@@ -32,7 +38,7 @@ async function cargarAdoptadosHome() {
                                 </div>
                             </div>
                             <h4 class="font-serif mb-1">${gato.nombre}</h4>
-                            <p class="text-uppercase small text-muted fw-bold" style="letter-spacing: 1px;">Adoptado en ${fecha}</p>
+                            <p class="text-uppercase small text-muted fw-bold" style="letter-spacing: 1px;">Adoptado en ${fechaTexto}</p>
                         </div>
                     </div>
                 `;
