@@ -86,34 +86,6 @@ async function verDetallesGato(id) {
     }
 }
 
-async function enviarSolicitud(idGato, tipo) {
-    const mensaje = prompt(`Por favor, cuéntanos brevemente por qué te gustaría ser ${tipo === 'adopcion' ? 'adoptante' : 'casa de acogida'} para este felino:`);
-    
-    if (mensaje === null) return; // User cancelled
-    if (mensaje.trim() === '') {
-        alert("El mensaje no puede estar vacío. Necesitamos conocer tus intenciones.");
-        return;
-    }
-
-    try {
-        const respuesta = await fetch('api/solicitudes.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id_gato: idGato,
-                tipo: tipo,
-                mensaje: mensaje
-            })
-        });
-        const resultado = await respuesta.json();
-        
-        if (resultado.status === 201) {
-            alert(`¡Solicitud de ${tipo} enviada con éxito! Nos pondremos en contacto contigo pronto.`);
-        } else {
-            alert("Error al enviar solicitud: " + resultado.message);
-        }
-    } catch (error) {
-        console.error("Error al enviar solicitud:", error);
-        alert("Error de conexión al enviar la solicitud.");
-    }
+function enviarSolicitud(idGato, tipo) {
+    window.location.href = `solicitud.html?id=${idGato}&tipo=${tipo}`;
 }

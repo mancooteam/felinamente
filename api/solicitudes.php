@@ -6,6 +6,21 @@ require_once 'db.php';
 $data = getJsonInput();
 $pdo = getDBConnection();
 $userId = $_SESSION['user_id'] ?? null;
+$role = $_SESSION['role'] ?? 'guest';
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $action = $_GET['action'] ?? '';
+    if ($action === 'pending_count') {
+        if ($userId && ($role === 'admin' || $role === 'employee')) {
+            $stmt = $pdo->query("SELECT COUNT(*) as count FROM solicitudes WHERE estado_solicitud = 'pendiente'");
+            $count = $stmt->fetchColumn();
+            sendResponse(200, "Conteo exitoso", ["count" => $count]);
+        } else {
+            sendResponse(403, "No tienes permisos.");
+        }
+    }
+    sendResponse(405, "Método no permitido o acción inválida.");
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(405, "Método no permitido.");

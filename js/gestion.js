@@ -5,7 +5,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
     cargarPanelGestion();
+    cargarEstadisticas();
 });
+
+async function cargarEstadisticas() {
+    try {
+        const respuesta = await fetch('api/solicitudes.php?action=pending_count');
+        const resultado = await respuesta.json();
+        if (resultado.status === 200) {
+            document.getElementById('pending-requests-count').innerText = resultado.data.count;
+        }
+    } catch (error) {
+        console.error("Error cargando estadísticas:", error);
+    }
+}
 
 async function cargarPanelGestion() {
     const tablaBody = document.getElementById('tabla-gestion-gatos');
