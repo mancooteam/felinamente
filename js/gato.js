@@ -113,7 +113,7 @@ async function verDetallesGato(id) {
                 ${(gato.notas_medicas || usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
                     <div class="card border-0 shadow-sm mb-5" style="border-radius: 12px; border-left: 5px solid #6c757d;">
                         <div class="card-body p-4 p-md-5">
-                            <h3 class="font-serif mb-4">🩺 Panel de Salud</h3>
+                            <h3 class="font-serif mb-4">Panel de Salud</h3>
                             <div class="row">
                                 <div class="col-md-8">
                                     <p class="text-muted mb-4" style="white-space: pre-line;">
