@@ -44,6 +44,22 @@ switch ($action) {
         sendResponse(200, "Lista de gatos", $cats);
         break;
 
+    case 'get':
+        $id = $_GET['id'] ?? null;
+        if (!$id) {
+            sendResponse(400, "Se requiere el ID del gato.");
+        }
+        $stmt = $pdo->prepare("SELECT * FROM gatos WHERE id_gato = ?");
+        $stmt->execute([$id]);
+        $cat = $stmt->fetch();
+        
+        if ($cat) {
+            sendResponse(200, "Detalles del gato", $cat);
+        } else {
+            sendResponse(404, "Gato no encontrado.");
+        }
+        break;
+
     case 'add':
         if ($role !== 'admin') {
             sendResponse(403, "Solo administradores pueden añadir gatos.");
