@@ -35,71 +35,99 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 async function cargarUsuarios() {
-    const tabla = document.getElementById('tabla-usuarios');
     try {
         const respuesta = await fetch('api/auth.php?action=list');
         const resultado = await respuesta.json();
         
         if (resultado.status === 200) {
-            pintarUsuarios(resultado.data);
+            const tabla = document.getElementById('tabla-usuarios');
+            tabla.innerHTML = '';
+            resultado.data.forEach(user => {
+                tabla.innerHTML += `
+                    <tr>
+                        <td class="px-4">
+                            <div class="fw-bold">${user.nombre_usuario}</div>
+                            <div class="small text-muted">${user.residencia || 'Sin residencia'}</div>
+                        </td>
+                        <td>${user.correo}</td>
+                        <td><span class="badge bg-light text-dark border">${user.rol.toUpperCase()}</span></td>
+                        <td class="text-end px-4">
+                            <button class="btn btn-sm btn-dark btn-editar" 
+                                data-id="${user.id_usuario}" 
+                                data-name="${user.nombre_usuario}" 
+                                data-role="${user.rol}">Editar</button>
+                            <button class="btn btn-sm btn-outline-danger btn-borrar" data-id="${user.id_usuario}">Borrar</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            // Re-asignar eventos
+            document.querySelectorAll('.btn-editar').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const b = e.target;
+                    document.getElementById('edit_user_id').value = b.dataset.id;
+                    document.getElementById('edit_user_name').value = b.dataset.name;
+                    document.getElementById('edit_user_role').value = b.dataset.role;
+                    new bootstrap.Modal(document.getElementById('modalEditarUsuario')).show();
+                });
+            });
+
+            document.querySelectorAll('.btn-borrar').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    if (confirm("¿Estás seguro de eliminar a este usuario? Esta acción es irreversible.")) {
+                        const id = e.target.dataset.id;
+                        await eliminarUsuario(id);
+                    }
+                });
+            });
         }
     } catch (error) {
         console.error("Error al cargar usuarios:", error);
     }
 }
 
-function pintarUsuarios(usuarios) {
-    const tabla = document.getElementById('tabla-usuarios');
-    let html = '';
-    
-    usuarios.forEach(u => {
-        html += `
-            <tr>
-                <td class="px-4">
-                    <div class="fw-bold">${u.nombre_usuario}</div>
-                    <div class="small text-muted">${u.telefono || 'Sin teléfono'}</div>
-                </td>
-                <td>${u.correo}</td>
-                <td>
-                    <span class="badge rounded-pill px-3 py-2 ${getBadgeClass(u.rol)}">
-                        ${u.rol}
-                    </span>
-                </td>
-                <td class="px-4 text-end">
-                    <button class="btn btn-sm btn-outline-minimal btn-editar-user" 
-                        data-id="${u.id_usuario}" 
-                        data-name="${u.nombre_usuario}" 
-                        data-role="${u.rol}">
-                        Configurar
-                    </button>
-                </td>
-            </tr>
-        `;
+async function eliminarUsuario(id) {
+    try {
+        const res = await fetch('api/auth.php?action=delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id_usuario: id })
+        });
+        const json = await res.json();
+        if (json.status === 200) {
+            alert("Usuario eliminado.");
+            cargarUsuarios();
+        } else {
+            alert("Error: " + json.message);
+        }
+    } catch (e) { console.error(e); }
+}
+
+// Configurar el formulario de edición
+const formEditUser = document.getElementById('formEditUser');
+if (formEditUser) {
+    formEditUser.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(formEditUser);
+        const data = Object.fromEntries(formData.entries());
+
+        try {
+            const respuesta = await fetch('api/auth.php?action=update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const resultado = await respuesta.json();
+            if (resultado.status === 200) {
+                alert("Usuario actualizado.");
+                bootstrap.Modal.getInstance(document.getElementById('modalEditarUsuario')).hide();
+                cargarUsuarios();
+            } else {
+                alert("Error: " + resultado.message);
+            }
+        } catch (error) {
+            console.error("Error al actualizar usuario:", error);
+        }
     });
-    tabla.innerHTML = html;
-
-    // Delegación de eventos
-    tabla.removeEventListener('click', manejarClickTabla);
-    tabla.addEventListener('click', manejarClickTabla);
-}
-
-function getBadgeClass(rol) {
-    switch (rol) {
-        case 'admin': return 'bg-dark text-white';
-        case 'employee': return 'bg-accent text-white';
-        case 'volunteer': return 'bg-success text-white';
-        default: return 'bg-light text-dark border';
-    }
-}
-
-function manejarClickTabla(e) {
-    if (e.target.classList.contains('btn-editar-user')) {
-        const ds = e.target.dataset;
-        document.getElementById('edit_user_id').value = ds.id;
-        document.getElementById('edit_user_name').value = ds.name;
-        document.getElementById('edit_user_role').value = ds.role;
-        
-        const modal = new bootstrap.Modal(document.getElementById('modalEditarUsuario'));
-        modal.show();
-    }
 }

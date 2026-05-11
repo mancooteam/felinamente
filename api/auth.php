@@ -82,20 +82,36 @@ switch ($action) {
     case 'update':
         if (($_SESSION['role'] ?? '') !== 'admin') sendResponse(403, "Solo admin.");
         $id = $data['id_usuario'] ?? null;
+        $newName = $data['nombre_usuario'] ?? null;
         $newRole = $data['rol'] ?? null;
         $newPass = $data['password'] ?? null;
 
         if (!$id) sendResponse(400, "ID necesario.");
 
+        $sql = "UPDATE usuarios SET rol = ?, nombre_usuario = ?";
+        $params = [$newRole, $newName];
+
         if ($newPass) {
-            $hashed = password_hash($newPass, PASSWORD_BCRYPT);
-            $stmt = $pdo->prepare("UPDATE usuarios SET rol = ?, contrasenia = ? WHERE id_usuario = ?");
-            $stmt->execute([$newRole, $hashed, $id]);
-        } else {
-            $stmt = $pdo->prepare("UPDATE usuarios SET rol = ? WHERE id_usuario = ?");
-            $stmt->execute([$newRole, $id]);
+            $sql .= ", contrasenia = ?";
+            $params[] = password_hash($newPass, PASSWORD_BCRYPT);
         }
+
+        $sql .= " WHERE id_usuario = ?";
+        $params[] = $id;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
         sendResponse(200, "Usuario actualizado.");
+        break;
+
+    case 'delete':
+        if (($_SESSION['role'] ?? '') !== 'admin') sendResponse(403, "Solo admin.");
+        $id = $data['id_usuario'] ?? null;
+        if (!$id) sendResponse(400, "ID necesario.");
+
+        $stmt = $pdo->prepare("DELETE FROM usuarios WHERE id_usuario = ?");
+        $stmt->execute([$id]);
+        sendResponse(200, "Usuario eliminado.");
         break;
 
     case 'get_profile':
