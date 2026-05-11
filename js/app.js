@@ -23,10 +23,26 @@ async function comprobarSesion() {
     }
 }
 
-// Inicia la aplicación mostrando el menú y la portada
+// Inicia la aplicación mostrando el menú y la vista correcta según la URL
 function iniciarApp() {
     pintarMenu();
-    cargarInicio();
+    
+    // Leer los parámetros de la URL para saber qué página mostrar
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('gato')) {
+        verDetallesGato(params.get('gato'));
+    } else if (params.has('view')) {
+        const view = params.get('view');
+        if (view === 'gatos') {
+            cargarGatos();
+        } else if (view === 'gestion' && (usuarioActual.role === 'admin' || usuarioActual.role === 'employee')) {
+            cargarPanelGestion();
+        } else {
+            cargarInicio();
+        }
+    } else {
+        cargarInicio();
+    }
 }
 
 // Configura los eventos de los formularios de login, registro y gatos
@@ -113,12 +129,12 @@ function pintarMenu() {
     const navAuth = document.getElementById('nav-auth');
     
     let htmlLinks = `
-        <a class="nav-link" href="#" onclick="cargarInicio()">Inicio</a>
-        <a class="nav-link" href="#" onclick="cargarGatos()">Nuestros felinos</a>
+        <a class="nav-link" href="?view=inicio">Inicio</a>
+        <a class="nav-link" href="?view=gatos">Nuestros felinos</a>
     `;
 
     if (usuarioActual.role === 'admin' || usuarioActual.role === 'employee') {
-        htmlLinks += `<a class="nav-link text-danger fw-bold" href="#" onclick="cargarPanelGestion()">Gestión</a>`;
+        htmlLinks += `<a class="nav-link text-danger fw-bold" href="?view=gestion">Gestión</a>`;
     }
 
     navLinks.innerHTML = htmlLinks;
@@ -156,7 +172,7 @@ function cargarInicio() {
             </div>
             <div class="col-md-4 text-center mt-4">
                 <img src="img/logo.png" alt="Logo" class="img-fluid rounded-circle shadow" style="max-width: 220px;">
-                <button class="btn btn-primary mt-4 w-100 py-2 fw-bold" onclick="cargarGatos()">Ver gatos disponibles</button>
+                <a href="?view=gatos" class="btn btn-primary mt-4 w-100 py-2 fw-bold">Ver gatos disponibles</a>
             </div>
         </div>
     `;
@@ -240,7 +256,7 @@ function pintarGatos(gatos) {
                             <strong>Género:</strong> ${textoGenero}<br>
                             <strong>Nacimiento:</strong> ${gato.fecha_nacimiento || 'Desconocido'}
                         </p>
-                        <button class="btn btn-outline-primary w-100" onclick="verDetallesGato(${gato.id_gato})">Ver detalles</button>
+                        <a href="?gato=${gato.id_gato}" class="btn btn-outline-primary w-100">Ver detalles</a>
                     </div>
                 </div>
             </div>
@@ -277,7 +293,7 @@ async function verDetallesGato(id) {
             }
 
             contenedor.innerHTML = `
-                <button class="btn btn-outline-secondary mb-4" onclick="cargarGatos()">← Volver al listado</button>
+                <a href="?view=gatos" class="btn btn-outline-secondary mb-4">← Volver al listado</a>
                 <div class="card border-0 shadow-sm">
                     <div class="row g-0">
                         <div class="col-md-5">
