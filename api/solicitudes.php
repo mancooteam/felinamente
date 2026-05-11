@@ -106,6 +106,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
+                // Crear notificación para el usuario
+                $stmtUser = $pdo->prepare("SELECT id_usuario, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
+                $stmtUser->execute([$id]);
+                $soliData = $stmtUser->fetch();
+                if ($soliData) {
+                    $msgNotif = "Tu solicitud de " . $soliData['tipo_solicitud'] . " ha sido " . $nuevoEstado . ".";
+                    $stmtN = $pdo->prepare("INSERT INTO notificaciones (id_usuario, mensaje) VALUES (?, ?)");
+                    $stmtN->execute([$soliData['id_usuario'], $msgNotif]);
+                }
+
                 $pdo->commit();
                 sendResponse(200, "Estado actualizado con éxito.");
             } catch (Exception $e) {

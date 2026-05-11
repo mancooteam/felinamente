@@ -76,6 +76,11 @@ switch ($action) {
         $cat = $stmt->fetch();
         
         if ($cat) {
+            // Cargar galería de fotos
+            $stmtPhotos = $pdo->prepare("SELECT url_foto FROM gato_fotos WHERE id_gato = ?");
+            $stmtPhotos->execute([$id]);
+            $cat['galeria'] = $stmtPhotos->fetchAll(PDO::FETCH_COLUMN);
+            
             sendResponse(200, "Detalles del gato", $cat);
         } else {
             sendResponse(404, "Gato no encontrado.");

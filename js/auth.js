@@ -42,7 +42,26 @@ function pintarMenu() {
         `;
     } else {
         navAuth.innerHTML = `
-            <div class="dropdown">
+            <div class="d-flex align-items-center">
+                <!-- Campanita de Notificaciones -->
+                <div class="dropdown me-3">
+                    <button class="btn btn-link position-relative p-0 text-dark" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                          <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6"/>
+                        </svg>
+                        <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
+                          <span class="visually-hidden">New alerts</span>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2 p-0" style="width: 280px; border-radius: 8px; overflow: hidden;">
+                        <li><h6 class="dropdown-header py-3 bg-light text-uppercase small">Notificaciones</h6></li>
+                        <div id="notif-list" style="max-height: 300px; overflow-y: auto;">
+                            <li><p class="dropdown-item small text-muted py-3 mb-0 text-center">No tienes notificaciones</p></li>
+                        </div>
+                    </ul>
+                </div>
+
+                <div class="dropdown">
                 <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center border-0 p-0" type="button" id="userDropdown" data-bs-toggle="dropdown">
                     <span class="me-2 d-none d-sm-inline text-dark">Hola, <strong>${usuarioActual.username}</strong></span>
                     <div class="rounded-circle text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--color-green);">
@@ -63,7 +82,7 @@ function pintarMenu() {
                     
                     <li><hr class="dropdown-divider"></li>
                     <li><button class="dropdown-item py-2 text-danger" id="btn-logout">Cerrar Sesión</button></li>
-                </ul>
+                </div>
             </div>
         `;
         
@@ -73,8 +92,54 @@ function pintarMenu() {
             if (btnLogout) {
                 btnLogout.addEventListener('click', cerrarSesion);
             }
+            
+            // Cargar notificaciones
+            cargarNotificaciones();
+            
+            const dropdownEl = document.getElementById('notifDropdown');
+            if (dropdownEl) {
+                dropdownEl.addEventListener('show.bs.dropdown', marcarNotificacionesLeidas);
+            }
         }, 100);
     }
+}
+
+async function cargarNotificaciones() {
+    try {
+        const res = await fetch(`${API_AUTH}?action=get_notifications`);
+        const json = await res.json();
+        if (json.status === 200) {
+            const list = document.getElementById('notif-list');
+            const badge = document.getElementById('notif-badge');
+            if (!list) return;
+
+            const noLeidas = json.data.filter(n => !n.leida).length;
+            if (noLeidas > 0) {
+                badge.classList.remove('d-none');
+            } else {
+                badge.classList.add('d-none');
+            }
+
+            if (json.data.length > 0) {
+                list.innerHTML = json.data.map(n => `
+                    <li>
+                        <a class="dropdown-item py-3 border-bottom ${n.leida ? 'opacity-75' : 'bg-light'}" href="mis-solicitudes.html" style="white-space: normal;">
+                            <p class="mb-1 small fw-bold">${n.mensaje}</p>
+                            <span class="small text-muted">${new Date(n.fecha_creacion).toLocaleDateString()}</span>
+                        </a>
+                    </li>
+                `).join('');
+            }
+        }
+    } catch (e) { console.error(e); }
+}
+
+async function marcarNotificacionesLeidas() {
+    try {
+        await fetch(`${API_AUTH}?action=read_notifications`, { method: 'POST' });
+        const badge = document.getElementById('notif-badge');
+        if (badge) badge.classList.add('d-none');
+    } catch (e) { console.error(e); }
 }
 
 // Configura los eventos de los formularios de login y registro

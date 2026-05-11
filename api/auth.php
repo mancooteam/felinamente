@@ -126,6 +126,20 @@ switch ($action) {
         sendResponse(200, "Perfil actualizado.");
         break;
 
+    case 'get_notifications':
+        if (!isset($_SESSION['user_id'])) sendResponse(401, "No logueado.");
+        $stmt = $pdo->prepare("SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY fecha_creacion DESC LIMIT 10");
+        $stmt->execute([$_SESSION['user_id']]);
+        sendResponse(200, "Notificaciones", $stmt->fetchAll());
+        break;
+
+    case 'read_notifications':
+        if (!isset($_SESSION['user_id'])) sendResponse(401, "No logueado.");
+        $stmt = $pdo->prepare("UPDATE notificaciones SET leida = 1 WHERE id_usuario = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        sendResponse(200, "Marcadas como leídas.");
+        break;
+
     default:
         sendResponse(405, "Método no permitido.");
         break;

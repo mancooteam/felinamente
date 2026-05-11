@@ -54,7 +54,18 @@ async function verDetallesGato(id) {
                 <div class="card card-editorial mb-5">
                     <div class="row g-0 align-items-center">
                         <div class="col-md-6 mb-4 mb-md-0">
-                            <img src="${imagen}" class="img-fluid" alt="${gato.nombre}" style="width: 100%; height: 500px; object-fit: cover; border-radius: 4px;">
+                            <div class="gallery-container">
+                                <img id="main-cat-img" src="${imagen}" class="img-fluid mb-3" alt="${gato.nombre}" style="width: 100%; height: 500px; object-fit: cover; border-radius: 4px;">
+                                
+                                ${gato.galeria && gato.galeria.length > 0 ? `
+                                    <div class="d-flex gap-2 overflow-auto pb-2" id="thumbnails">
+                                        <img src="${imagen}" class="img-thumbnail thumb-active" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;">
+                                        ${gato.galeria.map(foto => `
+                                            <img src="${foto}" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;">
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
                         </div>
                         <div class="col-md-6 ps-md-5">
                             <div class="card-body p-0">
@@ -98,6 +109,18 @@ async function verDetallesGato(id) {
                     </div>
                 </div>
             `;
+
+            // Lógica de galería
+            const thumbs = document.getElementById('thumbnails');
+            if (thumbs) {
+                thumbs.addEventListener('click', (e) => {
+                    if (e.target.tagName === 'IMG') {
+                        document.getElementById('main-cat-img').src = e.target.src;
+                        document.querySelectorAll('#thumbnails img').forEach(i => i.classList.remove('thumb-active'));
+                        e.target.classList.add('thumb-active');
+                    }
+                });
+            }
 
             // Asignar eventos después de inyectar el HTML
             const btnAdopcion = document.getElementById('btn-adopcion');

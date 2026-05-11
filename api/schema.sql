@@ -40,3 +40,19 @@ CREATE TABLE IF NOT EXISTS solicitudes (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_gato) REFERENCES gatos(id_gato) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS gato_fotos (
+    id_foto INT AUTO_INCREMENT PRIMARY KEY,
+    id_gato INT NOT NULL,
+    url_foto VARCHAR(255) NOT NULL,
+    FOREIGN KEY (id_gato) REFERENCES gatos(id_gato) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS notificaciones (
+    id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    mensaje VARCHAR(255) NOT NULL,
+    leida BOOLEAN DEFAULT FALSE,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
