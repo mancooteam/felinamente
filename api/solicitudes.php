@@ -65,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($solicitudInfo) {
                         $idGato = $solicitudInfo['id_gato'];
                         $tipo = $solicitudInfo['tipo_solicitud'];
-                        $nuevoEstadoGato = ($tipo === 'adopcion') ? 'Adoptado' : 'En Acogida';
+                        // Usamos valores en minúsculas y que coincidan con el ENUM de la BD (según seed.sql)
+                        $nuevoEstadoGato = ($tipo === 'adopcion') ? 'reservado' : 'acogido';
 
                         $stmtGato = $pdo->prepare("UPDATE gatos SET estado = ? WHERE id_gato = ?");
                         $stmtGato->execute([$nuevoEstadoGato, $idGato]);
