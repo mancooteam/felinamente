@@ -76,10 +76,14 @@ switch ($action) {
         $cat = $stmt->fetch();
         
         if ($cat) {
-            // Cargar galería de fotos
-            $stmtPhotos = $pdo->prepare("SELECT url_foto FROM gato_fotos WHERE id_gato = ?");
-            $stmtPhotos->execute([$id]);
-            $cat['galeria'] = $stmtPhotos->fetchAll(PDO::FETCH_COLUMN);
+            // Cargar galería de fotos (con manejo de errores por si la tabla no existe aún)
+            try {
+                $stmtPhotos = $pdo->prepare("SELECT url_foto FROM gato_fotos WHERE id_gato = ?");
+                $stmtPhotos->execute([$id]);
+                $cat['galeria'] = $stmtPhotos->fetchAll(PDO::FETCH_COLUMN);
+            } catch (PDOException $e) {
+                $cat['galeria'] = []; // Si la tabla no existe, enviamos galería vacía
+            }
             
             sendResponse(200, "Detalles del gato", $cat);
         } else {

@@ -128,9 +128,13 @@ switch ($action) {
 
     case 'get_notifications':
         if (!isset($_SESSION['user_id'])) sendResponse(401, "No logueado.");
-        $stmt = $pdo->prepare("SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY fecha_creacion DESC LIMIT 10");
-        $stmt->execute([$_SESSION['user_id']]);
-        sendResponse(200, "Notificaciones", $stmt->fetchAll());
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY fecha_creacion DESC LIMIT 10");
+            $stmt->execute([$_SESSION['user_id']]);
+            sendResponse(200, "Notificaciones", $stmt->fetchAll());
+        } catch (PDOException $e) {
+            sendResponse(200, "Notificaciones", []); // Fallback si no existe la tabla
+        }
         break;
 
     case 'read_notifications':
