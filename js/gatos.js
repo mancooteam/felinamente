@@ -5,13 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
 async function obtenerGatos() {
     const filtroVhif = document.getElementById('filtro-vhif');
     const filtroGenero = document.getElementById('filtro-genero');
+    const filtroEdad = document.getElementById('filtro-edad');
+    const filtroOrden = document.getElementById('filtro-orden');
     
     let vhif = filtroVhif ? filtroVhif.value : "";
     let genero = filtroGenero ? filtroGenero.value : "";
+    let edad = filtroEdad ? filtroEdad.value : "";
+    let orden = filtroOrden ? filtroOrden.value : "recientes";
     
     let url = `${API_CATS}?action=list`;
     if (vhif !== "") url += `&vhif=${vhif}`;
     if (genero !== "") url += `&gender=${genero}`;
+    if (edad !== "") url += `&age=${edad}`;
+    if (orden !== "") url += `&order=${orden}`;
 
     try {
         const respuesta = await fetch(url);

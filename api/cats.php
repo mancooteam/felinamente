@@ -12,8 +12,10 @@ $role = $_SESSION['role'] ?? 'guest';
 switch ($action) {
     case 'list':
         $vhif = $_GET['vhif'] ?? null;
-        $sexo = $_GET['gender'] ?? null; // Front calls it gender
-        $estado = $_GET['status'] ?? 'disponible';
+        $sexo = $_GET['gender'] ?? null;
+        $estado = $_GET['status'] ?? null;
+        $age = $_GET['age'] ?? null;
+        $order = $_GET['order'] ?? 'recientes';
         
         $query = "SELECT * FROM gatos WHERE 1=1";
         $params = [];
@@ -27,17 +29,36 @@ switch ($action) {
             $params[] = $sexo;
         }
         
+        // Filtro por edad (basado en fecha_nacimiento)
+        if ($age) {
+            if ($age === 'cachorro') {
+                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) < 1";
+            } elseif ($age === 'joven') {
+                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 1 AND 3";
+            } elseif ($age === 'adulto') {
+                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 3 AND 7";
+            } elseif ($age === 'senior') {
+                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 7";
+            }
+        }
+
         if ($role === 'employee' || $role === 'admin') {
             if (isset($_GET['status_filter'])) {
                 $query .= " AND estado = ?";
                 $params[] = $_GET['status_filter'];
             }
         } else {
-            // Usuarios normales ven disponibles, en acogida y los ya adoptados (reservados)
             $query .= " AND estado IN ('disponible', 'acogido', 'reservado')";
         }
 
-        $query .= " ORDER BY fecha_ingreso DESC";
+        // Orden dinámico
+        if ($order === 'antiguos') {
+            $query .= " ORDER BY fecha_ingreso ASC";
+        } elseif ($order === 'nombre_asc') {
+            $query .= " ORDER BY nombre ASC";
+        } else {
+            $query .= " ORDER BY fecha_ingreso DESC";
+        }
 
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
