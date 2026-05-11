@@ -30,12 +30,12 @@ function pintarMenu() {
     if (!navLinks || !navAuth) return;
 
     let htmlLinks = `
-        <a class="nav-link" href="inicio">Inicio</a>
-        <a class="nav-link" href="gatos">Nuestros felinos</a>
+        <a class="nav-link" href="index.html">Inicio</a>
+        <a class="nav-link" href="gatos.html">Nuestros felinos</a>
     `;
 
     if (usuarioActual.role === 'admin' || usuarioActual.role === 'employee') {
-        htmlLinks += `<a class="nav-link text-danger fw-bold" href="gestion">Gestión</a>`;
+        htmlLinks += `<a class="nav-link text-danger fw-bold" href="gestion.html">Gestión</a>`;
     }
 
     navLinks.innerHTML = htmlLinks;

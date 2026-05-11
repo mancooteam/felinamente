@@ -36,7 +36,7 @@ async function verDetallesGato(id) {
             }
 
             contenedor.innerHTML = `
-                <a href="gatos" class="btn btn-outline-secondary mb-4">← Volver al listado</a>
+                <a href="gatos.html" class="btn btn-outline-secondary mb-4">← Volver al listado</a>
                 <div class="card border-0 shadow-sm">
                     <div class="row g-0">
                         <div class="col-md-5">
@@ -67,11 +67,11 @@ async function verDetallesGato(id) {
             `;
         } else {
             alert("Error al cargar los detalles: " + resultado.message);
-            window.location.href = 'gatos';
+            window.location.href = 'gatos.html';
         }
     } catch (error) {
         console.error("Error al obtener detalle:", error);
         alert("Error de conexión al obtener el gato.");
-        window.location.href = 'gatos';
+        window.location.href = 'gatos.html';
     }
 }

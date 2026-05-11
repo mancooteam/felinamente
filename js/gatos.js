@@ -54,7 +54,7 @@ function pintarGatos(gatos) {
                             <strong>Género:</strong> ${textoGenero}<br>
                             <strong>Nacimiento:</strong> ${gato.fecha_nacimiento || 'Desconocido'}
                         </p>
-                        <a href="gato?id=${gato.id_gato}" class="btn btn-outline-primary w-100">Ver detalles</a>
+                        <a href="gato.html?id=${gato.id_gato}" class="btn btn-outline-primary w-100">Ver detalles</a>
                     </div>
                 </div>
             </div>

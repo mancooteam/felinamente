@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# Si entra a /inicio lo llevamos a index.html
-RewriteRule ^inicio$ index.html [L]
-
-# Si la url no tiene extensión y no es un directorio ni archivo válido
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^\.]+)$ $1.html [L,QSA]
