@@ -97,9 +97,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label>Descripción</label>
-                            <textarea name="description" class="form-control" rows="3"></textarea>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label>Estado inicial</label>
+                                <select name="status" class="form-select">
+                                    <option value="disponible">Disponible</option>
+                                    <option value="acogido">En Acogida</option>
+                                    <option value="reservado">Reservado / Adoptado</option>
+                                    <option value="enfermo">Enfermo / Tratamiento</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Descripción</label>
+                                <textarea name="description" class="form-control" rows="1"></textarea>
+                            </div>
                         </div>
                         <div class="form-check form-switch mb-3">
                             <input class="form-check-input" type="checkbox" name="vhif_positive" id="vhif_check">

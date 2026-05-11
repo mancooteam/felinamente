@@ -70,6 +70,7 @@ switch ($action) {
         $sexo = $_POST['gender'] ?? 'desconocido';
         $vhif = $_POST['vhif_positive'] ?? 0;
         $desc = $_POST['description'] ?? '';
+        $estado = $_POST['status'] ?? 'disponible';
         
         $imgPath = '';
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] === UPLOAD_ERR_OK) {
@@ -87,8 +88,8 @@ switch ($action) {
             }
         }
 
-        $stmt = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, imagen_principal) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $imgPath]);
+        $stmt = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, imagen_principal, estado) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $imgPath, $estado]);
         sendResponse(201, "Gato añadido con éxito.");
         break;
 

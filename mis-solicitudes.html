@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Solicitudes - Felinamente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">Felinamente.</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav me-auto" id="nav-links"></div>
+                <div class="d-flex align-items-center" id="nav-auth"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container" style="margin-top: 100px; margin-bottom: 80px;">
+        <h2 class="section-title mb-5">Mis Solicitudes</h2>
+
+        <div id="lista-mis-solicitudes" class="row">
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-secondary"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Editar Solicitud -->
+    <div class="modal fade" id="modalEditarSolicitud" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title font-serif">Editar Solicitud</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="formEditarSolicitud">
+                        <input type="hidden" name="id_solicitud" id="edit_soli_id">
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" id="edit_soli_nombre" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" name="apellidos" id="edit_soli_apellidos" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Localidad</label>
+                                <input type="text" class="form-control" name="localidad" id="edit_soli_localidad" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo de vivienda</label>
+                                <select class="form-select" name="vivienda" id="edit_soli_vivienda" required>
+                                    <option value="Piso con balcón/terraza">Piso con balcón/terraza</option>
+                                    <option value="Piso sin balcón">Piso sin balcón</option>
+                                    <option value="Casa con jardín">Casa con jardín</option>
+                                    <option value="Chalet/Finca">Chalet / Finca</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Convivientes</label>
+                                <input type="number" class="form-control" name="convivientes" id="edit_soli_convivientes" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Mascotas</label>
+                                <input type="text" class="form-control" name="mascotas" id="edit_soli_mascotas" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Mensaje / Motivación</label>
+                            <textarea class="form-control" name="mensaje" id="edit_soli_mensaje" rows="4" required></textarea>
+                        </div>
+
+                        <div class="alert alert-info py-2">
+                            Al guardar los cambios, la solicitud volverá al estado <strong>pendiente</strong> para ser revisada de nuevo.
+                        </div>
+
+                        <button type="submit" class="btn-minimal w-100">Guardar Cambios y Reenviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Login -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label>Usuario</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn-minimal w-100">Entrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Registro -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrarse</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label>Usuario</label>
+                            <input type="text" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn-outline-minimal w-100">Crear cuenta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/mis-solicitudes.js"></script>
+</body>
+</html>

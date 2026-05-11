@@ -34,6 +34,10 @@ function pintarMenu() {
         <a class="nav-link" href="gatos.html">Nuestros felinos</a>
     `;
 
+    if (usuarioActual.role !== 'guest') {
+        htmlLinks += `<a class="nav-link" href="mis-solicitudes.html">Mis Solicitudes</a>`;
+    }
+
     if (usuarioActual.role === 'admin' || usuarioActual.role === 'employee') {
         htmlLinks += `<a class="nav-link text-danger fw-bold" href="gestion.html">Gestión</a>`;
     }

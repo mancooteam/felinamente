@@ -36,11 +36,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             sendResponse(403, "No tienes permisos.");
         }
     }
+
+    if ($action === 'my_list') {
+        if (!$userId) sendResponse(401, "Sesión no válida.");
+        $stmt = $pdo->prepare("
+            SELECT s.*, g.nombre as gato_nombre 
+            FROM solicitudes s
+            JOIN gatos g ON s.id_gato = g.id_gato
+            WHERE s.id_usuario = ?
+            ORDER BY s.id_solicitud DESC
+        ");
+        $stmt->execute([$userId]);
+        sendResponse(200, "Tus solicitudes", $stmt->fetchAll());
+    }
     sendResponse(400, "Acción GET no válida.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_GET['action'] ?? '';
+
+    if ($action === 'update_my_solicitud') {
+        $id = $data['id_solicitud'] ?? null;
+        $mensaje = $data['mensaje'] ?? null;
+        if (!$id || !$mensaje) sendResponse(400, "Faltan datos.");
+
+        // Verificar que la solicitud pertenece al usuario
+        $stmt = $pdo->prepare("SELECT id_usuario FROM solicitudes WHERE id_solicitud = ?");
+        $stmt->execute([$id]);
+        $soli = $stmt->fetch();
+
+        if (!$soli || $soli['id_usuario'] != $userId) {
+            sendResponse(403, "No puedes editar esta solicitud.");
+        }
+
+        // Actualizar mensaje y volver a poner en pendiente
+        $stmt = $pdo->prepare("UPDATE solicitudes SET comentarios_usu = ?, estado_solicitud = 'pendiente' WHERE id_solicitud = ?");
+        $stmt->execute([$mensaje, $id]);
+        sendResponse(200, "Solicitud actualizada y enviada a revisión.");
+    }
 
     // Acción para actualizar estado (admin)
     if ($action === 'update_status') {
