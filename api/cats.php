@@ -33,7 +33,8 @@ switch ($action) {
                 $params[] = $_GET['status_filter'];
             }
         } else {
-            $query .= " AND estado = 'disponible'";
+            // Usuarios normales ven disponibles, en acogida y los ya adoptados (reservados)
+            $query .= " AND estado IN ('disponible', 'acogido', 'reservado')";
         }
 
         $query .= " ORDER BY fecha_ingreso DESC";

@@ -44,10 +44,23 @@ function pintarGatos(gatos) {
         let etiquetaVhif = gato.vhif ? '<span class="badge bg-dark ms-2 fw-normal rounded-pill px-2 py-1" style="font-size: 0.7rem;">VHIF+</span>' : '';
         let imagen = gato.imagen_principal || 'https://placehold.co/400x300/fcfbf9/333333?text=Sin+imagen';
 
+        // Badge de estado sobre la imagen
+        let badgeEstado = '';
+        let claseImagen = '';
+        if (gato.estado === 'reservado') {
+            badgeEstado = '<div class="badge-overlay badge-adoptado">Adoptado</div>';
+            claseImagen = 'img-grayscale';
+        } else if (gato.estado === 'acogido') {
+            badgeEstado = '<div class="badge-overlay badge-acogido">En Acogida</div>';
+        }
+
         html += `
             <div class="col-md-4 mb-5">
                 <div class="card h-100 border-0" style="background: transparent;">
-                    <img src="${imagen}" class="card-img-top rounded-0" alt="${gato.nombre}" style="height: 320px; object-fit: cover;">
+                    <div class="card-img-container">
+                        ${badgeEstado}
+                        <img src="${imagen}" class="card-img-top rounded-0 ${claseImagen}" alt="${gato.nombre}" style="height: 320px; object-fit: cover;">
+                    </div>
                     <div class="card-body px-0 pt-4">
                         <div class="d-flex justify-content-between align-items-baseline mb-2">
                             <h4 class="card-title m-0" style="font-family: 'Georgia', serif; font-size: 1.5rem; color: #111;">${gato.nombre}</h4>
@@ -56,7 +69,9 @@ function pintarGatos(gatos) {
                         <p class="card-text text-muted mb-4" style="font-size: 0.95rem;">
                             ${textoGenero} · ${gato.fecha_nacimiento || 'Edad desconocida'}
                         </p>
-                        <a href="gato.html?id=${gato.id_gato}" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">Conocer detalles</a>
+                        <a href="gato.html?id=${gato.id_gato}" class="text-dark fw-medium text-decoration-none border-bottom border-dark pb-1">
+                            ${gato.estado === 'reservado' ? 'Ver su historia' : 'Conocer detalles'}
+                        </a>
                     </div>
                 </div>
             </div>

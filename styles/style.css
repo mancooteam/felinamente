@@ -126,3 +126,31 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     padding: 4px 10px;
     border-radius: 20px;
 }
+
+/* Badges sobre imagen */
+.badge-overlay {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    padding: 6px 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: white;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+.badge-adoptado {
+    background-color: var(--color-orange);
+}
+.badge-acogido {
+    background-color: var(--color-green);
+}
+.card-img-container {
+    position: relative;
+    overflow: hidden;
+}
+.img-grayscale {
+    filter: grayscale(80%);
+    opacity: 0.85;
+}

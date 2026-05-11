@@ -25,7 +25,14 @@ async function verDetallesGato(id) {
             let imagen = gato.imagen_principal || 'https://placehold.co/600x600/fcfbf9/333333?text=Sin+imagen';
 
             let botonesAccion = '';
-            if (usuarioActual.role === 'guest') {
+            if (gato.estado === 'reservado') {
+                botonesAccion = `
+                    <div class="alert mt-5 py-4 text-center" style="background: rgba(217, 108, 74, 0.1); border: 1px solid var(--color-orange); color: var(--color-orange);">
+                        <h4 class="font-serif mb-2">¡Ya ha encontrado un hogar!</h4>
+                        <p class="mb-0">Este felino ya ha sido adoptado y disfruta de su nueva familia.</p>
+                    </div>
+                `;
+            } else if (usuarioActual.role === 'guest') {
                 botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid #eaeaea; color: #666;">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
             } else {
                 botonesAccion = `
