@@ -29,7 +29,8 @@ function getDBConnection() {
         $pdo = new PDO($dsn, $user, $pass, $options);
         return $pdo;
     } catch (PDOException $e) {
-        die("Error de conexión SQL: " . $e->getMessage());
+        // En lugar de die(), lanzamos una excepción para que el gestor global devuelva JSON
+        throw new Exception("Error de conexión SQL: No se pudo conectar a la base de datos.");
     }
 }
 ?>
