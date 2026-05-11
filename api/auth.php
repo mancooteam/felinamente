@@ -98,6 +98,34 @@ switch ($action) {
         sendResponse(200, "Usuario actualizado.");
         break;
 
+    case 'get_profile':
+        if (!isset($_SESSION['user_id'])) sendResponse(401, "No logueado.");
+        $stmt = $pdo->prepare("SELECT id_usuario, nombre_usuario, correo, rol, telefono, residencia FROM usuarios WHERE id_usuario = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        sendResponse(200, "Tu perfil", $stmt->fetch());
+        break;
+
+    case 'update_profile':
+        if (!isset($_SESSION['user_id'])) sendResponse(401, "No logueado.");
+        $id = $_SESSION['user_id'];
+        $email = $data['email'] ?? null;
+        $telefono = $data['telefono'] ?? null;
+        $residencia = $data['residencia'] ?? null;
+        $newPass = $data['password'] ?? null;
+
+        if (!$email) sendResponse(400, "Email es obligatorio.");
+
+        if ($newPass) {
+            $hashed = password_hash($newPass, PASSWORD_BCRYPT);
+            $stmt = $pdo->prepare("UPDATE usuarios SET correo = ?, telefono = ?, residencia = ?, contrasenia = ? WHERE id_usuario = ?");
+            $stmt->execute([$email, $telefono, $residencia, $hashed, $id]);
+        } else {
+            $stmt = $pdo->prepare("UPDATE usuarios SET correo = ?, telefono = ?, residencia = ? WHERE id_usuario = ?");
+            $stmt->execute([$email, $telefono, $residencia, $id]);
+        }
+        sendResponse(200, "Perfil actualizado.");
+        break;
+
     default:
         sendResponse(405, "Método no permitido.");
         break;

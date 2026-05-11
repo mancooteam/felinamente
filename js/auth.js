@@ -51,6 +51,7 @@ function pintarMenu() {
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius: 8px;">
                     <li><h6 class="dropdown-header small text-uppercase">Mi Cuenta</h6></li>
+                    <li><a class="dropdown-item py-2" href="perfil.html">Mi Perfil</a></li>
                     <li><a class="dropdown-item py-2" href="mis-solicitudes.html">Mis Solicitudes</a></li>
                     
                     ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
