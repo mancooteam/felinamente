@@ -1,7 +1,6 @@
 <?php
 // Archivo de autenticación de usuarios
 require_once 'utils.php';
-session_start(); // Iniciamos la sesión para guardar el usuario
 require_once 'db.php';
 
 // Recogemos la acción de la URL (por GET)

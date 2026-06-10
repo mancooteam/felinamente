@@ -1,6 +1,5 @@
 <?php
 require_once 'utils.php';
-session_start();
 require_once 'db.php';
 
 $action = $_GET['action'] ?? 'list';

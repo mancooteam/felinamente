@@ -1,30 +1,52 @@
-// Variables globales
+// Interceptor global de fetch para inyectar cabeceras de sesión desde sessionStorage
+const originalFetch = window.fetch;
+window.fetch = function (url, options = {}) {
+    const userStr = sessionStorage.getItem('usuario');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            options.headers = options.headers || {};
+            if (options.headers instanceof Headers) {
+                options.headers.set('X-User-Id', user.id);
+                options.headers.set('X-User-Role', user.role);
+                options.headers.set('X-User-Username', user.username);
+            } else {
+                options.headers['X-User-Id'] = user.id;
+                options.headers['X-User-Role'] = user.role;
+                options.headers['X-User-Username'] = user.username;
+            }
+        } catch (e) {
+            console.error("Error al parsear el usuario de sessionStorage", e);
+        }
+    }
+    return originalFetch(url, options);
+};
+
 const API_AUTH = 'api/auth.php';
 const API_CATS = 'api/cats.php';
-let usuarioActual = { role: 'guest' }; // Por defecto es invitado
+let usuarioActual = { role: 'guest' };
 
-// Cuando el documento cargue, comprobamos la sesión y pintamos el menú
 document.addEventListener('DOMContentLoaded', async () => {
     await comprobarSesion();
-    pintarMenu();
-    configurarFormulariosAuth();
+    crearMenu();
+    formLogin();
 });
 
-// Comprueba si el usuario tiene una sesión activa en PHP
 async function comprobarSesion() {
-    try {
-        const respuesta = await fetch(`${API_AUTH}?action=status`);
-        const datos = await respuesta.json();
-        if (datos.status === 200) {
-            usuarioActual = datos.data;
+    const userStr = sessionStorage.getItem('usuario');
+    if (userStr) {
+        try {
+            usuarioActual = JSON.parse(userStr);
+        } catch (e) {
+            console.error("Error al parsear usuario de sessionStorage:", e);
+            usuarioActual = { role: 'guest' };
         }
-    } catch (error) {
-        console.error("Error al comprobar la sesión:", error);
+    } else {
+        usuarioActual = { role: 'guest' };
     }
 }
 
-// Pintar Navbar dinámicamente según sesión
-function pintarMenu() {
+function crearMenu() {
     const navLinks = document.getElementById('nav-links');
     const navAuth = document.getElementById('nav-auth');
     if (!navLinks || !navAuth) return;
@@ -85,17 +107,17 @@ function pintarMenu() {
                 </div>
             </div>
         `;
-        
+
         // Listener para el botón de logout (sin onclick)
         setTimeout(() => {
             const btnLogout = document.getElementById('btn-logout');
             if (btnLogout) {
                 btnLogout.addEventListener('click', cerrarSesion);
             }
-            
+
             // Cargar notificaciones
             cargarNotificaciones();
-            
+
             const dropdownEl = document.getElementById('notifDropdown');
             if (dropdownEl) {
                 dropdownEl.addEventListener('show.bs.dropdown', marcarNotificacionesLeidas);
@@ -142,8 +164,7 @@ async function marcarNotificacionesLeidas() {
     } catch (e) { console.error(e); }
 }
 
-// Configura los eventos de los formularios de login y registro
-function configurarFormulariosAuth() {
+function formLogin() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -175,6 +196,7 @@ async function login(credenciales) {
         });
         const resultado = await respuesta.json();
         if (resultado.status === 200) {
+            sessionStorage.setItem('usuario', JSON.stringify(resultado.data));
             location.reload();
         } else {
             alert("Error: " + resultado.message);
@@ -195,7 +217,7 @@ async function registro(datosUsuario) {
         if (resultado.status === 201) {
             alert("Te has registrado correctamente. ¡Ya puedes iniciar sesión!");
             const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
-            if(modal) modal.hide();
+            if (modal) modal.hide();
         } else {
             alert("Error: " + resultado.message);
         }
@@ -205,6 +227,7 @@ async function registro(datosUsuario) {
 }
 
 async function cerrarSesion() {
+    sessionStorage.removeItem('usuario');
     await fetch(`${API_AUTH}?action=logout`);
     location.reload();
 }

@@ -40,4 +40,41 @@ function sendResponse($status, $message, $data = null) {
 function getJsonInput() {
     return json_decode(file_get_contents("php://input"), true);
 }
+
+// Inicializar sesión y rellenarla desde las cabeceras HTTP si están presentes
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$userIdHeader = $_SERVER['HTTP_X_USER_ID'] ?? null;
+$roleHeader = $_SERVER['HTTP_X_USER_ROLE'] ?? 'guest';
+$usernameHeader = $_SERVER['HTTP_X_USER_USERNAME'] ?? null;
+
+if (function_exists('getallheaders')) {
+    $headers = getallheaders();
+    if (!$userIdHeader && isset($headers['X-User-Id'])) {
+        $userIdHeader = $headers['X-User-Id'];
+    }
+    if (!$userIdHeader && isset($headers['x-user-id'])) {
+        $userIdHeader = $headers['x-user-id'];
+    }
+    if ($roleHeader === 'guest' && isset($headers['X-User-Role'])) {
+        $roleHeader = $headers['X-User-Role'];
+    }
+    if ($roleHeader === 'guest' && isset($headers['x-user-role'])) {
+        $roleHeader = $headers['x-user-role'];
+    }
+    if (!$usernameHeader && isset($headers['X-User-Username'])) {
+        $usernameHeader = $headers['X-User-Username'];
+    }
+    if (!$usernameHeader && isset($headers['x-user-username'])) {
+        $usernameHeader = $headers['x-user-username'];
+    }
+}
+
+if ($userIdHeader !== null) {
+    $_SESSION['user_id'] = $userIdHeader;
+    $_SESSION['role'] = $roleHeader;
+    $_SESSION['username'] = $usernameHeader;
+}
 ?>
