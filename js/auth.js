@@ -28,6 +28,16 @@ function comprobarSesion() {
 
 // Pintar el menú dinámicamente según el rol
 function crearMenu() {
+    // Incorporar el logo en la barra de navegación dinámicamente
+    const navbarBrand = document.querySelector('.navbar-brand');
+    if (navbarBrand) {
+        navbarBrand.innerHTML = `
+            <img src="img/logo.png" alt="Logo Felinamente" style="height: 35px; width: auto; margin-right: 10px;" class="d-inline-block align-top">
+            Felinamente.
+        `;
+        navbarBrand.classList.add('d-flex', 'align-items-center');
+    }
+
     const navLinks = document.getElementById('nav-links');
     const navAuth = document.getElementById('nav-auth');
     if (!navLinks || !navAuth) return;
