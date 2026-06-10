@@ -3,11 +3,16 @@
 
 :root {
     --color-green: #274e37; /* Verde bosque elegante */
+    --color-green-hover: #1d3a29; /* Verde bosque hover */
     --color-orange: #d96c4a; /* Naranja terracota suave */
     --color-bg: #fcfbf9; /* Crema muy suave */
-    --color-text: #333333;
-    --color-text-muted: #666666;
-    --color-border: #eaeaea;
+    --color-bg-rgb: 252, 251, 249; /* Crema en formato RGB para opacidades */
+    --color-text: #333333; /* Texto general */
+    --color-text-dark: #111111; /* Color de títulos oscuro */
+    --color-text-muted: #666666; /* Texto secundario */
+    --color-border: #eaeaea; /* Bordes suaves */
+    --color-white: #ffffff; /* Blanco */
+    --color-gray: #6c757d; /* Gris para estados pausados/enfermos o cancelados */
 }
 
 body {
@@ -21,12 +26,12 @@ body {
 
 h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: 'Lora', 'Georgia', serif;
-    color: #111;
+    color: var(--color-text-dark);
 }
 
 /* Navbar */
 .navbar {
-    background-color: rgba(252, 251, 249, 0.95) !important;
+    background-color: rgba(var(--color-bg-rgb), 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--color-border);
 }
@@ -49,7 +54,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 /* Botones */
 .btn-minimal {
     background-color: var(--color-green);
-    color: #fff;
+    color: var(--color-white);
     border: none;
     padding: 12px 28px;
     border-radius: 4px;
@@ -61,8 +66,8 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     text-align: center;
 }
 .btn-minimal:hover {
-    background-color: #1d3a29;
-    color: #fff;
+    background-color: var(--color-green-hover);
+    color: var(--color-white);
 }
 .btn-outline-minimal {
     border: 1px solid var(--color-green);
@@ -78,10 +83,10 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 .btn-outline-minimal:hover {
     background-color: var(--color-green);
-    color: #fff;
+    color: var(--color-white);
 }
 
-/* Accentos y Enlaces */
+/* Acentos y Enlaces */
 .text-accent {
     color: var(--color-orange) !important;
 }
@@ -112,7 +117,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 /* Etiquetas */
 .badge-orange {
     background-color: var(--color-orange);
-    color: white;
+    color: var(--color-white);
     font-weight: 400;
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -120,7 +125,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 .badge-green {
     background-color: var(--color-green);
-    color: white;
+    color: var(--color-white);
     font-weight: 400;
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -137,7 +142,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: white;
+    color: var(--color-white);
     z-index: 10;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
@@ -152,7 +157,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     background-color: var(--color-green);
 }
 .badge-enfermo {
-    background-color: #6c757d; /* Gris para indicar estado de pausa/médico */
+    background-color: var(--color-gray); /* Gris para indicar estado de pausa/médico */
 }
 .card-img-container {
     position: relative;
@@ -183,17 +188,17 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .hero-premium {
     height: 65vh;
     min-height: 500px;
-    background-image: url('hero_cats_shelter_1778498227330.png');
+    background-image: url('../img/hero_cats.png');
     background-size: cover;
     background-position: center;
     position: relative;
     display: flex;
     align-items: center;
-    color: white;
+    color: var(--color-white);
 }
 
 .btn-outline-light:hover {
-    background-color: white;
+    background-color: var(--color-white);
     color: var(--color-green) !important;
 }
 
@@ -214,7 +219,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 .hero-premium h1 {
-    color: white;
+    color: var(--color-white);
 }
 
 @media (max-width: 768px) {

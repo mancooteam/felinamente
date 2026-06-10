@@ -32,7 +32,7 @@ function crearMenu() {
     const navbarBrand = document.querySelector('.navbar-brand');
     if (navbarBrand) {
         navbarBrand.innerHTML = `
-            <img src="img/logo.png" alt="Logo Felinamente" style="height: 35px; width: auto; margin-right: 10px;" class="d-inline-block align-top">
+            <img src="./img/logo.png" alt="Logo Felinamente" style="height: 35px; width: auto; margin-right: 10px;" class="d-inline-block align-top">
             Felinamente.
         `;
         navbarBrand.classList.add('d-flex', 'align-items-center');
