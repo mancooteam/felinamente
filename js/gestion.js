@@ -1,11 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    await comprobarSesion(); // Garantiza que tenemos el rol antes de pintar
+    await comprobarSesion();
     if (usuarioActual.role !== 'admin' && usuarioActual.role !== 'employee') {
         document.getElementById('gestion-content').innerHTML = `<div class="alert alert-danger">No tienes permisos para ver esta página.</div>`;
         return;
     }
 
-    // Solo admins pueden dar de alta
     if (usuarioActual.role !== 'admin') {
         const btnNuevo = document.querySelector('[data-bs-target="#modalGato"]');
         if (btnNuevo) btnNuevo.classList.add('d-none');
@@ -51,8 +50,6 @@ async function cargarPanelGestion() {
             `;
         });
         tablaBody.innerHTML = html;
-
-        // Delegación de eventos para eliminar
         tablaBody.removeEventListener('click', manejarClickTabla);
         tablaBody.addEventListener('click', manejarClickTabla);
     } catch (error) {
@@ -70,11 +67,11 @@ async function guardarGato(formData) {
     try {
         const respuesta = await fetch(`${API_CATS}?action=add`, {
             method: 'POST',
-            body: formData // Fetch sets the correct multipart boundary automatically
+            body: formData
         });
         const resultado = await respuesta.json();
         if (resultado.status === 201) {
-            alert("¡Gatito añadido con éxito!");
+            alert("¡Gatito añadido!");
             bootstrap.Modal.getInstance(document.getElementById('modalGato')).hide();
             cargarPanelGestion();
         } else {
@@ -100,7 +97,6 @@ async function eliminarGato(id) {
     }
 }
 
-// Configurar formulario del modal de gestión
 document.addEventListener('DOMContentLoaded', async () => {
     await comprobarSesion();
     const formGato = document.getElementById('formGato');
@@ -108,10 +104,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         formGato.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(formGato);
-            // vhif is a checkbox, we append it manually as 1 or 0
             const vhif = formGato.querySelector('#vhif_check').checked ? 1 : 0;
             formData.set('vhif_positive', vhif);
-            
+
             await guardarGato(formData);
         });
     }

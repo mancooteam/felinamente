@@ -17,7 +17,7 @@ async function verDetallesGato(id) {
     try {
         const respuesta = await fetch(`${API_CATS}?action=get&id=${id}`);
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
             const gato = resultado.data;
             let textoGenero = gato.sexo === 'macho' ? 'Macho' : 'Hembra';
@@ -35,7 +35,6 @@ async function verDetallesGato(id) {
             } else if (usuarioActual.role === 'guest') {
                 botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid var(--color-borde-suave); color: var(--color-texto-gris);">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
             } else {
-                // Comprobar si tiene visita previa
                 let tieneVisita = false;
                 try {
                     const resSoli = await fetch('api/solicitudes.php?action=my_list');
@@ -55,10 +54,10 @@ async function verDetallesGato(id) {
                             <button class="btn-minimal ${!tieneVisita ? 'opacity-50' : ''}" id="btn-adopcion" data-id="${gato.id_gato}" ${!tieneVisita ? 'disabled' : ''}>Solicitar Adopción</button>
                             <button class="btn-outline-minimal ${!tieneVisita ? 'opacity-50' : ''}" id="btn-acogida" data-id="${gato.id_gato}" ${!tieneVisita ? 'disabled' : ''}>Solicitar Acogida</button>
                             
-                            ${!tieneVisita ? 
-                                '<button class="btn-minimal bg-accent text-white" id="btn-visita" data-id="'+gato.id_gato+'">1. Solicitar Cita Presencial (Obligatorio)</button>' : 
-                                '<span class="badge bg-success py-2 px-3"><i class="bi bi-check-circle-fill me-1"></i> Cita solicitada</span>'
-                            }
+                            ${!tieneVisita ?
+                        '<button class="btn-minimal bg-accent text-white" id="btn-visita" data-id="' + gato.id_gato + '">1. Solicitar Cita Presencial (Obligatorio)</button>' :
+                        '<span class="badge bg-success py-2 px-3"><i class="bi bi-check-circle-fill me-1"></i> Cita solicitada</span>'
+                    }
                         </div>
                         ${!tieneVisita ? '<p class="small text-muted mt-3 mb-0">* Por política del refugio, es obligatorio conoceros en persona antes de tramitar el formulario final.</p>' : ''}
                     </div>
@@ -92,7 +91,7 @@ async function verDetallesGato(id) {
                                 ${gato.estado === 'enfermo' ? `
                                     <div class="alert alert-secondary py-3 small mb-4" style="background: var(--color-bg); border-left: 4px solid var(--color-estado-enfermo); border-radius: 0;">
                                         <div class="d-flex align-items-center">
-                                            <div class="me-3" style="font-size: 1.2rem;">🏥</div>
+                                            <div class="me-3" style="font-size: 1.2rem;">Enfermo</div>
                                             <div>
                                                 <strong>Nota médica:</strong> Este felino se encuentra actualmente en tratamiento o recuperación. 
                                                 Puedes solicitar información, pero su proceso de adopción podría ser más lento.
@@ -156,7 +155,6 @@ async function verDetallesGato(id) {
                 ` : ''}
             `;
 
-            // Lógica de galería
             const thumbs = document.getElementById('thumbnails');
             if (thumbs) {
                 thumbs.addEventListener('click', (e) => {
@@ -168,10 +166,9 @@ async function verDetallesGato(id) {
                 });
             }
 
-            // Asignar eventos después de inyectar el HTML
             const btnAdopcion = document.getElementById('btn-adopcion');
             const btnAcogida = document.getElementById('btn-acogida');
-            
+
             if (btnAdopcion) {
                 btnAdopcion.addEventListener('click', () => {
                     enviarSolicitud(btnAdopcion.dataset.id, 'adopcion');

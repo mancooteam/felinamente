@@ -156,12 +156,12 @@ Controla la edición detallada del felino (`editar-gato.html`).
 * Carga los datos actuales del gato en los inputs del formulario.
 * Al procesar la confirmación, utiliza `FormData` para enviar los campos actualizados, la nueva foto principal (opcional) y la selección múltiple de fotos para adjuntar a la galería secundaria del gato.
 
-### 3.9 [js/solicitudes_admin.js](file:///c:/Users/karol/Desktop/entrega/felinamente/js/solicitudes_admin.js)
+### 3.9 [js/solicitudes-admin.js](file:///c:/Users/karol/Desktop/entrega/felinamente/js/solicitudes-admin.js)
 Controla la gestión de solicitudes del personal (`solicitudes.html`).
 * Pinta todas las solicitudes tramitadas en el sistema.
 * Contiene los controladores de eventos para los botones "Aprobar" y "Rechazar" que llaman al endpoint `api/solicitudes.php?action=update_status` enviando la resolución.
 
-### 3.10 [js/usuarios_admin.js](file:///c:/Users/karol/Desktop/entrega/felinamente/js/usuarios_admin.js)
+### 3.10 [js/usuarios-admin.js](file:///c:/Users/karol/Desktop/entrega/felinamente/js/usuarios-admin.js)
 Controla la administración de usuarios (`usuarios.html`).
 * Permite al administrador principal modificar contraseñas de emergencia, cambiar nombres de usuario y ascender/descender usuarios asignándoles nuevos roles del sistema (`admin`, `employee`, `volunteer`, `user`).
 

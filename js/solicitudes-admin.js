@@ -11,9 +11,9 @@ async function cargarSolicitudes() {
     try {
         const respuesta = await fetch('api/solicitudes.php?action=list');
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
-            pintarSolicitudes(resultado.data);
+            imprimirSolicitudes(resultado.data);
         } else {
             alert("Error: " + resultado.message);
         }
@@ -22,7 +22,7 @@ async function cargarSolicitudes() {
     }
 }
 
-function pintarSolicitudes(solicitudes) {
+function imprimirSolicitudes(solicitudes) {
     const tablaPendientes = document.getElementById('tabla-solicitudes');
     const tablaHistorial = document.getElementById('tabla-historial');
     if (!tablaPendientes || !tablaHistorial) return;
@@ -30,7 +30,6 @@ function pintarSolicitudes(solicitudes) {
     const pendientes = solicitudes.filter(s => s.estado_solicitud === 'pendiente');
     const procesadas = solicitudes.filter(s => s.estado_solicitud !== 'pendiente');
 
-    // Pendientes
     if (pendientes.length === 0) {
         tablaPendientes.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted small">No hay solicitudes pendientes.</td></tr>';
     } else {
@@ -55,7 +54,6 @@ function pintarSolicitudes(solicitudes) {
         tablaPendientes.innerHTML = htmlP;
     }
 
-    // Historial
     if (procesadas.length === 0) {
         tablaHistorial.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted small">El historial está vacío.</td></tr>';
     } else {
@@ -77,8 +75,6 @@ function pintarSolicitudes(solicitudes) {
         });
         tablaHistorial.innerHTML = htmlH;
     }
-
-    // Delegación de eventos (en ambos contenedores)
     [tablaPendientes, tablaHistorial].forEach(t => {
         t.removeEventListener('click', manejarClickTabla);
         t.addEventListener('click', manejarClickTabla);
@@ -101,7 +97,7 @@ function manejarClickTabla(e) {
 function verDetalle(id, base64Data) {
     const jsonStr = atob(base64Data);
     let html = '';
-    
+
     try {
         const data = JSON.parse(jsonStr);
         html = `
@@ -115,13 +111,10 @@ function verDetalle(id, base64Data) {
             <p class="text-muted italic">"${data.mensaje_libre}"</p>
         `;
     } catch (e) {
-        // Por si acaso no es JSON (solicitudes antiguas)
-        html = `<p><strong>Comentarios:</strong></p><p>${jsonStr}</p>`;
     }
 
     document.getElementById('detalle-solicitud-body').innerHTML = html;
-    const modal = new bootstrap.Modal(document.getElementById('modalDetalleSolicitud'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('modalDetalleSolicitud')).show();
 }
 
 async function cambiarEstado(id, nuevoEstado) {

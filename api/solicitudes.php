@@ -130,8 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id = $data['id_solicitud'] ?? null;
         $mensaje = $data['mensaje'] ?? null;
         if (!$id || !$mensaje) sendResponse(400, "Faltan datos.");
-
-        // Verificar que la solicitud pertenece al usuario
         $consulta = $pdo->prepare("SELECT id_usuario FROM solicitudes WHERE id_solicitud = ?");
         $consulta->execute([$id]);
         $soli = $consulta->fetch();
@@ -139,29 +137,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$soli || $soli['id_usuario'] != $userId) {
             sendResponse(403, "No puedes editar esta solicitud.");
         }
-
-        // Actualizar mensaje y volver a poner en pendiente
         $consulta = $pdo->prepare("UPDATE solicitudes SET comentarios_usu = ?, estado_solicitud = 'pendiente' WHERE id_solicitud = ?");
         $consulta->execute([$mensaje, $id]);
         sendResponse(200, "Solicitud actualizada y enviada a revisión.");
     }
 
-    // Acción para actualizar estado (admin)
     if ($action === 'update_status') {
         if ($userId && ($role === 'admin' || $role === 'employee')) {
-            $id = $data['id_solicitud'] ?? null;
-            $nuevoEstado = $data['estado'] ?? null;
+            $id = $data['id_solicitud'];
+            $nuevoEstado = $data['estado'];
             if (!$id || !$nuevoEstado) sendResponse(400, "Faltan datos para actualizar el estado.");
 
             $pdo->beginTransaction();
             try {
-                // Actualizar el estado de la solicitud
                 $consulta = $pdo->prepare("UPDATE solicitudes SET estado_solicitud = ? WHERE id_solicitud = ?");
                 $consulta->execute([$nuevoEstado, $id]);
-
-                // Si se aprueba, actualizamos el estado del gato automáticamente
                 if ($nuevoEstado === 'aprobada') {
-                    // Primero obtenemos el id_gato y el tipo de solicitud
                     $stmtSoli = $pdo->prepare("SELECT id_gato, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
                     $stmtSoli->execute([$id]);
                     $solicitudInfo = $stmtSoli->fetch();
@@ -169,15 +160,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     if ($solicitudInfo) {
                         $idGato = $solicitudInfo['id_gato'];
                         $tipo = $solicitudInfo['tipo_solicitud'];
-                        // Usamos valores en minúsculas y que coincidan con el ENUM de la BD (según seed.sql)
                         $nuevoEstadoGato = ($tipo === 'adopcion') ? 'reservado' : 'acogido';
-
                         $stmtGato = $pdo->prepare("UPDATE gatos SET estado = ?, fecha_estado = (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato = ?");
                         $stmtGato->execute([$nuevoEstadoGato, $idGato]);
                     }
                 }
 
-                // Crear notificación para el usuario (Manejo de error si la tabla no existe aún)
                 try {
                     $stmtUser = $pdo->prepare("SELECT id_usuario, tipo_solicitud FROM solicitudes WHERE id_solicitud = ?");
                     $stmtUser->execute([$id]);
@@ -188,7 +176,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $stmtN->execute([$soliData['id_usuario'], $msgNotif]);
                     }
                 } catch (Exception $notifError) {
-                    // Ignoramos el error de notificación para no bloquear la actualización principal
                 }
 
                 $pdo->commit();
@@ -202,7 +189,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Si no hay acción específica, es una nueva solicitud de usuario
     if (!$userId) {
         sendResponse(401, "Debes iniciar sesión para realizar una solicitud.");
     }
@@ -215,7 +201,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         sendResponse(400, "Faltan datos obligatorios (Gato o Tipo).");
     }
 
-    // OBLIGACIÓN: Antes de adopción o acogida, debe existir al menos una solicitud de 'visita'
     if ($tipo === 'adopcion' || $tipo === 'acogida') {
         $stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM solicitudes WHERE id_usuario = ? AND id_gato = ? AND tipo_solicitud = 'visita'");
         $stmtCheck->execute([$userId, $idGato]);

@@ -7,12 +7,12 @@ async function obtenerGatos() {
     const filtroGenero = document.getElementById('filtro-genero');
     const filtroEdad = document.getElementById('filtro-edad');
     const filtroOrden = document.getElementById('filtro-orden');
-    
+
     let vhif = filtroVhif ? filtroVhif.value : "";
     let genero = filtroGenero ? filtroGenero.value : "";
     let edad = filtroEdad ? filtroEdad.value : "";
     let orden = filtroOrden ? filtroOrden.value : "recientes";
-    
+
     let url = `${API_CATS}?action=list`;
     if (vhif !== "") url += `&vhif=${vhif}`;
     if (genero !== "") url += `&gender=${genero}`;
@@ -22,9 +22,9 @@ async function obtenerGatos() {
     try {
         const respuesta = await fetch(url);
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
-            pintarGatos(resultado.data);
+            crearGatos(resultado.data);
         } else {
             console.error("Error del servidor:", resultado.message);
             alert("Error del servidor: " + resultado.message);
@@ -35,7 +35,7 @@ async function obtenerGatos() {
     }
 }
 
-function pintarGatos(gatos) {
+function crearGatos(gatos) {
     const contenedor = document.getElementById('lista-gatos');
     if (!contenedor) return;
 

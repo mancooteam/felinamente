@@ -99,8 +99,8 @@ felinamente/
 │   ├── gestion.js         # Tabla administrativa de gatos para administradores y empleados.
 │   ├── index.js           # Lógica de la página principal (Gatos destacados y adoptados).
 │   ├── mis-solicitudes.js # Espacio personal del usuario con historial y estado de peticiones.
-│   ├── solicitudes_admin.js # Control de solicitudes para administradores (aprobar/rechazar).
-│   └── usuarios_admin.js  # Gestión de usuarios y cambios de roles por parte del administrador.
+│   ├── solicitudes-admin.js # Control de solicitudes para administradores (aprobar/rechazar).
+│   └── usuarios-admin.js  # Gestión de usuarios y cambios de roles por parte del administrador.
 ├── img/                   # Recursos gráficos estáticos (logos, imágenes de muestra).
 ├── index.html             # Página de inicio pública.
 ├── gatos.html             # Catálogo de gatos.

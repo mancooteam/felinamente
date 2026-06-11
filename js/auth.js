@@ -4,14 +4,12 @@ const API_AUTH = 'api/auth.php';
 const API_CATS = 'api/cats.php';
 let usuarioActual = { role: 'guest' };
 
-// Al cargar el documento arrancamos la app
 document.addEventListener('DOMContentLoaded', () => {
     comprobarSesion();
     crearMenu();
     configurarFormularios();
 });
 
-// Comprobar si hay sesión guardada en el navegador
 function comprobarSesion() {
     const userStr = sessionStorage.getItem('usuario');
     if (userStr) {
@@ -26,9 +24,7 @@ function comprobarSesion() {
     }
 }
 
-// Pintar el menú dinámicamente según el rol
 function crearMenu() {
-    // Incorporar el logo en la barra de navegación dinámicamente
     const navbarBrand = document.querySelector('.navbar-brand');
     if (navbarBrand) {
         navbarBrand.innerHTML = `
@@ -42,20 +38,17 @@ function crearMenu() {
     const navAuth = document.getElementById('nav-auth');
     if (!navLinks || !navAuth) return;
 
-    // Enlaces para todo el mundo
     navLinks.innerHTML = `
         <a class="nav-link" href="index.html">Inicio</a>
         <a class="nav-link" href="gatos.html">Nuestros felinos</a>
     `;
 
     if (usuarioActual.role === 'guest') {
-        // Menú para invitados
         navAuth.innerHTML = `
             <button class="btn-outline-minimal btn-sm me-2" data-bs-toggle="modal" data-bs-target="#registerModal">Registrarse</button>
             <button class="btn-minimal btn-sm" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
         `;
     } else {
-        // Menú para usuarios logueados
         navAuth.innerHTML = `
             <div class="d-flex align-items-center">
                 <div class="dropdown me-3">
@@ -99,19 +92,16 @@ function crearMenu() {
             </div>
         `;
 
-        // Asignar eventos a los botones del menú generado
         const btnLogout = document.getElementById('btn-logout');
         if (btnLogout) btnLogout.addEventListener('click', cerrarSesion);
 
         const dropdownEl = document.getElementById('notifDropdown');
         if (dropdownEl) dropdownEl.addEventListener('show.bs.dropdown', marcarNotificacionesLeidas);
 
-        // Cargamos las notificaciones del usuario
         cargarNotificaciones();
     }
 }
 
-// Configurar los listeners de los formularios de la página
 function configurarFormularios() {
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
