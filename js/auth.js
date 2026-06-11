@@ -4,6 +4,36 @@ const API_AUTH = 'api/auth.php';
 const API_CATS = 'api/cats.php';
 let usuarioActual = { role: 'guest' };
 
+const originalFetch = window.fetch;
+window.fetch = async function (resource, config) {
+    let finalConfig = config || {};
+
+    if (usuarioActual && usuarioActual.role !== 'guest' && usuarioActual.id) {
+        if (resource instanceof Request) {
+            if (!finalConfig.headers) {
+                finalConfig.headers = new Headers(resource.headers);
+            } else if (!(finalConfig.headers instanceof Headers)) {
+                finalConfig.headers = new Headers(finalConfig.headers);
+            }
+            finalConfig.headers.set('X-User-Id', String(usuarioActual.id));
+            finalConfig.headers.set('X-User-Role', String(usuarioActual.role));
+            finalConfig.headers.set('X-User-Username', String(usuarioActual.username));
+        } else {
+            if (!finalConfig.headers) finalConfig.headers = {};
+            if (finalConfig.headers instanceof Headers) {
+                finalConfig.headers.set('X-User-Id', String(usuarioActual.id));
+                finalConfig.headers.set('X-User-Role', String(usuarioActual.role));
+                finalConfig.headers.set('X-User-Username', String(usuarioActual.username));
+            } else {
+                finalConfig.headers['X-User-Id'] = String(usuarioActual.id);
+                finalConfig.headers['X-User-Role'] = String(usuarioActual.role);
+                finalConfig.headers['X-User-Username'] = String(usuarioActual.username);
+            }
+        }
+    }
+    return originalFetch(resource, finalConfig);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     comprobarSesion();
     crearMenu();
