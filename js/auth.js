@@ -134,12 +134,7 @@ function configurarFormularios() {
     }
 }
 
-// =========================================================================
-// FUNCIONES AJAX / FETCH (Aquí es donde editamos el DOM directamente)
-// =========================================================================
-
 async function login(credenciales) {
-    // Validaciones en JS
     const username = (credenciales.username || '').trim();
     const password = credenciales.password || '';
 
@@ -160,7 +155,6 @@ async function login(credenciales) {
         return;
     }
 
-    // 1. EDITAMOS EL DOM ANTES DE ENVIAR (Estilo DAW)
     const btn = document.querySelector('#loginForm button[type="submit"]');
     if (btn) {
         btn.disabled = true;
@@ -180,7 +174,6 @@ async function login(credenciales) {
             location.reload();
         } else {
             alert("Error: " + resultado.message);
-            // 2. CORREGIMOS EL DOM SI FALLA EL LOGIN
             if (btn) {
                 btn.disabled = false;
                 btn.innerHTML = 'Login';
@@ -196,7 +189,6 @@ async function login(credenciales) {
 }
 
 async function registro(datosUsuario) {
-    // Validaciones en JS
     const username = (datosUsuario.username || '').trim();
     const email = (datosUsuario.email || '').trim();
     const password = datosUsuario.password || '';
@@ -223,7 +215,6 @@ async function registro(datosUsuario) {
         return;
     }
 
-    // 1. EDITAMOS EL DOM ANTES DE ENVIAR
     const btn = document.querySelector('#registerForm button[type="submit"]');
     if (btn) {
         btn.disabled = true;
@@ -245,7 +236,6 @@ async function registro(datosUsuario) {
             if (modal) modal.hide();
         } else {
             alert("Error: " + resultado.message);
-            // 2. CORREGIMOS EL DOM SI FALLA
             if (btn) {
                 btn.disabled = false;
                 btn.innerHTML = 'Registrarse';
@@ -284,7 +274,6 @@ async function cargarNotificaciones() {
                 badge.classList.add('d-none');
             }
 
-            // Renderizar la lista de notificaciones en el DOM
             if (json.data.length > 0) {
                 list.innerHTML = json.data.map(n => `
                     <li>
