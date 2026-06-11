@@ -147,7 +147,7 @@ async function verDetallesGato(id) {
                                     </div>
                                     <div>
                                         <span class="small text-uppercase fw-bold text-muted d-block mb-1">Última Revisión</span>
-                                        <span class="text-dark small">${new Date(gato.fecha_estado).toLocaleDateString()}</span>
+                                        <span class="text-dark small">${formatFecha(gato.fecha_estado)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -201,4 +201,24 @@ async function verDetallesGato(id) {
 
 function enviarSolicitud(idGato, tipo) {
     window.location.href = `solicitud.html?id=${idGato}&tipo=${tipo}`;
+}
+
+function formatFecha(timestamp) {
+    if (!timestamp) return 'Desconocida';
+    let date;
+    if (typeof timestamp === 'number' || !isNaN(Number(timestamp))) {
+        const val = Number(timestamp);
+        date = new Date(val < 10000000000 ? val * 1000 : val);
+    } else {
+        date = new Date(String(timestamp).replace(' ', 'T'));
+    }
+    if (isNaN(date.getTime())) {
+        return 'Fecha inválida';
+    }
+    return date.toLocaleDateString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    });
 }

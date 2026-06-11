@@ -242,7 +242,7 @@ async function cargarNotificaciones() {
                     <li>
                         <a class="dropdown-item py-3 border-bottom ${n.leida ? 'opacity-75' : 'bg-light'}" href="mis-solicitudes.html" style="white-space: normal;">
                             <p class="mb-1 small fw-bold">${n.mensaje}</p>
-                            <span class="small text-muted">${new Date(n.fecha_creacion).toLocaleDateString()}</span>
+                            <span class="small text-muted">${formatFecha(n.fecha_creacion)}</span>
                         </a>
                     </li>
                 `).join('');
@@ -261,4 +261,26 @@ async function marcarNotificacionesLeidas() {
     } catch (e) {
         console.error("Error al marcar como leídas:", e);
     }
+}
+
+function formatFecha(timestamp) {
+    if (!timestamp) return 'Desconocida';
+    let date;
+    if (typeof timestamp === 'number' || !isNaN(Number(timestamp))) {
+        const val = Number(timestamp);
+        date = new Date(val < 10000000000 ? val * 1000 : val);
+    } else {
+        date = new Date(String(timestamp).replace(' ', 'T'));
+    }
+    if (isNaN(date.getTime())) {
+        return 'Fecha inválida';
+    }
+    return date.toLocaleDateString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }

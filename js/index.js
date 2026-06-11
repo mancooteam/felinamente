@@ -21,11 +21,22 @@ async function cargarAdoptadosHome() {
 
             let html = '';
             adoptados.forEach(gato => {
-                let fechaObj = new Date(gato.fecha_estado || gato.fecha_ingreso);
-                let fechaTexto = "recientemente";
+                let fechaRaw = gato.fecha_estado || gato.fecha_ingreso;
+                let fechaObj;
+                if (typeof fechaRaw === 'number' || !isNaN(Number(fechaRaw))) {
+                    const val = Number(fechaRaw);
+                    fechaObj = new Date(val < 10000000000 ? val * 1000 : val);
+                } else {
+                    fechaObj = new Date(String(fechaRaw).replace(' ', 'T'));
+                }
                 
-                if (!isNaN(fechaObj.getTime())) {
-                    fechaTexto = fechaObj.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+                let fechaTexto = "recientemente";
+                if (fechaObj && !isNaN(fechaObj.getTime())) {
+                    fechaTexto = fechaObj.toLocaleDateString('es-ES', { 
+                        month: 'long', 
+                        year: 'numeric',
+                        timeZone: 'Europe/Madrid'
+                    });
                 }
 
                 html += `

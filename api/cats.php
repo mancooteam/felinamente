@@ -62,6 +62,14 @@ switch ($action) {
         $stmt = $pdo->prepare($query);
         $stmt->execute($params);
         $cats = $stmt->fetchAll();
+        foreach ($cats as &$cat) {
+            if (!empty($cat['fecha_ingreso'])) {
+                $cat['fecha_ingreso'] = strtotime($cat['fecha_ingreso']) * 1000;
+            }
+            if (!empty($cat['fecha_estado'])) {
+                $cat['fecha_estado'] = strtotime($cat['fecha_estado']) * 1000;
+            }
+        }
         sendResponse(200, "Lista de gatos", $cats);
         break;
 
@@ -75,6 +83,12 @@ switch ($action) {
         $cat = $stmt->fetch();
         
         if ($cat) {
+            if (!empty($cat['fecha_ingreso'])) {
+                $cat['fecha_ingreso'] = strtotime($cat['fecha_ingreso']) * 1000;
+            }
+            if (!empty($cat['fecha_estado'])) {
+                $cat['fecha_estado'] = strtotime($cat['fecha_estado']) * 1000;
+            }
             // Cargar galería de fotos (con manejo de errores por si la tabla no existe aún)
             try {
                 $stmtPhotos = $pdo->prepare("SELECT url_foto FROM gato_fotos WHERE id_gato = ?");

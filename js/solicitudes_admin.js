@@ -68,7 +68,7 @@ function pintarSolicitudes(solicitudes) {
                     <td class="small">${s.nombre_usuario}</td>
                     <td class="text-capitalize small">${s.tipo_solicitud}</td>
                     <td><span class="badge bg-${color} text-white">${s.estado_solicitud}</span></td>
-                    <td class="small text-muted">${new Date(s.fecha_creacion).toLocaleDateString()}</td>
+                    <td class="small text-muted">${formatFecha(s.fecha_creacion)}</td>
                     <td>
                         <button class="btn btn-sm btn-link text-muted btn-ver-detalle" data-id="${s.id_solicitud}" data-comentarios='${btoa(s.comentarios_usu)}'>Ver Datos</button>
                     </td>
@@ -145,4 +145,26 @@ async function cambiarEstado(id, nuevoEstado) {
     } catch (error) {
         console.error("Error al actualizar estado:", error);
     }
+}
+
+function formatFecha(timestamp) {
+    if (!timestamp) return 'Desconocida';
+    let date;
+    if (typeof timestamp === 'number' || !isNaN(Number(timestamp))) {
+        const val = Number(timestamp);
+        date = new Date(val < 10000000000 ? val * 1000 : val);
+    } else {
+        date = new Date(String(timestamp).replace(' ', 'T'));
+    }
+    if (isNaN(date.getTime())) {
+        return 'Fecha inválida';
+    }
+    return date.toLocaleDateString('es-ES', {
+        timeZone: 'Europe/Madrid',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 }

@@ -1,0 +1,59 @@
+===============================================================================
+ACTUALIZACIÓN DE LA BASE DE DATOS - FELINAMENTE
+===============================================================================
+
+Para solucionar el problema de "Invalid Date" al usar Unix timestamps en milisegundos, tienes dos opciones. Te recomendamos la opción 1 porque mantiene los beneficios nativos de MySQL para campos de fecha sin riesgo de perder datos.
+
+-------------------------------------------------------------------------------
+OPCIÓN 1: CONVERSIÓN EN LA CAPA DE APLICACIÓN (PHP) - RECOMENDADA
+-------------------------------------------------------------------------------
+Esta opción NO requiere que ejecutes ninguna sentencia de alteración en tu base de datos de Aiven.
+Las columnas de la base de datos siguen siendo de tipo TIMESTAMP (que es el estándar para control de auditoría). La conversión a Unix timestamp en milisegundos se realiza dinámicamente en el backend (PHP) al consultar las filas, y el frontend las recibe como números listos para ser formateados.
+
+No hay comandos SQL que ejecutar para este enfoque.
+
+-------------------------------------------------------------------------------
+OPCIÓN 2: MIGRACIÓN FÍSICA DE COLUMNAS A BIGINT (MILISEGUNDOS)
+-------------------------------------------------------------------------------
+Si deseas almacenar físicamente los timestamps en milisegundos directamente en la base de datos de Aiven como números enteros (BIGINT), debes ejecutar las siguientes sentencias SQL. 
+
+*NOTA: Se ha añadido "WHERE 1=1" a las sentencias UPDATE para evitar que tu editor de base de datos (como DBeaver o Workbench) bloquee la consulta por seguridad.*
+
+--- 1. TABLA usuarios ---
+-- Guardamos temporalmente las fechas convertidas a milisegundos, luego cambiamos la columna
+ALTER TABLE usuarios ADD COLUMN fecha_creacion_new BIGINT;
+UPDATE usuarios SET fecha_creacion_new = UNIX_TIMESTAMP(fecha_creacion) * 1000 WHERE 1=1;
+ALTER TABLE usuarios DROP COLUMN fecha_creacion;
+ALTER TABLE usuarios CHANGE COLUMN fecha_creacion_new fecha_creacion BIGINT DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000));
+
+--- 2. TABLA gatos ---
+-- Migrar fecha_ingreso
+ALTER TABLE gatos ADD COLUMN fecha_ingreso_new BIGINT;
+UPDATE gatos SET fecha_ingreso_new = UNIX_TIMESTAMP(fecha_ingreso) * 1000 WHERE 1=1;
+ALTER TABLE gatos DROP COLUMN fecha_ingreso;
+ALTER TABLE gatos CHANGE COLUMN fecha_ingreso_new fecha_ingreso BIGINT DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000));
+
+-- Migrar fecha_estado
+ALTER TABLE gatos ADD COLUMN fecha_estado_new BIGINT;
+UPDATE gatos SET fecha_estado_new = UNIX_TIMESTAMP(fecha_estado) * 1000 WHERE 1=1;
+ALTER TABLE gatos DROP COLUMN fecha_estado;
+ALTER TABLE gatos CHANGE COLUMN fecha_estado_new fecha_estado BIGINT DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000));
+
+--- 3. TABLA solicitudes ---
+-- Migrar fecha_solicitud
+ALTER TABLE solicitudes ADD COLUMN fecha_solicitud_new BIGINT;
+UPDATE solicitudes SET fecha_solicitud_new = UNIX_TIMESTAMP(fecha_solicitud) * 1000 WHERE 1=1;
+ALTER TABLE solicitudes DROP COLUMN fecha_solicitud;
+ALTER TABLE solicitudes CHANGE COLUMN fecha_solicitud_new fecha_solicitud BIGINT DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000));
+
+--- 4. TABLA notificaciones ---
+-- Migrar fecha_creacion
+ALTER TABLE notificaciones ADD COLUMN fecha_creacion_new BIGINT;
+UPDATE notificaciones SET fecha_creacion_new = UNIX_TIMESTAMP(fecha_creacion) * 1000 WHERE 1=1;
+ALTER TABLE notificaciones DROP COLUMN fecha_creacion;
+ALTER TABLE notificaciones CHANGE COLUMN fecha_creacion_new fecha_creacion BIGINT DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000));
+
+===============================================================================
+NOTA SOBRE LA OPCIÓN 2:
+Al convertir las columnas a BIGINT, las inserciones automáticas seguirán funcionando en MySQL 8.0 (Aiven) gracias al valor predeterminado DEFAULT (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)). Sin embargo, la actualización automática 'ON UPDATE CURRENT_TIMESTAMP' de fecha_estado ya no se ejecutará por el motor de base de datos de manera implícita, por lo que deberá actualizarse manualmente desde PHP en cada consulta UPDATE.
+===============================================================================

@@ -30,6 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 ORDER BY s.id_solicitud DESC
             ");
             $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($lista as &$s) {
+                if (!empty($s['fecha_solicitud'])) {
+                    $timestamp = strtotime($s['fecha_solicitud']) * 1000;
+                    $s['fecha_solicitud'] = $timestamp;
+                    $s['fecha_creacion'] = $timestamp;
+                }
+            }
             sendResponse(200, "Lista de solicitudes", $lista);
         } else {
             sendResponse(403, "No tienes permisos.");
@@ -46,7 +53,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             ORDER BY s.id_solicitud DESC
         ");
         $stmt->execute([$userId]);
-        sendResponse(200, "Tus solicitudes", $stmt->fetchAll());
+        $lista = $stmt->fetchAll();
+        foreach ($lista as &$s) {
+            if (!empty($s['fecha_solicitud'])) {
+                $timestamp = strtotime($s['fecha_solicitud']) * 1000;
+                $s['fecha_solicitud'] = $timestamp;
+                $s['fecha_creacion'] = $timestamp;
+            }
+        }
+        sendResponse(200, "Tus solicitudes", $lista);
     }
     sendResponse(400, "Acción GET no válida.");
 }

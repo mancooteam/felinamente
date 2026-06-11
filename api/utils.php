@@ -1,6 +1,7 @@
 <?php
 // Evitar que PHP muestre errores por defecto en formato HTML (para no romper el JSON del frontend)
 ini_set('display_errors', 0);
+date_default_timezone_set('UTC');
 
 // Capturar cualquier excepción (como errores de base de datos) y devolverla en JSON
 set_exception_handler(function($e) {

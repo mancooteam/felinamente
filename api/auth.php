@@ -165,7 +165,13 @@ switch ($action) {
         try {
             $stmt = $pdo->prepare("SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY fecha_creacion DESC LIMIT 10");
             $stmt->execute([$_SESSION['user_id']]);
-            sendResponse(200, "Notificaciones", $stmt->fetchAll());
+            $notif = $stmt->fetchAll();
+            foreach ($notif as &$n) {
+                if (!empty($n['fecha_creacion'])) {
+                    $n['fecha_creacion'] = strtotime($n['fecha_creacion']) * 1000;
+                }
+            }
+            sendResponse(200, "Notificaciones", $notif);
         } catch (PDOException $e) {
             sendResponse(200, "Notificaciones", []); // Fallback si no existe la tabla
         }

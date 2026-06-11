@@ -27,6 +27,7 @@ function getDBConnection() {
 
     try {
         $pdo = new PDO($dsn, $user, $pass, $options);
+        $pdo->exec("SET time_zone = '+00:00'");
         return $pdo;
     } catch (PDOException $e) {
         // En lugar de die(), lanzamos una excepción para que el gestor global devuelva JSON
