@@ -54,7 +54,6 @@ h6,
     color: var(--color-texto-oscuro);
 }
 
-/* Navbar */
 .navbar {
     background-color: rgba(var(--color-bg-rgb), 0.95) !important;
     backdrop-filter: blur(10px);
@@ -79,7 +78,6 @@ h6,
     color: var(--color-principal) !important;
 }
 
-/* Botones */
 .btn-minimal {
     background-color: var(--color-principal);
     color: var(--color-acento2) !important;
@@ -119,7 +117,6 @@ h6,
     color: var(--color-principal) !important;
 }
 
-/* Acentos y Enlaces */
 .text-accent {
     color: var(--color-principal) !important;
 }
@@ -138,7 +135,6 @@ h6,
     border-color: var(--color-principal-hover);
 }
 
-/* Tarjetas */
 .card-editorial {
     background: var(--color-superficie);
     border: 1px solid var(--color-borde);
@@ -153,7 +149,6 @@ h6,
     border-radius: 0;
 }
 
-/* Etiquetas */
 .badge-orange {
     background-color: var(--color-acento1);
     color: var(--color-texto-oscuro);
@@ -172,7 +167,6 @@ h6,
     border-radius: 20px;
 }
 
-/* Badges sobre imagen */
 .badge-overlay {
     position: absolute;
     top: 15px;
@@ -215,7 +209,6 @@ h6,
     opacity: 0.8;
 }
 
-/* Efectos Modernos */
 .hover-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
@@ -233,7 +226,6 @@ h6,
     overflow: hidden;
 }
 
-/* Hero Premium */
 .hero-premium {
     height: 65vh;
     min-height: 500px;
@@ -299,7 +291,6 @@ h6,
     }
 }
 
-/* Ajustes de Componentes Bootstrap para el Huso Editorial Claro */
 body.bg-light,
 .bg-light {
     background-color: var(--color-bg) !important;
