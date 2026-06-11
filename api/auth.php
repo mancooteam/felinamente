@@ -168,7 +168,7 @@ switch ($action) {
             $notif = $stmt->fetchAll();
             foreach ($notif as &$n) {
                 if (!empty($n['fecha_creacion'])) {
-                    $n['fecha_creacion'] = strtotime($n['fecha_creacion']) * 1000;
+                    $n['fecha_creacion'] = parseTimestamp($n['fecha_creacion']);
                 }
             }
             sendResponse(200, "Notificaciones", $notif);

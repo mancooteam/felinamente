@@ -78,4 +78,9 @@ if ($userIdHeader !== null) {
     $_SESSION['role'] = $roleHeader;
     $_SESSION['username'] = $usernameHeader;
 }
+
+function parseTimestamp($val) {
+    if (empty($val)) return null;
+    return is_numeric($val) ? (int)$val : strtotime($val) * 1000;
+}
 ?>

@@ -64,10 +64,10 @@ switch ($action) {
         $cats = $stmt->fetchAll();
         foreach ($cats as &$cat) {
             if (!empty($cat['fecha_ingreso'])) {
-                $cat['fecha_ingreso'] = strtotime($cat['fecha_ingreso']) * 1000;
+                $cat['fecha_ingreso'] = parseTimestamp($cat['fecha_ingreso']);
             }
             if (!empty($cat['fecha_estado'])) {
-                $cat['fecha_estado'] = strtotime($cat['fecha_estado']) * 1000;
+                $cat['fecha_estado'] = parseTimestamp($cat['fecha_estado']);
             }
         }
         sendResponse(200, "Lista de gatos", $cats);
@@ -84,10 +84,10 @@ switch ($action) {
         
         if ($cat) {
             if (!empty($cat['fecha_ingreso'])) {
-                $cat['fecha_ingreso'] = strtotime($cat['fecha_ingreso']) * 1000;
+                $cat['fecha_ingreso'] = parseTimestamp($cat['fecha_ingreso']);
             }
             if (!empty($cat['fecha_estado'])) {
-                $cat['fecha_estado'] = strtotime($cat['fecha_estado']) * 1000;
+                $cat['fecha_estado'] = parseTimestamp($cat['fecha_estado']);
             }
             // Cargar galería de fotos (con manejo de errores por si la tabla no existe aún)
             try {

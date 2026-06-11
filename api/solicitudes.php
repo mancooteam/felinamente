@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
             foreach ($lista as &$s) {
                 if (!empty($s['fecha_solicitud'])) {
-                    $timestamp = strtotime($s['fecha_solicitud']) * 1000;
+                    $timestamp = parseTimestamp($s['fecha_solicitud']);
                     $s['fecha_solicitud'] = $timestamp;
                     $s['fecha_creacion'] = $timestamp;
                 }
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $lista = $stmt->fetchAll();
         foreach ($lista as &$s) {
             if (!empty($s['fecha_solicitud'])) {
-                $timestamp = strtotime($s['fecha_solicitud']) * 1000;
+                $timestamp = parseTimestamp($s['fecha_solicitud']);
                 $s['fecha_solicitud'] = $timestamp;
                 $s['fecha_creacion'] = $timestamp;
             }
