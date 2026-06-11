@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', async () => {
     await comprobarSesion();
-    
+
     const params = new URLSearchParams(window.location.search);
     const idGato = params.get('id');
-    const tipo = params.get('tipo'); // 'adopcion' o 'acogida'
-    
+    const tipo = params.get('tipo');
+
     if (!idGato || !tipo) {
         alert("Faltan parámetros para procesar la solicitud.");
         window.location.href = 'gatos.html';
@@ -17,11 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // Configurar campos ocultos
     document.getElementById('solicitud_id_gato').value = idGato;
     document.getElementById('solicitud_tipo').value = tipo;
-    
-    // Configurar títulos
+
     const tituloPagina = document.getElementById('titulo-pagina-solicitud');
     let labelTipo = '';
     if (tipo === 'adopcion') labelTipo = 'Solicitud de Adopción';
@@ -31,16 +29,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     tituloPagina.innerText = labelTipo;
     document.title = labelTipo + " - Felinamente";
 
-    // Cargar breve info del gato
     cargarInfoGato(idGato, tipo);
 
-    // Manejar envío
     const formSolicitud = document.getElementById('formSolicitud');
     formSolicitud.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(formSolicitud);
         const data = Object.fromEntries(formData.entries());
-        
+
         const mensajeFinal = JSON.stringify({
             nombre: data.nombre,
             apellidos: data.apellidos,
@@ -61,18 +57,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                     mensaje: mensajeFinal
                 })
             });
-
-            // Intentar leer como texto primero por si hay un error de PHP (no JSON)
             const textoRespuesta = await respuesta.text();
             let resultado;
-            
+
             try {
                 resultado = JSON.parse(textoRespuesta);
             } catch (parseError) {
                 console.error("La respuesta del servidor no es JSON:", textoRespuesta);
                 throw new Error("El servidor devolvió un error inesperado.");
             }
-            
+
             if (resultado.status === 201) {
                 alert(`¡Solicitud enviada con éxito! Nos pondremos en contacto contigo pronto.`);
                 window.location.href = 'gato.html?id=' + idGato;
@@ -90,7 +84,7 @@ async function cargarInfoGato(id, tipo) {
     try {
         const respuesta = await fetch(`${API_CATS}?action=get&id=${id}`);
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
             const gato = resultado.data;
             document.getElementById('cat-brief').classList.remove('d-none');

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             e.preventDefault();
             const formData = new FormData(formEdit);
             const data = Object.fromEntries(formData.entries());
-            
+
             const mensajeFinal = JSON.stringify({
                 nombre: data.nombre,
                 apellidos: data.apellidos,
@@ -52,16 +52,16 @@ async function cargarMisSolicitudes() {
     try {
         const respuesta = await fetch('api/solicitudes.php?action=my_list');
         const resultado = await respuesta.json();
-        
+
         if (resultado.status === 200) {
-            pintarMisSolicitudes(resultado.data);
+            imprimirSolicitudes(resultado.data);
         }
     } catch (error) {
         console.error("Error al cargar tus solicitudes:", error);
     }
 }
 
-function pintarMisSolicitudes(solicitudes) {
+function imprimirSolicitudes(solicitudes) {
     const contenedor = document.getElementById('lista-mis-solicitudes');
     if (solicitudes.length === 0) {
         contenedor.innerHTML = '<div class="col-12 text-center text-muted">Aún no has realizado ninguna solicitud.</div>';
@@ -71,7 +71,7 @@ function pintarMisSolicitudes(solicitudes) {
     let html = '';
     solicitudes.forEach(s => {
         const color = s.estado_solicitud === 'aprobada' ? 'success' : (s.estado_solicitud === 'rechazada' ? 'danger' : 'warning');
-        
+
         html += `
             <div class="col-md-6 mb-4">
                 <div class="card card-editorial border p-4" style="background: white;">
@@ -84,14 +84,14 @@ function pintarMisSolicitudes(solicitudes) {
                     </div>
                     
                     <div class="mb-4">
-                        ${s.estado_solicitud === 'aprobada' ? 
-                            '<p class="small text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Esta solicitud ya ha sido procesada y no se puede editar.</p>' : 
-                            `<button class="btn btn-sm btn-outline-secondary btn-abrir-editor" 
+                        ${s.estado_solicitud === 'aprobada' ?
+                '<p class="small text-success fw-bold"><i class="bi bi-check-circle-fill me-1"></i> Esta solicitud ya ha sido procesada y no se puede editar.</p>' :
+                `<button class="btn btn-sm btn-outline-secondary btn-abrir-editor" 
                                 data-id="${s.id_solicitud}" 
                                 data-comentarios="${btoa(s.comentarios_usu)}">
                                 ${s.estado_solicitud === 'rechazada' ? 'Corregir y volver a enviar' : 'Editar solicitud'}
                             </button>`
-                        }
+            }
                     </div>
                     
                     <p class="text-muted small mb-0">Solicitud ID: #${s.id_solicitud}</p>
@@ -100,9 +100,6 @@ function pintarMisSolicitudes(solicitudes) {
         `;
     });
     contenedor.innerHTML = html;
-
-    // Delegación de eventos
-    contenedor.removeEventListener('click', manejarClickContenedor);
     contenedor.addEventListener('click', manejarClickContenedor);
 }
 
@@ -125,7 +122,7 @@ function abrirEditor(id, base64Data) {
         document.getElementById('edit_soli_convivientes').value = data.convivientes;
         document.getElementById('edit_soli_mascotas').value = data.mascotas;
         document.getElementById('edit_soli_mensaje').value = data.mensaje_libre;
-        
+
         const modal = new bootstrap.Modal(document.getElementById('modalEditarSolicitud'));
         modal.show();
     } catch (e) {

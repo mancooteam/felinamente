@@ -114,7 +114,9 @@ function verDetalle(id, base64Data) {
     }
 
     document.getElementById('detalle-solicitud-body').innerHTML = html;
-    new bootstrap.Modal(document.getElementById('modalDetalleSolicitud')).show();
+    const ventanaModal = document.getElementById('modalDetalleSolicitud');
+    const modal = bootstrap.Modal.getOrCreateInstance(ventanaModal);
+    modal.show();
 }
 
 async function cambiarEstado(id, nuevoEstado) {

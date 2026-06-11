@@ -1,36 +1,37 @@
-/* Estilos generales - Tema Editorial Lino y Carbón (Warm Light Mode) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --color-principal: #454040; /* Carbón cálido para elementos primarios */
-    --color-principal-hover: #605B51; /* Gris tierra hover */
-    --color-acento1: #D8D365; /* Oro Oliva de acento */
-    --color-acento2: #E6F082; /* Oro Lima brillante */
-    --color-bg: #F7F5F0; /* Fondo lino/crema cálido claro */
-    --color-bg-rgb: 247, 245, 240; /* RGB para opacidades */
-    --color-texto: #454040; /* Carbón cálido para texto general */
-    --color-texto-oscuro: #333030; /* Títulos oscuros */
-    --color-texto-mutado: #605B51; /* Gris tierra para textos secundarios */
-    --color-borde: #eae8e3; /* Bordes suaves */
-    --color-superficie: #ffffff; /* Blanco para tarjetas y modales */
-    --color-secundario: #605B51; /* Gris de estado neutral */
+    --color-principal: #454040;
+    --color-principal-hover: #605B51;
+    --color-acento1: #D8D365;
+    --color-acento2: #E6F082;
+    --color-bg: #F7F5F0;
+    --color-bg-rgb: 247, 245, 240;
+    --color-texto: #454040;
+    --color-texto-oscuro: #333030;
+    --color-texto-mutado: #605B51;
+    --color-borde: #eae8e3;
+    --color-superficie: #ffffff;
+    --color-secundario: #605B51;
 
-    /* Estados de los Felinos */
-    --color-estado-disponible: #E6F082; /* Oro Lima brillante */
-    --color-estado-acogido: #E6F082; /* Oro Lima brillante */
-    --color-estado-adoptado: #D8D365; /* Oro Oliva */
-    --color-estado-enfermo: #605B51; /* Gris de estado neutral */
-    --color-estado-enfermo-texto: #ffffff; /* Texto blanco sobre fondo de enfermo */
+    --color-estado-disponible: #E6F082;
+    --color-estado-acogido: #E6F082;
+    --color-estado-adoptado: #D8D365;
+    --color-estado-enfermo: #605B51;
+    --color-estado-enfermo-texto: #ffffff;
 
-    /* Alertas y Elementos Notificativos */
-    --color-alerta-reserva-bg: rgba(217, 108, 74, 0.1); /* Alerta naranja suave */
-    --color-alerta-reserva-borde: #d96c4a; /* Borde naranja de reserva */
-    --color-alerta-reserva-texto: #d96c4a; /* Texto naranja de reserva */
+    --color-alerta-reserva-bg: rgba(217, 108, 74, 0.1);
+    --color-alerta-reserva-borde: #d96c4a;
+    --color-alerta-reserva-texto: #d96c4a;
 
-    /* Fondos y Bordes Auxiliares */
-    --color-bg-alternativo: #FAF9F6; /* Fondo alternativo claro (para dropdowns y secciones secundarias) */
-    --color-borde-suave: #eaeaea; /* Borde gris muy suave para elementos dinámicos */
-    --color-texto-gris: #666666; /* Gris para textos de descripción secundaria */
+    --color-bg-alternativo: #FAF9F6;
+    --color-borde-suave: #eaeaea;
+    --color-texto-gris: #666666;
+}
+
+* {
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -42,7 +43,13 @@ body {
     min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6, .font-serif {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-serif {
     font-family: 'Lora', 'Georgia', serif;
     color: var(--color-texto-oscuro);
 }
@@ -53,6 +60,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--color-borde);
 }
+
 .navbar-brand {
     color: var(--color-principal) !important;
     font-family: 'Lora', 'Georgia', serif;
@@ -60,11 +68,13 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     font-size: 1.5rem;
     letter-spacing: -0.5px;
 }
+
 .nav-link {
     color: var(--color-texto-mutado) !important;
     font-weight: 500;
     font-size: 0.95rem;
 }
+
 .nav-link:hover {
     color: var(--color-principal) !important;
 }
@@ -83,10 +93,12 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     display: inline-block;
     text-align: center;
 }
+
 .btn-minimal:hover {
     background-color: var(--color-principal-hover);
     color: var(--color-acento2) !important;
 }
+
 .btn-outline-minimal {
     border: 1px solid var(--color-principal);
     color: var(--color-principal);
@@ -100,6 +112,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     text-align: center;
     background: transparent;
 }
+
 .btn-outline-minimal:hover {
     background-color: var(--color-acento2);
     border-color: var(--color-acento2);
@@ -110,6 +123,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .text-accent {
     color: var(--color-principal) !important;
 }
+
 .link-editorial {
     color: var(--color-texto-oscuro);
     font-weight: 500;
@@ -118,6 +132,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
 }
+
 .link-editorial:hover {
     color: var(--color-principal-hover);
     border-color: var(--color-principal-hover);
@@ -131,6 +146,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     overflow: hidden;
     padding: 0;
 }
+
 .card-editorial img {
     height: 320px;
     object-fit: cover;
@@ -146,6 +162,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     padding: 4px 10px;
     border-radius: 20px;
 }
+
 .badge-green {
     background-color: var(--color-acento2);
     color: var(--color-texto-oscuro);
@@ -167,26 +184,32 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     letter-spacing: 1px;
     color: var(--color-texto-oscuro);
     z-index: 10;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
+
 .badge-adoptado {
     background-color: var(--color-estado-adoptado);
 }
+
 .badge-adoptado::before {
     content: '♥ ';
     margin-right: 5px;
 }
+
 .badge-acogido {
     background-color: var(--color-estado-acogido);
 }
+
 .badge-enfermo {
     background-color: var(--color-estado-enfermo);
     color: var(--color-estado-enfermo-texto);
 }
+
 .card-img-container {
     position: relative;
     overflow: hidden;
 }
+
 .img-grayscale {
     filter: grayscale(80%);
     opacity: 0.8;
@@ -195,9 +218,10 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 /* Efectos Modernos */
 .hover-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.06) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
     border-color: var(--color-acento1) !important;
 }
+
 .hover-card:hover .card-img-top {
     transform: scale(1.05);
 }
@@ -226,6 +250,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     border-color: var(--color-principal) !important;
     color: var(--color-principal) !important;
 }
+
 .btn-outline-light:hover {
     background-color: var(--color-principal) !important;
     color: var(--color-acento2) !important;
@@ -246,6 +271,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -267,101 +293,130 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     .hero-premium {
         height: 80vh;
     }
+
     .hero-premium h1 {
         font-size: 2.5rem;
     }
 }
 
 /* Ajustes de Componentes Bootstrap para el Huso Editorial Claro */
-body.bg-light, .bg-light {
+body.bg-light,
+.bg-light {
     background-color: var(--color-bg) !important;
 }
+
 .bg-white {
     background-color: var(--color-superficie) !important;
 }
+
 .text-dark {
     color: var(--color-texto-oscuro) !important;
 }
+
 .text-muted {
     color: var(--color-texto-mutado) !important;
 }
+
 .border {
     border-color: var(--color-borde) !important;
 }
+
 .shadow-sm {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
+
 .table-light {
     --bs-table-bg: var(--color-borde) !important;
     --bs-table-color: var(--color-texto-oscuro) !important;
 }
+
 .table {
     color: var(--color-texto) !important;
     border-color: var(--color-borde) !important;
 }
-.table > :not(caption) > * > * {
+
+.table> :not(caption)>*>* {
     background-color: transparent !important;
     color: inherit;
     border-bottom-color: var(--color-borde) !important;
 }
+
 .modal-content {
     background-color: var(--color-superficie) !important;
     color: var(--color-texto-oscuro);
     border: 1px solid var(--color-borde);
 }
-.modal-header, .modal-footer {
+
+.modal-header,
+.modal-footer {
     border-color: var(--color-borde) !important;
 }
-.form-select, .form-control {
+
+.form-select,
+.form-control {
     background-color: var(--color-superficie) !important;
     color: var(--color-texto-oscuro) !important;
     border: 1px solid var(--color-borde) !important;
 }
-.form-select:focus, .form-control:focus {
+
+.form-select:focus,
+.form-control:focus {
     border-color: var(--color-principal) !important;
     box-shadow: 0 0 0 0.25rem rgba(69, 64, 64, 0.15) !important;
 }
+
 .form-label {
     color: var(--color-texto-oscuro) !important;
 }
+
 .dropdown-menu {
     background-color: var(--color-superficie) !important;
     border: 1px solid var(--color-borde) !important;
 }
+
 .dropdown-item {
     color: var(--color-texto) !important;
 }
+
 .dropdown-item:hover {
     background-color: var(--color-bg-alternativo) !important;
     color: var(--color-texto-oscuro) !important;
 }
+
 .dropdown-header {
     color: var(--color-texto-mutado) !important;
     background-color: var(--color-bg-alternativo) !important;
 }
+
 .dropdown-divider {
     border-color: var(--color-borde) !important;
 }
+
 .catalog-hero {
     background: var(--color-bg-alternativo) !important;
     border-bottom: 1px solid var(--color-borde) !important;
 }
+
 .img-thumbnail {
     background-color: var(--color-superficie) !important;
     border-color: var(--color-borde) !important;
 }
+
 .img-thumbnail.thumb-active {
     border-color: var(--color-acento1) !important;
 }
+
 .card {
     background-color: var(--color-superficie) !important;
     border-color: var(--color-borde) !important;
 }
+
 .list-group-item {
     background-color: var(--color-superficie) !important;
     border-color: var(--color-borde) !important;
     color: var(--color-texto) !important;
 }
+
 .list-group-item-action:hover {
     background-color: var(--color-bg-alternativo) !important;
     color: var(--color-texto-oscuro) !important;

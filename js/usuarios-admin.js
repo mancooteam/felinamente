@@ -11,7 +11,6 @@ async function cargarUsuarios() {
     try {
         const respuesta = await fetch('api/auth.php?action=list');
         const resultado = await respuesta.json();
-        
         if (resultado.status === 200) {
             const tabla = document.getElementById('tabla-usuarios');
             tabla.innerHTML = '';
@@ -34,8 +33,6 @@ async function cargarUsuarios() {
                     </tr>
                 `;
             });
-
-            // Re-asignar eventos
             document.querySelectorAll('.btn-editar').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const b = e.target;
@@ -77,7 +74,6 @@ async function eliminarUsuario(id) {
     } catch (e) { console.error(e); }
 }
 
-// Configurar el formulario de edición
 const formEditUser = document.getElementById('formEditUser');
 if (formEditUser) {
     formEditUser.addEventListener('submit', async (e) => {
@@ -105,7 +101,6 @@ if (formEditUser) {
     });
 }
 
-// Configurar el formulario de nuevo usuario
 const formNuevoUsuario = document.getElementById('formNuevoUsuario');
 if (formNuevoUsuario) {
     formNuevoUsuario.addEventListener('submit', async (e) => {
