@@ -168,10 +168,10 @@ switch ($action) {
             }
 
             if ($imgPath) {
-                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, imagen_principal=? WHERE id_gato=?");
+                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, imagen_principal=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
                 $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $imgPath, $id]);
             } else {
-                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=? WHERE id_gato=?");
+                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
                 $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $id]);
             }
 
@@ -192,7 +192,7 @@ switch ($action) {
 
         } else {
             // Empleado solo puede actualizar el estado
-            $stmt = $pdo->prepare("UPDATE gatos SET estado=? WHERE id_gato=?");
+            $stmt = $pdo->prepare("UPDATE gatos SET estado=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
             $stmt->execute([$estado, $id]);
         }
         

@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Usamos valores en minúsculas y que coincidan con el ENUM de la BD (según seed.sql)
                         $nuevoEstadoGato = ($tipo === 'adopcion') ? 'reservado' : 'acogido';
 
-                        $stmtGato = $pdo->prepare("UPDATE gatos SET estado = ? WHERE id_gato = ?");
+                        $stmtGato = $pdo->prepare("UPDATE gatos SET estado = ?, fecha_estado = (ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato = ?");
                         $stmtGato->execute([$nuevoEstadoGato, $idGato]);
                     }
                 }
@@ -178,3 +178,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 sendResponse(405, "Método no permitido.");
+?>
