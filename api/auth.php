@@ -68,7 +68,7 @@ switch ($action) {
             sendResponse(400, "Faltan datos obligatorios.");
         }
 
-        $hPass = password_hash($password, PASSWORD_BCRYPT);
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         try {
             $consulta = $pdo->prepare("INSERT INTO usuarios (nombre_usuario, correo, contrasenia) VALUES (?, ?, ?)");
