@@ -8,12 +8,11 @@ async function cargarAdoptadosHome() {
     if (!contenedor) return;
 
     try {
-        // Obtenemos gatos con estado 'reservado' (adoptados)
         const respuesta = await fetch('api/cats.php?action=list&status_filter=reservado');
         const resultado = await respuesta.json();
 
         if (resultado.status === 200) {
-            const adoptados = resultado.data.slice(0, 3); // Solo los 3 últimos
+            const adoptados = resultado.data.slice(0, 3);
             if (adoptados.length === 0) {
                 contenedor.innerHTML = '<p class="text-center text-muted">Aún no hay historias registradas, ¡pero pronto las habrá!</p>';
                 return;
@@ -29,11 +28,11 @@ async function cargarAdoptadosHome() {
                 } else {
                     fechaObj = new Date(String(fechaRaw).replace(' ', 'T'));
                 }
-                
+
                 let fechaTexto = "recientemente";
                 if (fechaObj && !isNaN(fechaObj.getTime())) {
-                    fechaTexto = fechaObj.toLocaleDateString('es-ES', { 
-                        month: 'long', 
+                    fechaTexto = fechaObj.toLocaleDateString('es-ES', {
+                        month: 'long',
                         year: 'numeric',
                         timeZone: 'Europe/Madrid'
                     });

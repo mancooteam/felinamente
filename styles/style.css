@@ -1,32 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --color-principal: #454040;
-    --color-principal-hover: #605B51;
-    --color-acento1: #D8D365;
-    --color-acento2: #E6F082;
-    --color-bg: #F7F5F0;
-    --color-bg-rgb: 247, 245, 240;
-    --color-texto: #454040;
-    --color-texto-oscuro: #333030;
-    --color-texto-mutado: #605B51;
-    --color-borde: #eae8e3;
+    --color-principal: #5E4B8A;
+    --color-principal-hover: #4A3A6D;
+    --color-acento1: #5DC192;
+    --color-acento2: #B2DFDB;
+    --color-bg: #F6F4FA;
+    --color-bg-rgb: 246, 244, 250;
+    --color-texto: #3A3345;
+    --color-texto-oscuro: #201C26;
+    --color-texto-mutado: #7B7485;
+    --color-borde: #E6E1F0;
     --color-superficie: #ffffff;
-    --color-secundario: #605B51;
+    --color-secundario: #9188A3;
 
-    --color-estado-disponible: #E6F082;
-    --color-estado-acogido: #E6F082;
-    --color-estado-adoptado: #D8D365;
-    --color-estado-enfermo: #605B51;
+    --color-estado-disponible: #B2DFDB;
+    --color-estado-acogido: #D1C4E9;
+    --color-estado-adoptado: #5DC192;
+    --color-estado-enfermo: #9188A3;
     --color-estado-enfermo-texto: #ffffff;
 
-    --color-alerta-reserva-bg: rgba(217, 108, 74, 0.1);
-    --color-alerta-reserva-borde: #d96c4a;
-    --color-alerta-reserva-texto: #d96c4a;
+    --color-alerta-reserva-bg: rgba(94, 75, 138, 0.1);
+    --color-alerta-reserva-borde: #5E4B8A;
+    --color-alerta-reserva-texto: #4A3A6D;
 
-    --color-bg-alternativo: #FAF9F6;
-    --color-borde-suave: #eaeaea;
-    --color-texto-gris: #666666;
+    --color-bg-alternativo: #FCFAFF;
+    --color-borde-suave: #F0EDF5;
+    --color-texto-gris: #6C6675;
 }
 
 * {
