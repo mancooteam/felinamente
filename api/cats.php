@@ -255,6 +255,11 @@ switch ($action) {
             sendResponse(403, "Solo administradores pueden eliminar gatos.");
         }
         $id = $_GET['id'] ?? null;
+        
+        // Eliminar registros dependientes primero
+        $pdo->prepare("DELETE FROM gato_fotos WHERE id_gato=?")->execute([$id]);
+        $pdo->prepare("DELETE FROM solicitudes WHERE id_gato=?")->execute([$id]);
+        
         $stmt = $pdo->prepare("DELETE FROM gatos WHERE id_gato=?");
         $stmt->execute([$id]);
         sendResponse(200, "Gato eliminado.");
