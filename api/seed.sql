@@ -14,18 +14,18 @@ INSERT INTO usuarios (nombre_usuario, correo, contrasenia, rol, telefono, reside
 ('pedro_gatos', 'pedro88@gmail.com', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'user', '644555666', 'Torrent'),
 ('ana_protectora', 'ana@protectora.org', '$2y$10$vI8A7sz5S1VpD.9zU6.MueM.uS.EaTfH5uXmXyVv/uS6XmXyVv/uS', 'volunteer', '655666777', 'Paterna');
 
--- 2. GATOS (10 ejemplos variados)
+-- 2. GATOS (10 ejemplos con imágenes locales pre-instaladas del proyecto)
 INSERT INTO gatos (nombre, fecha_nacimiento, sexo, descripcion, vhif, estado, imagen_principal, notas_medicas) VALUES 
 ('Michi', '2023-05-10', 'macho', 'Gatito naranja muy sociable, ideal para familias con niños.', 0, 'disponible', 'img/slider_1.png', 'Vacunación completa. Desparasitado.'),
 ('Luna', '2024-02-15', 'hembra', 'Gatita negra elegante, un poco tímida al principio.', 0, 'disponible', 'img/slider_2.png', 'Pendiente de esterilización.'),
-('Simba', '2022-08-20', 'macho', 'Gato rubio rescatado de una colonia. Es positivo en VHIF pero hace vida normal.', 1, 'disponible', 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=400', 'VHIF positivo. Requiere control anual.'),
-('Nala', '2020-11-05', 'hembra', 'Siamesa adulta muy tranquila. Le encanta dormir al sol.', 0, 'acogido', 'https://images.unsplash.com/photo-1513245543132-31f507417b26?q=80&w=400', 'Esterilizada. Sin problemas de salud.'),
-('Bolas', '2025-01-10', 'macho', 'Cachorro gris muy juguetón, fue encontrado en una caja.', 0, 'disponible', 'https://images.unsplash.com/photo-1573865662567-57637328be81?q=80&w=400', 'En tratamiento por conjuntivitis leve.'),
-('Garfield', '2021-03-12', 'macho', 'Gato grande y perezoso, le encanta la comida húmeda.', 0, 'reservado', 'https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=400', 'Sobrepeso leve. Dieta controlada.'),
-('Bella', '2019-06-25', 'hembra', 'Gata carey con mucha personalidad.', 0, 'disponible', 'https://images.unsplash.com/photo-1548247416-ec66f4900b2e?q=80&w=400', 'Sana. Carácter fuerte.'),
-('Copito', '2023-12-01', 'macho', 'Totalmente blanco, ojos azules. Sordo de nacimiento.', 0, 'disponible', 'https://images.unsplash.com/photo-1511044568932-338cba0ad80b?q=80&w=400', 'Sordera congénita. Debe vivir en interiores.'),
-('Mimi', '2024-05-05', 'hembra', 'Gatita tricolor muy pequeña para su edad.', 1, 'enfermo', 'https://images.unsplash.com/photo-1495360010541-f48722b34f7d?q=80&w=400', 'Tratamiento por infección respiratoria.'),
-('Ramsés', '2018-09-17', 'macho', 'Gato egipcio (Sphynx) muy inteligente y activo.', 0, 'disponible', 'https://images.unsplash.com/photo-1520315342629-6ea920342047?q=80&w=400', 'Requiere cuidados especiales de la piel.');
+('Simba', '2022-08-20', 'macho', 'Gato rubio rescatado de una colonia. Es positivo en VHIF pero hace vida normal.', 1, 'disponible', 'img/slider_3.png', 'VHIF positivo. Requiere control anual.'),
+('Nala', '2020-11-05', 'hembra', 'Siamesa adulta muy tranquila. Le encanta dormir al sol.', 0, 'acogido', 'img/hero_cats.png', 'Esterilizada. Sin problemas de salud.'),
+('Bolas', '2025-01-10', 'macho', 'Cachorro gris muy juguetón, fue encontrado en una caja.', 0, 'disponible', 'img/slider_1.png', 'En tratamiento por conjuntivitis leve.'),
+('Garfield', '2021-03-12', 'macho', 'Gato grande y perezoso, le encanta la comida húmeda.', 0, 'reservado', 'img/slider_2.png', 'Sobrepeso leve. Dieta controlada.'),
+('Bella', '2019-06-25', 'hembra', 'Gata carey con mucha personalidad.', 0, 'disponible', 'img/slider_3.png', 'Sana. Carácter fuerte.'),
+('Copito', '2023-12-01', 'macho', 'Totalmente blanco, ojos azules. Sordo de nacimiento.', 0, 'disponible', 'img/slider_1.png', 'Sordera congénita. Debe vivir en interiores.'),
+('Mimi', '2024-05-05', 'hembra', 'Gatita tricolor muy pequeña para su edad.', 1, 'enfermo', 'img/slider_2.png', 'Tratamiento por infección respiratoria.'),
+('Ramsés', '2018-09-17', 'macho', 'Gato egipcio (Sphynx) muy inteligente y activo.', 0, 'disponible', 'img/slider_3.png', 'Requiere cuidados especiales de la piel.');
 
 -- 3. SOLICITUDES
 INSERT INTO solicitudes (id_usuario, id_gato, tipo_solicitud, estado_solicitud, comentarios_usu, notas_internas) VALUES 
