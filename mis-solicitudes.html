@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/style.css">
 </head>
+
 <body class="bg-light">
 
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -43,7 +45,7 @@
                 <div class="modal-body p-4">
                     <form id="formEditarSolicitud">
                         <input type="hidden" name="id_solicitud" id="edit_soli_id">
-                        
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nombre</label>
@@ -51,13 +53,15 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="apellidos" id="edit_soli_apellidos" required>
+                                <input type="text" class="form-control" name="apellidos" id="edit_soli_apellidos"
+                                    required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Localidad</label>
-                                <input type="text" class="form-control" name="localidad" id="edit_soli_localidad" required>
+                                <input type="text" class="form-control" name="localidad" id="edit_soli_localidad"
+                                    required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Tipo de vivienda</label>
@@ -72,20 +76,24 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Convivientes</label>
-                                <input type="number" class="form-control" name="convivientes" id="edit_soli_convivientes" required>
+                                <input type="number" class="form-control" name="convivientes"
+                                    id="edit_soli_convivientes" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Mascotas</label>
-                                <input type="text" class="form-control" name="mascotas" id="edit_soli_mascotas" required>
+                                <input type="text" class="form-control" name="mascotas" id="edit_soli_mascotas"
+                                    required>
                             </div>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Mensaje / Motivación</label>
-                            <textarea class="form-control" name="mensaje" id="edit_soli_mensaje" rows="4" required></textarea>
+                            <textarea class="form-control" name="mensaje" id="edit_soli_mensaje" rows="4"
+                                required></textarea>
                         </div>
 
                         <div class="alert alert-info py-2">
-                            Al guardar los cambios, la solicitud volverá al estado <strong>pendiente</strong> para ser revisada de nuevo.
+                            Al guardar los cambios, la solicitud volverá al estado <strong>pendiente</strong> para ser
+                            revisada de nuevo.
                         </div>
 
                         <button type="submit" class="btn-minimal w-100">Guardar Cambios y Reenviar</button>
@@ -149,8 +157,13 @@
         </div>
     </div>
 
+    <div class="container mt-5 pt-5 pb-3 border-top text-center">
+        <p class="small text-muted">&copy; 2026 Felinamente. Karolina Maria Bodziony, 2 DAW.</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/mis-solicitudes.js"></script>
 </body>
+
 </html>

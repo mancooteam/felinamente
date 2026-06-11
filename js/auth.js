@@ -139,6 +139,27 @@ function configurarFormularios() {
 // =========================================================================
 
 async function login(credenciales) {
+    // Validaciones en JS
+    const username = (credenciales.username || '').trim();
+    const password = credenciales.password || '';
+
+    if (!username) {
+        alert("Error de validación: El campo Usuario es obligatorio.");
+        return;
+    }
+    if (username.length < 3) {
+        alert("Error de validación: El usuario debe tener al menos 3 caracteres.");
+        return;
+    }
+    if (!password) {
+        alert("Error de validación: El campo Contraseña es obligatorio.");
+        return;
+    }
+    if (password.length < 4) {
+        alert("Error de validación: La contraseña debe tener al menos 4 caracteres.");
+        return;
+    }
+
     // 1. EDITAMOS EL DOM ANTES DE ENVIAR (Estilo DAW)
     const btn = document.querySelector('#loginForm button[type="submit"]');
     if (btn) {
@@ -175,6 +196,33 @@ async function login(credenciales) {
 }
 
 async function registro(datosUsuario) {
+    // Validaciones en JS
+    const username = (datosUsuario.username || '').trim();
+    const email = (datosUsuario.email || '').trim();
+    const password = datosUsuario.password || '';
+
+    if (!username) {
+        alert("Error de validación: El nombre de usuario es obligatorio.");
+        return;
+    }
+    if (username.length < 3) {
+        alert("Error de validación: El nombre de usuario debe tener al menos 3 caracteres.");
+        return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !emailRegex.test(email)) {
+        alert("Error de validación: Por favor, introduce un correo electrónico válido.");
+        return;
+    }
+    if (!password) {
+        alert("Error de validación: La contraseña es obligatoria.");
+        return;
+    }
+    if (password.length < 6) {
+        alert("Error de validación: La contraseña debe tener al menos 6 caracteres.");
+        return;
+    }
+
     // 1. EDITAMOS EL DOM ANTES DE ENVIAR
     const btn = document.querySelector('#registerForm button[type="submit"]');
     if (btn) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="icon" type="image/png" href="felinamente_favicon_cat_1778509684056.png">
 </head>
+
 <body class="bg-light">
 
     <!-- Navegación Común -->
@@ -31,21 +33,24 @@
                 + Nuevo Felino
             </button>
         </div>
-        
+
         <div class="row mb-5">
             <div class="col-md-3">
                 <div class="card card-editorial border p-4 mb-4" style="background: var(--color-superficie);">
                     <h5 class="font-serif mb-4">Accesos rápidos</h5>
                     <a href="solicitudes.html" class="link-editorial d-block mb-3">Gestionar Solicitudes</a>
-                    <a href="usuarios.html" class="link-editorial d-block mb-3" id="link-usuarios-admin">Gestión de Usuarios</a>
+                    <a href="usuarios.html" class="link-editorial d-block mb-3" id="link-usuarios-admin">Gestión de
+                        Usuarios</a>
                     <a href="index.html" class="link-editorial d-block">Volver a la Web</a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card card-editorial p-4 border" style="background: var(--color-superficie); border-color: var(--color-borde) !important;">
+                <div class="card card-editorial p-4 border"
+                    style="background: var(--color-superficie); border-color: var(--color-borde) !important;">
                     <h5 class="text-muted fw-bold mb-2">Solicitudes Pendientes</h5>
                     <div class="d-flex align-items-center">
-                        <span id="pending-requests-count" class="font-serif text-accent" style="font-size: 3rem; line-height: 1;">-</span>
+                        <span id="pending-requests-count" class="font-serif text-accent"
+                            style="font-size: 3rem; line-height: 1;">-</span>
                         <div class="ms-3">
                             <span class="d-block text-muted">esperando revisión</span>
                             <a href="solicitudes.html" class="link-editorial small">Ver todas las solicitudes</a>
@@ -65,7 +70,9 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-gestion-gatos">
-                    <tr><td colspan="4" class="text-center">Cargando...</td></tr>
+                    <tr>
+                        <td colspan="4" class="text-center">Cargando...</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -116,19 +123,21 @@
                                     <option value="enfermo">Enfermo / Tratamiento</option>
                                 </select>
                             </div>
-                        <div class="mb-3">
-                            <label>Descripción del carácter</label>
-                            <textarea name="description" class="form-control" rows="2"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label>Notas Médicas / Historial de Salud</label>
-                            <textarea name="notas_medicas" class="form-control" rows="3" placeholder="Vacunas, alergias, tratamientos actuales..."></textarea>
-                        </div>
-                        <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" type="checkbox" name="vhif_positive" id="vhif_check">
-                            <label class="form-check-label text-danger fw-bold" for="vhif_check">Positivo en VHIF (Sida Felino)</label>
-                        </div>
-                        <button type="submit" class="btn btn-success w-100 fw-bold">Guardar Felino</button>
+                            <div class="mb-3">
+                                <label>Descripción del carácter</label>
+                                <textarea name="description" class="form-control" rows="2"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label>Notas Médicas / Historial de Salud</label>
+                                <textarea name="notas_medicas" class="form-control" rows="3"
+                                    placeholder="Vacunas, alergias, tratamientos actuales..."></textarea>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" name="vhif_positive" id="vhif_check">
+                                <label class="form-check-label text-danger fw-bold" for="vhif_check">Positivo en VHIF
+                                    (Sida Felino)</label>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 fw-bold">Guardar Felino</button>
                     </form>
                 </div>
             </div>
@@ -189,8 +198,13 @@
         </div>
     </div>
 
+    <div class="container mt-5 pt-5 pb-3 border-top text-center">
+        <p class="small text-muted">&copy; 2026 Felinamente. Karolina Maria Bodziony, 2 DAW.</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/gestion.js"></script>
 </body>
+
 </html>
