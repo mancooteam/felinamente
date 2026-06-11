@@ -1,6 +1,71 @@
 <?php
-// Archivo de autenticación de usuarios
-require_once 'utils.php';
+// ------------------------------------------------------------
+// Auto‑contained utilities (previously utils.php)
+// ------------------------------------------------------------
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
+set_exception_handler(function($e){
+    http_response_code(500);
+    echo json_encode(['status'=>500,'message'=>'Excepción: '.$e->getMessage(),'data'=>null]);
+    exit();
+});
+set_error_handler(function($errno,$errstr){
+    http_response_code(500);
+    echo json_encode(['status'=>500,'message'=>'Error: '.$errstr,'data'=>null]);
+    exit();
+});
+
+function sendResponse($statusOrType, $messageOrData = null, $data = null) {
+    header('Content-Type: application/json');
+    if (is_int($statusOrType)) {
+        $status = $statusOrType;
+        $message = $messageOrData;
+        http_response_code($status);
+        echo json_encode(['status'=>$status,'message'=>$message,'data'=>$data]);
+        exit();
+    }
+    $type = $statusOrType;
+    $payload = $messageOrData;
+    http_response_code(200);
+    switch($type){
+        case 'c': echo json_encode($payload); break;
+        case 'b': echo json_encode(['status'=>'']); break;
+        case 'i': case 'm': echo json_encode(['status'=>'ok']); break;
+        default: echo json_encode(['status'=>200,'message'=>'OK','data'=>$payload]);
+    }
+    exit();
+}
+
+function getJsonInput(){
+    return json_decode(file_get_contents('php://input'), true);
+}
+
+function parseTimestamp($val){
+    if (empty($val)) return null;
+    return is_numeric($val) ? (int)$val : strtotime($val)*1000;
+}
+
+if (session_status()===PHP_SESSION_NONE){
+    session_start();
+}
+$userIdHeader = $_SERVER['HTTP_X_USER_ID'] ?? null;
+$roleHeader = $_SERVER['HTTP_X_USER_ROLE'] ?? 'guest';
+$usernameHeader = $_SERVER['HTTP_X_USER_USERNAME'] ?? null;
+if (function_exists('getallheaders')){
+    $h = getallheaders();
+    $userIdHeader = $userIdHeader ?? $h['X-User-Id'] ?? $h['x-user-id'] ?? null;
+    $roleHeader = $roleHeader ?? $h['X-User-Role'] ?? $h['x-user-role'] ?? 'guest';
+    $usernameHeader = $usernameHeader ?? $h['X-User-Username'] ?? $h['x-user-username'] ?? null;
+}
+if ($userIdHeader !== null){
+    $_SESSION['user_id'] = $userIdHeader;
+    $_SESSION['role'] = $roleHeader;
+    $_SESSION['username'] = $usernameHeader;
+}
+
 require_once 'db.php';
 
 // Recogemos la acción de la URL (por GET)
