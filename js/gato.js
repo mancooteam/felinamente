@@ -48,7 +48,7 @@ async function verDetallesGato(id) {
                     <div class="mt-5">
                         <div class="d-flex flex-wrap gap-3">
                             ${(usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
-                                <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-dark">✏️ Editar Felino</a>
+                                <a href="editar-gato.html?id=${gato.id_gato}" class="btn btn-dark">Editar Felino</a>
                             ` : ''}
                             
                             <button class="btn-minimal ${!tieneVisita ? 'opacity-50' : ''}" id="btn-adopcion" data-id="${gato.id_gato}" ${!tieneVisita ? 'disabled' : ''}>Solicitar Adopción</button>
