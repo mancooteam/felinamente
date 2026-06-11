@@ -412,3 +412,7 @@ body.bg-light,
     background-color: var(--color-bg-alternativo) !important;
     color: var(--color-texto-oscuro) !important;
 }
+
+body .py-5 {
+    padding-bottom: 0 !important;
+}
