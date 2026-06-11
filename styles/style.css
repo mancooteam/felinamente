@@ -1,18 +1,19 @@
-/* Estilos generales - Tema Editorial Minimalista (Verde y Naranja) */
+/* Estilos generales - Tema Editorial Lino y Carbón (Warm Light Mode) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --color-green: #274e37; /* Verde bosque elegante */
-    --color-green-hover: #1d3a29; /* Verde bosque hover */
-    --color-orange: #d96c4a; /* Naranja terracota suave */
-    --color-bg: #fcfbf9; /* Crema muy suave */
-    --color-bg-rgb: 252, 251, 249; /* Crema en formato RGB para opacidades */
-    --color-text: #333333; /* Texto general */
-    --color-text-dark: #111111; /* Color de títulos oscuro */
-    --color-text-muted: #666666; /* Texto secundario */
-    --color-border: #eaeaea; /* Bordes suaves */
-    --color-white: #ffffff; /* Blanco */
-    --color-gray: #6c757d; /* Gris para estados pausados/enfermos o cancelados */
+    --color-green: #454040; /* Carbón cálido para elementos primarios */
+    --color-green-hover: #605B51; /* Gris tierra hover */
+    --color-orange: #D8D365; /* Oro Oliva de acento */
+    --color-lime: #E6F082; /* Oro Lima brillante */
+    --color-bg: #F7F5F0; /* Fondo lino/crema cálido claro */
+    --color-bg-rgb: 247, 245, 240; /* RGB para opacidades */
+    --color-text: #454040; /* Carbón cálido para texto general */
+    --color-text-dark: #333030; /* Títulos oscuros */
+    --color-text-muted: #605B51; /* Gris tierra para textos secundarios */
+    --color-border: #eae8e3; /* Bordes suaves */
+    --color-white: #ffffff; /* Blanco para tarjetas y modales */
+    --color-gray: #605B51; /* Gris de estado neutral */
 }
 
 body {
@@ -48,18 +49,18 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     font-size: 0.95rem;
 }
 .nav-link:hover {
-    color: var(--color-orange) !important;
+    color: var(--color-green) !important;
 }
 
 /* Botones */
 .btn-minimal {
     background-color: var(--color-green);
-    color: var(--color-white);
+    color: var(--color-lime) !important;
     border: none;
     padding: 12px 28px;
     border-radius: 4px;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: background-color 0.2s ease;
     text-decoration: none;
     display: inline-block;
@@ -67,7 +68,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 .btn-minimal:hover {
     background-color: var(--color-green-hover);
-    color: var(--color-white);
+    color: var(--color-lime) !important;
 }
 .btn-outline-minimal {
     border: 1px solid var(--color-green);
@@ -75,6 +76,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     padding: 12px 28px;
     border-radius: 4px;
     font-size: 0.95rem;
+    font-weight: 500;
     transition: all 0.2s;
     text-decoration: none;
     display: inline-block;
@@ -82,31 +84,35 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     background: transparent;
 }
 .btn-outline-minimal:hover {
-    background-color: var(--color-green);
-    color: var(--color-white);
+    background-color: var(--color-lime);
+    border-color: var(--color-lime);
+    color: var(--color-green) !important;
 }
 
 /* Acentos y Enlaces */
 .text-accent {
-    color: var(--color-orange) !important;
+    color: var(--color-green) !important;
 }
 .link-editorial {
-    color: var(--color-text);
+    color: var(--color-text-dark);
     font-weight: 500;
     text-decoration: none;
-    border-bottom: 1px solid var(--color-text);
+    border-bottom: 1px solid var(--color-text-dark);
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
 }
 .link-editorial:hover {
-    color: var(--color-orange);
-    border-color: var(--color-orange);
+    color: var(--color-green-hover);
+    border-color: var(--color-green-hover);
 }
 
 /* Tarjetas */
 .card-editorial {
-    background: transparent;
-    border: none;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 0;
 }
 .card-editorial img {
     height: 320px;
@@ -117,16 +123,16 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 /* Etiquetas */
 .badge-orange {
     background-color: var(--color-orange);
-    color: var(--color-white);
-    font-weight: 400;
+    color: var(--color-text-dark);
+    font-weight: 600;
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 20px;
 }
 .badge-green {
-    background-color: var(--color-green);
-    color: var(--color-white);
-    font-weight: 400;
+    background-color: var(--color-lime);
+    color: var(--color-text-dark);
+    font-weight: 600;
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 20px;
@@ -142,7 +148,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--color-white);
+    color: var(--color-text-dark);
     z-index: 10;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
@@ -154,10 +160,11 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     margin-right: 5px;
 }
 .badge-acogido {
-    background-color: var(--color-green);
+    background-color: var(--color-lime);
 }
 .badge-enfermo {
-    background-color: var(--color-gray); /* Gris para indicar estado de pausa/médico */
+    background-color: var(--color-gray);
+    color: #ffffff;
 }
 .card-img-container {
     position: relative;
@@ -165,13 +172,14 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 .img-grayscale {
     filter: grayscale(80%);
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 /* Efectos Modernos */
 .hover-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08) !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06) !important;
+    border-color: var(--color-orange) !important;
 }
 .hover-card:hover .card-img-top {
     transform: scale(1.05);
@@ -194,12 +202,16 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     position: relative;
     display: flex;
     align-items: center;
-    color: var(--color-white);
+    color: var(--color-text-dark);
 }
 
-.btn-outline-light:hover {
-    background-color: var(--color-white);
+.btn-outline-light {
+    border-color: var(--color-green) !important;
     color: var(--color-green) !important;
+}
+.btn-outline-light:hover {
+    background-color: var(--color-green) !important;
+    color: var(--color-lime) !important;
 }
 
 .hero-overlay {
@@ -208,7 +220,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+    background: linear-gradient(to right, rgba(247,245,240,0.9) 0%, rgba(247,245,240,0.3) 100%);
     z-index: 1;
 }
 
@@ -231,7 +243,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 .hero-premium h1 {
-    color: var(--color-white);
+    color: var(--color-text-dark);
 }
 
 @media (max-width: 768px) {
@@ -241,4 +253,99 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     .hero-premium h1 {
         font-size: 2.5rem;
     }
+}
+
+/* Ajustes de Componentes Bootstrap para el Huso Editorial Claro */
+body.bg-light, .bg-light {
+    background-color: var(--color-bg) !important;
+}
+.bg-white {
+    background-color: var(--color-white) !important;
+}
+.text-dark {
+    color: var(--color-text-dark) !important;
+}
+.text-muted {
+    color: var(--color-text-muted) !important;
+}
+.border {
+    border-color: var(--color-border) !important;
+}
+.shadow-sm {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+.table-light {
+    --bs-table-bg: #eae8e3 !important;
+    --bs-table-color: var(--color-text-dark) !important;
+}
+.table {
+    color: var(--color-text) !important;
+    border-color: var(--color-border) !important;
+}
+.table > :not(caption) > * > * {
+    background-color: transparent !important;
+    color: inherit;
+    border-bottom-color: var(--color-border) !important;
+}
+.modal-content {
+    background-color: var(--color-white) !important;
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border);
+}
+.modal-header, .modal-footer {
+    border-color: var(--color-border) !important;
+}
+.form-select, .form-control {
+    background-color: var(--color-white) !important;
+    color: var(--color-text-dark) !important;
+    border: 1px solid var(--color-border) !important;
+}
+.form-select:focus, .form-control:focus {
+    border-color: var(--color-green) !important;
+    box-shadow: 0 0 0 0.25rem rgba(69, 64, 64, 0.15) !important;
+}
+.form-label {
+    color: var(--color-text-dark) !important;
+}
+.dropdown-menu {
+    background-color: var(--color-white) !important;
+    border: 1px solid var(--color-border) !important;
+}
+.dropdown-item {
+    color: var(--color-text) !important;
+}
+.dropdown-item:hover {
+    background-color: #FAF9F6 !important;
+    color: var(--color-text-dark) !important;
+}
+.dropdown-header {
+    color: var(--color-text-muted) !important;
+    background-color: #FAF9F6 !important;
+}
+.dropdown-divider {
+    border-color: var(--color-border) !important;
+}
+.catalog-hero {
+    background: #FAF9F6 !important;
+    border-bottom: 1px solid var(--color-border) !important;
+}
+.img-thumbnail {
+    background-color: var(--color-white) !important;
+    border-color: var(--color-border) !important;
+}
+.img-thumbnail.thumb-active {
+    border-color: var(--color-orange) !important;
+}
+.card {
+    background-color: var(--color-white) !important;
+    border-color: var(--color-border) !important;
+}
+.list-group-item {
+    background-color: var(--color-white) !important;
+    border-color: var(--color-border) !important;
+    color: var(--color-text) !important;
+}
+.list-group-item-action:hover {
+    background-color: #FAF9F6 !important;
+    color: var(--color-text-dark) !important;
 }
