@@ -1,0 +1,10 @@
+# Resumen de código para memoria TFG (Notas personales)
+resumen_codigo_tfg.txt
+
+# Entornos y Carpetas Locales
+.idea/
+.vscode/
+uploads/cats/*
+!uploads/cats/.gitkeep
+*.log
+.env
