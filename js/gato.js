@@ -27,13 +27,13 @@ async function verDetallesGato(id) {
             let botonesAccion = '';
             if (gato.estado === 'reservado') {
                 botonesAccion = `
-                    <div class="alert mt-5 py-4 text-center" style="background: rgba(217, 108, 74, 0.1); border: 1px solid var(--color-orange); color: var(--color-orange);">
+                    <div class="alert mt-5 py-4 text-center" style="background: var(--color-alerta-reserva-bg); border: 1px solid var(--color-alerta-reserva-borde); color: var(--color-alerta-reserva-texto);">
                         <h4 class="font-serif mb-2">¡Ya ha encontrado un hogar!</h4>
                         <p class="mb-0">Este felino ya ha sido adoptado y disfruta de su nueva familia.</p>
                     </div>
                 `;
             } else if (usuarioActual.role === 'guest') {
-                botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid #eaeaea; color: #666;">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
+                botonesAccion = `<div class="alert mt-5" style="background: transparent; border: 1px solid var(--color-borde-suave); color: var(--color-texto-gris);">Inicia sesión o regístrate para solicitar adopción o acogida.</div>`;
             } else {
                 // Comprobar si tiene visita previa
                 let tieneVisita = false;
@@ -90,7 +90,7 @@ async function verDetallesGato(id) {
                                 <h1 class="font-serif mb-4" style="font-size: 3rem; letter-spacing: -1px;">${gato.nombre}</h1>
                                 
                                 ${gato.estado === 'enfermo' ? `
-                                    <div class="alert alert-secondary py-3 small mb-4" style="background: #f8f9fa; border-left: 4px solid #6c757d; border-radius: 0;">
+                                    <div class="alert alert-secondary py-3 small mb-4" style="background: var(--color-bg); border-left: 4px solid var(--color-estado-enfermo); border-radius: 0;">
                                         <div class="d-flex align-items-center">
                                             <div class="me-3" style="font-size: 1.2rem;">🏥</div>
                                             <div>
@@ -106,19 +106,19 @@ async function verDetallesGato(id) {
                                     ${etiquetaVhif}
                                 </div>
                                 
-                                <div class="mb-4" style="font-size: 1.05rem; color: #555;">
+                                <div class="mb-4" style="font-size: 1.05rem; color: var(--color-texto-mutado);">
                                     <p class="mb-2"><strong>Sexo:</strong> ${textoGenero}</p>
                                     <p class="mb-0"><strong>Nacimiento:</strong> ${gato.fecha_nacimiento || 'Desconocido'}</p>
                                 </div>
 
-                                <div class="mb-4 pt-4 border-top" style="border-color: #eaeaea !important;">
+                                <div class="mb-4 pt-4 border-top" style="border-color: var(--color-borde-suave) !important;">
                                     <h5 class="font-serif mb-3">Sobre ${gato.nombre}</h5>
-                                    <p style="color: #666; line-height: 1.7;">${gato.descripcion || 'Sin descripción disponible.'}</p>
+                                    <p style="color: var(--color-texto-gris); line-height: 1.7;">${gato.descripcion || 'Sin descripción disponible.'}</p>
                                 </div>
                                 
                                 <div class="mb-4">
                                     <h5 class="font-serif mb-2 text-accent">Notas Médicas</h5>
-                                    <p style="color: #666; line-height: 1.7;">${gato.notas_medicas || 'No hay notas médicas registradas.'}</p>
+                                    <p style="color: var(--color-texto-gris); line-height: 1.7;">${gato.notas_medicas || 'No hay notas médicas registradas.'}</p>
                                 </div>
                                 
                                 ${botonesAccion}
@@ -129,7 +129,7 @@ async function verDetallesGato(id) {
 
                 <!-- Panel de Notas Médicas -->
                 ${(gato.notas_medicas || usuarioActual.role === 'admin' || usuarioActual.role === 'employee') ? `
-                    <div class="card border-0 shadow-sm mb-5" style="border-radius: 12px; border-left: 5px solid #6c757d;">
+                    <div class="card border-0 shadow-sm mb-5" style="border-radius: 12px; border-left: 5px solid var(--color-estado-enfermo);">
                         <div class="card-body p-4 p-md-5">
                             <h3 class="font-serif mb-4">Panel de Salud</h3>
                             <div class="row">

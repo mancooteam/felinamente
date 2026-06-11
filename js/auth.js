@@ -76,7 +76,7 @@ function crearMenu() {
                 <div class="dropdown">
                     <button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center border-0 p-0" type="button" id="userDropdown" data-bs-toggle="dropdown">
                         <span class="me-2 d-none d-sm-inline text-dark">Hola, <strong>${usuarioActual.username}</strong></span>
-                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--color-green);">
+                        <div class="rounded-circle text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px; font-size: 0.8rem; background-color: var(--color-principal);">
                             ${usuarioActual.username[0].toUpperCase()}
                         </div>
                     </button>

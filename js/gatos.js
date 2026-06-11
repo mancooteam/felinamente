@@ -40,7 +40,7 @@ function pintarGatos(gatos) {
     if (!contenedor) return;
 
     if (!gatos || gatos.length === 0) {
-        contenedor.innerHTML = `<div class="col-12"><div class="alert text-center text-muted" style="background: transparent; border: 1px solid #eaeaea;">No hay felinos con esos filtros ahora mismo.</div></div>`;
+        contenedor.innerHTML = `<div class="col-12"><div class="alert text-center text-muted" style="background: transparent; border: 1px solid var(--color-borde-suave);">No hay felinos con esos filtros ahora mismo.</div></div>`;
         return;
     }
 

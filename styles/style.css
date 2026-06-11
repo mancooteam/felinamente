@@ -2,24 +2,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --color-green: #454040; /* Carbón cálido para elementos primarios */
-    --color-green-hover: #605B51; /* Gris tierra hover */
-    --color-orange: #D8D365; /* Oro Oliva de acento */
-    --color-lime: #E6F082; /* Oro Lima brillante */
+    --color-principal: #454040; /* Carbón cálido para elementos primarios */
+    --color-principal-hover: #605B51; /* Gris tierra hover */
+    --color-acento1: #D8D365; /* Oro Oliva de acento */
+    --color-acento2: #E6F082; /* Oro Lima brillante */
     --color-bg: #F7F5F0; /* Fondo lino/crema cálido claro */
     --color-bg-rgb: 247, 245, 240; /* RGB para opacidades */
-    --color-text: #454040; /* Carbón cálido para texto general */
-    --color-text-dark: #333030; /* Títulos oscuros */
-    --color-text-muted: #605B51; /* Gris tierra para textos secundarios */
-    --color-border: #eae8e3; /* Bordes suaves */
-    --color-white: #ffffff; /* Blanco para tarjetas y modales */
-    --color-gray: #605B51; /* Gris de estado neutral */
+    --color-texto: #454040; /* Carbón cálido para texto general */
+    --color-texto-oscuro: #333030; /* Títulos oscuros */
+    --color-texto-mutado: #605B51; /* Gris tierra para textos secundarios */
+    --color-borde: #eae8e3; /* Bordes suaves */
+    --color-superficie: #ffffff; /* Blanco para tarjetas y modales */
+    --color-secundario: #605B51; /* Gris de estado neutral */
+
+    /* Estados de los Felinos */
+    --color-estado-disponible: #E6F082; /* Oro Lima brillante */
+    --color-estado-acogido: #E6F082; /* Oro Lima brillante */
+    --color-estado-adoptado: #D8D365; /* Oro Oliva */
+    --color-estado-enfermo: #605B51; /* Gris de estado neutral */
+    --color-estado-enfermo-texto: #ffffff; /* Texto blanco sobre fondo de enfermo */
+
+    /* Alertas y Elementos Notificativos */
+    --color-alerta-reserva-bg: rgba(217, 108, 74, 0.1); /* Alerta naranja suave */
+    --color-alerta-reserva-borde: #d96c4a; /* Borde naranja de reserva */
+    --color-alerta-reserva-texto: #d96c4a; /* Texto naranja de reserva */
+
+    /* Fondos y Bordes Auxiliares */
+    --color-bg-alternativo: #FAF9F6; /* Fondo alternativo claro (para dropdowns y secciones secundarias) */
+    --color-borde-suave: #eaeaea; /* Borde gris muy suave para elementos dinámicos */
+    --color-texto-gris: #666666; /* Gris para textos de descripción secundaria */
 }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--color-bg);
-    color: var(--color-text);
+    color: var(--color-texto);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -27,35 +44,35 @@ body {
 
 h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: 'Lora', 'Georgia', serif;
-    color: var(--color-text-dark);
+    color: var(--color-texto-oscuro);
 }
 
 /* Navbar */
 .navbar {
     background-color: rgba(var(--color-bg-rgb), 0.95) !important;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-borde);
 }
 .navbar-brand {
-    color: var(--color-green) !important;
+    color: var(--color-principal) !important;
     font-family: 'Lora', 'Georgia', serif;
     font-weight: 600;
     font-size: 1.5rem;
     letter-spacing: -0.5px;
 }
 .nav-link {
-    color: var(--color-text-muted) !important;
+    color: var(--color-texto-mutado) !important;
     font-weight: 500;
     font-size: 0.95rem;
 }
 .nav-link:hover {
-    color: var(--color-green) !important;
+    color: var(--color-principal) !important;
 }
 
 /* Botones */
 .btn-minimal {
-    background-color: var(--color-green);
-    color: var(--color-lime) !important;
+    background-color: var(--color-principal);
+    color: var(--color-acento2) !important;
     border: none;
     padding: 12px 28px;
     border-radius: 4px;
@@ -67,12 +84,12 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     text-align: center;
 }
 .btn-minimal:hover {
-    background-color: var(--color-green-hover);
-    color: var(--color-lime) !important;
+    background-color: var(--color-principal-hover);
+    color: var(--color-acento2) !important;
 }
 .btn-outline-minimal {
-    border: 1px solid var(--color-green);
-    color: var(--color-green);
+    border: 1px solid var(--color-principal);
+    color: var(--color-principal);
     padding: 12px 28px;
     border-radius: 4px;
     font-size: 0.95rem;
@@ -84,32 +101,32 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     background: transparent;
 }
 .btn-outline-minimal:hover {
-    background-color: var(--color-lime);
-    border-color: var(--color-lime);
-    color: var(--color-green) !important;
+    background-color: var(--color-acento2);
+    border-color: var(--color-acento2);
+    color: var(--color-principal) !important;
 }
 
 /* Acentos y Enlaces */
 .text-accent {
-    color: var(--color-green) !important;
+    color: var(--color-principal) !important;
 }
 .link-editorial {
-    color: var(--color-text-dark);
+    color: var(--color-texto-oscuro);
     font-weight: 500;
     text-decoration: none;
-    border-bottom: 1px solid var(--color-text-dark);
+    border-bottom: 1px solid var(--color-texto-oscuro);
     padding-bottom: 2px;
     transition: color 0.2s, border-color 0.2s;
 }
 .link-editorial:hover {
-    color: var(--color-green-hover);
-    border-color: var(--color-green-hover);
+    color: var(--color-principal-hover);
+    border-color: var(--color-principal-hover);
 }
 
 /* Tarjetas */
 .card-editorial {
-    background: var(--color-white);
-    border: 1px solid var(--color-border);
+    background: var(--color-superficie);
+    border: 1px solid var(--color-borde);
     border-radius: 8px;
     overflow: hidden;
     padding: 0;
@@ -122,16 +139,16 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 
 /* Etiquetas */
 .badge-orange {
-    background-color: var(--color-orange);
-    color: var(--color-text-dark);
+    background-color: var(--color-acento1);
+    color: var(--color-texto-oscuro);
     font-weight: 600;
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 20px;
 }
 .badge-green {
-    background-color: var(--color-lime);
-    color: var(--color-text-dark);
+    background-color: var(--color-acento2);
+    color: var(--color-texto-oscuro);
     font-weight: 600;
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -148,23 +165,23 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--color-text-dark);
+    color: var(--color-texto-oscuro);
     z-index: 10;
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
 .badge-adoptado {
-    background-color: var(--color-orange);
+    background-color: var(--color-estado-adoptado);
 }
 .badge-adoptado::before {
     content: '♥ ';
     margin-right: 5px;
 }
 .badge-acogido {
-    background-color: var(--color-lime);
+    background-color: var(--color-estado-acogido);
 }
 .badge-enfermo {
-    background-color: var(--color-gray);
-    color: #ffffff;
+    background-color: var(--color-estado-enfermo);
+    color: var(--color-estado-enfermo-texto);
 }
 .card-img-container {
     position: relative;
@@ -179,7 +196,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 .hover-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 35px rgba(0,0,0,0.06) !important;
-    border-color: var(--color-orange) !important;
+    border-color: var(--color-acento1) !important;
 }
 .hover-card:hover .card-img-top {
     transform: scale(1.05);
@@ -202,16 +219,16 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     position: relative;
     display: flex;
     align-items: center;
-    color: var(--color-text-dark);
+    color: var(--color-texto-oscuro);
 }
 
 .btn-outline-light {
-    border-color: var(--color-green) !important;
-    color: var(--color-green) !important;
+    border-color: var(--color-principal) !important;
+    color: var(--color-principal) !important;
 }
 .btn-outline-light:hover {
-    background-color: var(--color-green) !important;
-    color: var(--color-lime) !important;
+    background-color: var(--color-principal) !important;
+    color: var(--color-acento2) !important;
 }
 
 .hero-overlay {
@@ -220,7 +237,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(247,245,240,0.9) 0%, rgba(247,245,240,0.3) 100%);
+    background: linear-gradient(to right, rgba(var(--color-bg-rgb), 0.9) 0%, rgba(var(--color-bg-rgb), 0.3) 100%);
     z-index: 1;
 }
 
@@ -243,7 +260,7 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 .hero-premium h1 {
-    color: var(--color-text-dark);
+    color: var(--color-texto-oscuro);
 }
 
 @media (max-width: 768px) {
@@ -260,92 +277,92 @@ body.bg-light, .bg-light {
     background-color: var(--color-bg) !important;
 }
 .bg-white {
-    background-color: var(--color-white) !important;
+    background-color: var(--color-superficie) !important;
 }
 .text-dark {
-    color: var(--color-text-dark) !important;
+    color: var(--color-texto-oscuro) !important;
 }
 .text-muted {
-    color: var(--color-text-muted) !important;
+    color: var(--color-texto-mutado) !important;
 }
 .border {
-    border-color: var(--color-border) !important;
+    border-color: var(--color-borde) !important;
 }
 .shadow-sm {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
 }
 .table-light {
-    --bs-table-bg: #eae8e3 !important;
-    --bs-table-color: var(--color-text-dark) !important;
+    --bs-table-bg: var(--color-borde) !important;
+    --bs-table-color: var(--color-texto-oscuro) !important;
 }
 .table {
-    color: var(--color-text) !important;
-    border-color: var(--color-border) !important;
+    color: var(--color-texto) !important;
+    border-color: var(--color-borde) !important;
 }
 .table > :not(caption) > * > * {
     background-color: transparent !important;
     color: inherit;
-    border-bottom-color: var(--color-border) !important;
+    border-bottom-color: var(--color-borde) !important;
 }
 .modal-content {
-    background-color: var(--color-white) !important;
-    color: var(--color-text-dark);
-    border: 1px solid var(--color-border);
+    background-color: var(--color-superficie) !important;
+    color: var(--color-texto-oscuro);
+    border: 1px solid var(--color-borde);
 }
 .modal-header, .modal-footer {
-    border-color: var(--color-border) !important;
+    border-color: var(--color-borde) !important;
 }
 .form-select, .form-control {
-    background-color: var(--color-white) !important;
-    color: var(--color-text-dark) !important;
-    border: 1px solid var(--color-border) !important;
+    background-color: var(--color-superficie) !important;
+    color: var(--color-texto-oscuro) !important;
+    border: 1px solid var(--color-borde) !important;
 }
 .form-select:focus, .form-control:focus {
-    border-color: var(--color-green) !important;
+    border-color: var(--color-principal) !important;
     box-shadow: 0 0 0 0.25rem rgba(69, 64, 64, 0.15) !important;
 }
 .form-label {
-    color: var(--color-text-dark) !important;
+    color: var(--color-texto-oscuro) !important;
 }
 .dropdown-menu {
-    background-color: var(--color-white) !important;
-    border: 1px solid var(--color-border) !important;
+    background-color: var(--color-superficie) !important;
+    border: 1px solid var(--color-borde) !important;
 }
 .dropdown-item {
-    color: var(--color-text) !important;
+    color: var(--color-texto) !important;
 }
 .dropdown-item:hover {
-    background-color: #FAF9F6 !important;
-    color: var(--color-text-dark) !important;
+    background-color: var(--color-bg-alternativo) !important;
+    color: var(--color-texto-oscuro) !important;
 }
 .dropdown-header {
-    color: var(--color-text-muted) !important;
-    background-color: #FAF9F6 !important;
+    color: var(--color-texto-mutado) !important;
+    background-color: var(--color-bg-alternativo) !important;
 }
 .dropdown-divider {
-    border-color: var(--color-border) !important;
+    border-color: var(--color-borde) !important;
 }
 .catalog-hero {
-    background: #FAF9F6 !important;
-    border-bottom: 1px solid var(--color-border) !important;
+    background: var(--color-bg-alternativo) !important;
+    border-bottom: 1px solid var(--color-borde) !important;
 }
 .img-thumbnail {
-    background-color: var(--color-white) !important;
-    border-color: var(--color-border) !important;
+    background-color: var(--color-superficie) !important;
+    border-color: var(--color-borde) !important;
 }
 .img-thumbnail.thumb-active {
-    border-color: var(--color-orange) !important;
+    border-color: var(--color-acento1) !important;
 }
 .card {
-    background-color: var(--color-white) !important;
-    border-color: var(--color-border) !important;
+    background-color: var(--color-superficie) !important;
+    border-color: var(--color-borde) !important;
 }
 .list-group-item {
-    background-color: var(--color-white) !important;
-    border-color: var(--color-border) !important;
-    color: var(--color-text) !important;
+    background-color: var(--color-superficie) !important;
+    border-color: var(--color-borde) !important;
+    color: var(--color-texto) !important;
 }
 .list-group-item-action:hover {
-    background-color: #FAF9F6 !important;
-    color: var(--color-text-dark) !important;
+    background-color: var(--color-bg-alternativo) !important;
+    color: var(--color-texto-oscuro) !important;
 }
