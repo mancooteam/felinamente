@@ -12,30 +12,24 @@ set_exception_handler(function($e){
     echo json_encode(['status'=>500,'message'=>'Excepción: '.$e->getMessage(),'data'=>null]);
     exit();
 });
+
 set_error_handler(function($errno,$errstr){
     http_response_code(500);
     echo json_encode(['status'=>500,'message'=>'Error: '.$errstr,'data'=>null]);
     exit();
 });
 
-function sendResponse($statusOrType, $messageOrData = null, $data = null) {
+function sendResponse($status, $message, $data = null) {
     header('Content-Type: application/json');
-    if (is_int($statusOrType)) {
-        $status = $statusOrType;
-        $message = $messageOrData;
-        http_response_code($status);
-        echo json_encode(['status'=>$status,'message'=>$message,'data'=>$data]);
-        exit();
-    }
-    $type = $statusOrType;
-    $payload = $messageOrData;
-    http_response_code(200);
-    switch($type){
-        case 'c': echo json_encode($payload); break;
-        case 'b': echo json_encode(['status'=>'']); break;
-        case 'i': case 'm': echo json_encode(['status'=>'ok']); break;
-        default: echo json_encode(['status'=>200,'message'=>'OK','data'=>$payload]);
-    }
+    http_response_code($status);
+    
+    $respuesta = [
+        "status" => $status,
+        "message" => $message,
+        "data" => $data
+    ];
+    
+    echo json_encode($respuesta);
     exit();
 }
 
@@ -82,50 +76,48 @@ switch ($action) {
         $age = $_GET['age'] ?? null;
         $order = $_GET['order'] ?? 'recientes';
         
-        $query = "SELECT * FROM gatos WHERE 1=1";
+        $cons = "SELECT * FROM gatos WHERE 1=1";
         $params = [];
 
         if ($vhif !== null) {
-            $query .= " AND vhif = ?";
+            $cons .= " AND vhif = ?";
             $params[] = (int)$vhif;
         }
         if ($sexo) {
-            $query .= " AND sexo = ?";
+            $cons .= " AND sexo = ?";
             $params[] = $sexo;
         }
         
-        // Filtro por edad (basado en fecha_nacimiento)
         if ($age) {
             if ($age === 'cachorro') {
-                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) < 1";
+                $cons .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) < 1";
             } elseif ($age === 'joven') {
-                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 1 AND 3";
+                $cons .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 1 AND 3";
             } elseif ($age === 'adulto') {
-                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 3 AND 7";
+                $cons .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) BETWEEN 3 AND 7";
             } elseif ($age === 'senior') {
-                $query .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 7";
+                $cons .= " AND TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 7";
             }
         }
 
         if ($role === 'employee' || $role === 'admin') {
             if (isset($_GET['status_filter'])) {
-                $query .= " AND estado = ?";
+                $cons .= " AND estado = ?";
                 $params[] = $_GET['status_filter'];
             }
         } else {
-            $query .= " AND estado IN ('disponible', 'acogido', 'reservado', 'enfermo')";
+            $cons .= " AND estado IN ('disponible', 'acogido', 'reservado', 'enfermo')";
         }
 
-        // Orden dinámico
         if ($order === 'antiguos') {
-            $query .= " ORDER BY fecha_ingreso ASC";
+            $cons .= " ORDER BY fecha_ingreso ASC";
         } elseif ($order === 'nombre_asc') {
-            $query .= " ORDER BY nombre ASC";
+            $cons .= " ORDER BY nombre ASC";
         } else {
-            $query .= " ORDER BY fecha_ingreso DESC";
+            $cons .= " ORDER BY fecha_ingreso DESC";
         }
 
-        $stmt = $pdo->prepare($query);
+        $stmt = $pdo->prepare($cons);
         $stmt->execute($params);
         $cats = $stmt->fetchAll();
         foreach ($cats as &$cat) {
@@ -155,13 +147,13 @@ switch ($action) {
             if (!empty($cat['fecha_estado'])) {
                 $cat['fecha_estado'] = parseTimestamp($cat['fecha_estado']);
             }
-            // Cargar galería de fotos (con manejo de errores por si la tabla no existe aún)
+
             try {
                 $stmtPhotos = $pdo->prepare("SELECT url_foto FROM gato_fotos WHERE id_gato = ?");
                 $stmtPhotos->execute([$id]);
                 $cat['galeria'] = $stmtPhotos->fetchAll(PDO::FETCH_COLUMN);
             } catch (PDOException $e) {
-                $cat['galeria'] = []; // Si la tabla no existe, enviamos galería vacía
+                $cat['galeria'] = [];
             }
             
             sendResponse(200, "Detalles del gato", $cat);
@@ -193,14 +185,14 @@ switch ($action) {
             $targetFilePath = $uploadDir . $fileName;
             
             if (move_uploaded_file($_FILES['imagen']['tmp_name'], $targetFilePath)) {
-                $imgPath = 'uploads/cats/' . $fileName; // Ruta relativa para el frontend
+                $imgPath = 'uploads/cats/' . $fileName; 
             } else {
                 sendResponse(500, "Error al subir la imagen.");
             }
         }
 
-        $stmt = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, notas_medicas, imagen_principal, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $notas, $imgPath, $estado]);
+        $consulta = $pdo->prepare("INSERT INTO gatos (nombre, fecha_nacimiento, sexo, vhif, descripcion, notas_medicas, imagen_principal, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $consulta->execute([$nombre, $nacimiento, $sexo, $vhif, $desc, $notas, $imgPath, $estado]);
         sendResponse(201, "Gato añadido con éxito.");
         break;
 
@@ -221,8 +213,6 @@ switch ($action) {
             $vhif = (isset($_POST['vhif_positive']) && ($_POST['vhif_positive'] === 'on' || $_POST['vhif_positive'] == 1)) ? 1 : 0;
             $desc = $_POST['description'] ?? '';
             $notas = $_POST['notas_medicas'] ?? '';
-
-            // Manejo de Imagen Principal
             $imgPath = null;
             if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
                 $uploadDir = '../uploads/cats/';
@@ -234,14 +224,12 @@ switch ($action) {
             }
 
             if ($imgPath) {
-                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, imagen_principal=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
-                $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $imgPath, $id]);
+                $consulta = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, imagen_principal=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
+                $consulta->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $imgPath, $id]);
             } else {
-                $stmt = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
-                $stmt->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $id]);
+                $consulta = $pdo->prepare("UPDATE gatos SET nombre=?, fecha_nacimiento=?, sexo=?, vhif=?, estado=?, descripcion=?, notas_medicas=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
+                $consulta->execute([$nombre, $nacimiento, $sexo, $vhif, $estado, $desc, $notas, $id]);
             }
-
-            // Manejo de Galería (Múltiples archivos)
             if (isset($_FILES['gallery_files'])) {
                 $uploadDir = '../uploads/cats/';
                 foreach ($_FILES['gallery_files']['tmp_name'] as $key => $tmp_name) {
@@ -249,19 +237,16 @@ switch ($action) {
                         $fName = time() . '_gal_' . $key . '_' . basename($_FILES['gallery_files']['name'][$key]);
                         if (move_uploaded_file($tmp_name, $uploadDir . $fName)) {
                             $gPath = 'uploads/cats/' . $fName;
-                            $stmtG = $pdo->prepare("INSERT INTO gato_fotos (id_gato, url_foto) VALUES (?, ?)");
-                            $stmtG->execute([$id, $gPath]);
+                            $consulta = $pdo->prepare("INSERT INTO gato_fotos (id_gato, url_foto) VALUES (?, ?)");
+                            $consulta->execute([$id, $gPath]);
                         }
                     }
                 }
             }
-
         } else {
-            // Empleado solo puede actualizar el estado
-            $stmt = $pdo->prepare("UPDATE gatos SET estado=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
-            $stmt->execute([$estado, $id]);
+            $consulta = $pdo->prepare("UPDATE gatos SET estado=?, fecha_estado=(ROUND(UNIX_TIMESTAMP(CURRENT_TIMESTAMP(3)) * 1000)) WHERE id_gato=?");
+            $consulta->execute([$estado, $id]);
         }
-        
         sendResponse(200, "Gato actualizado correctamente.");
         break;
 

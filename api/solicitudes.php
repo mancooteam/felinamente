@@ -18,24 +18,17 @@ set_error_handler(function($errno,$errstr){
     exit();
 });
 
-function sendResponse($statusOrType, $messageOrData = null, $data = null) {
+function sendResponse($status, $message, $data = null) {
     header('Content-Type: application/json');
-    if (is_int($statusOrType)) {
-        $status = $statusOrType;
-        $message = $messageOrData;
-        http_response_code($status);
-        echo json_encode(['status'=>$status,'message'=>$message,'data'=>$data]);
-        exit();
-    }
-    $type = $statusOrType;
-    $payload = $messageOrData;
-    http_response_code(200);
-    switch($type){
-        case 'c': echo json_encode($payload); break;
-        case 'b': echo json_encode(['status'=>'']); break;
-        case 'i': case 'm': echo json_encode(['status'=>'ok']); break;
-        default: echo json_encode(['status'=>200,'message'=>'OK','data'=>$payload]);
-    }
+    http_response_code($status);
+    
+    $respuesta = [
+        "status" => $status,
+        "message" => $message,
+        "data" => $data
+    ];
+    
+    echo json_encode($respuesta);
     exit();
 }
 
@@ -78,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     
     if ($action === 'pending_count') {
         if ($userId && ($role === 'admin' || $role === 'employee')) {
-            $stmt = $pdo->query("SELECT COUNT(*) as count FROM solicitudes WHERE estado_solicitud = 'pendiente'");
-            $count = $stmt->fetchColumn();
+            $consulta = $pdo->query("SELECT COUNT(*) as count FROM solicitudes WHERE estado_solicitud = 'pendiente'");
+            $count = $consulta->fetchColumn();
             sendResponse(200, "Conteo exitoso", ["count" => (int)$count]);
         } else {
             sendResponse(403, "No tienes permisos.");
@@ -88,19 +81,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($action === 'list') {
         if ($userId && ($role === 'admin' || $role === 'employee')) {
-            $stmt = $pdo->query("
+            $consulta = $pdo->query("
                 SELECT s.*, g.nombre as gato_nombre, u.nombre_usuario 
                 FROM solicitudes s
                 JOIN gatos g ON s.id_gato = g.id_gato
                 JOIN usuarios u ON s.id_usuario = u.id_usuario
                 ORDER BY s.id_solicitud DESC
             ");
-            $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($lista as &$s) {
+            $lista = $consulta->fetchAll();
+            foreach ($lista as $s) {
                 if (!empty($s['fecha_solicitud'])) {
-                    $timestamp = parseTimestamp($s['fecha_solicitud']);
-                    $s['fecha_solicitud'] = $timestamp;
-                    $s['fecha_creacion'] = $timestamp;
+                    $s['fecha_solicitud'] = parseTimestamp($s['fecha_solicitud']);
+                    $s['fecha_creacion'] = $s['fecha_solicitud'];
                 }
             }
             sendResponse(200, "Lista de solicitudes", $lista);
@@ -111,20 +103,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($action === 'my_list') {
         if (!$userId) sendResponse(401, "Sesión no válida.");
-        $stmt = $pdo->prepare("
+        $consulta = $pdo->prepare("
             SELECT s.*, g.nombre as gato_nombre 
             FROM solicitudes s
             JOIN gatos g ON s.id_gato = g.id_gato
             WHERE s.id_usuario = ?
             ORDER BY s.id_solicitud DESC
         ");
-        $stmt->execute([$userId]);
-        $lista = $stmt->fetchAll();
+        $consulta->execute([$userId]);
+        $lista = $consulta->fetchAll();
         foreach ($lista as &$s) {
             if (!empty($s['fecha_solicitud'])) {
-                $timestamp = parseTimestamp($s['fecha_solicitud']);
-                $s['fecha_solicitud'] = $timestamp;
-                $s['fecha_creacion'] = $timestamp;
+                $s['fecha_solicitud'] = parseTimestamp($s['fecha_solicitud']);
+                $s['fecha_creacion'] = $s['fecha_solicitud'];
             }
         }
         sendResponse(200, "Tus solicitudes", $lista);
@@ -141,17 +132,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$id || !$mensaje) sendResponse(400, "Faltan datos.");
 
         // Verificar que la solicitud pertenece al usuario
-        $stmt = $pdo->prepare("SELECT id_usuario FROM solicitudes WHERE id_solicitud = ?");
-        $stmt->execute([$id]);
-        $soli = $stmt->fetch();
+        $consulta = $pdo->prepare("SELECT id_usuario FROM solicitudes WHERE id_solicitud = ?");
+        $consulta->execute([$id]);
+        $soli = $consulta->fetch();
 
         if (!$soli || $soli['id_usuario'] != $userId) {
             sendResponse(403, "No puedes editar esta solicitud.");
         }
 
         // Actualizar mensaje y volver a poner en pendiente
-        $stmt = $pdo->prepare("UPDATE solicitudes SET comentarios_usu = ?, estado_solicitud = 'pendiente' WHERE id_solicitud = ?");
-        $stmt->execute([$mensaje, $id]);
+        $consulta = $pdo->prepare("UPDATE solicitudes SET comentarios_usu = ?, estado_solicitud = 'pendiente' WHERE id_solicitud = ?");
+        $consulta->execute([$mensaje, $id]);
         sendResponse(200, "Solicitud actualizada y enviada a revisión.");
     }
 
@@ -165,8 +156,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->beginTransaction();
             try {
                 // Actualizar el estado de la solicitud
-                $stmt = $pdo->prepare("UPDATE solicitudes SET estado_solicitud = ? WHERE id_solicitud = ?");
-                $stmt->execute([$nuevoEstado, $id]);
+                $consulta = $pdo->prepare("UPDATE solicitudes SET estado_solicitud = ? WHERE id_solicitud = ?");
+                $consulta->execute([$nuevoEstado, $id]);
 
                 // Si se aprueba, actualizamos el estado del gato automáticamente
                 if ($nuevoEstado === 'aprobada') {
@@ -234,8 +225,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO solicitudes (id_usuario, id_gato, tipo_solicitud, estado_solicitud, comentarios_usu) VALUES (?, ?, ?, 'pendiente', ?)");
-        $stmt->execute([$userId, $idGato, $tipo, $mensaje]);
+        $consulta = $pdo->prepare("INSERT INTO solicitudes (id_usuario, id_gato, tipo_solicitud, estado_solicitud, comentarios_usu) VALUES (?, ?, ?, 'pendiente', ?)");
+        $consulta->execute([$userId, $idGato, $tipo, $mensaje]);
         sendResponse(201, "Solicitud enviada con éxito.");
     } catch (PDOException $e) {
         error_log("Error SQL en solicitudes: " . $e->getMessage());
